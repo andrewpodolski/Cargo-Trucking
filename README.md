@@ -1,1 +1,1 @@
-# team1-cargo-trucking-vuejs
+# cargo-trucking-vuejs
