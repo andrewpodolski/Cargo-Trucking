@@ -11,5 +11,6 @@ public class ClientInfoDto {
     private long id;
     private String name;
     private String status;
+    private Integer cost;
     private LocalDateTime deleteDate;
 }

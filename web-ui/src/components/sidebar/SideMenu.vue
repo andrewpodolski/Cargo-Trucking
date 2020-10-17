@@ -13,8 +13,16 @@
         @click="hideBar"
       >
         <router-link to="/clients">
-          Client companies
+          Clients
         </router-link>
+      </span>
+    </md-list-item>
+
+    <md-list-item v-if="userRoles.includes('SYS_ADMIN')">
+      <md-icon>send</md-icon>
+      <span class="md-list-item-text"
+            @click="hideBar">
+        <router-link to="/finances">Finance</router-link>
       </span>
     </md-list-item>
 
@@ -41,7 +49,7 @@
         @click="hideBar"
       >
         <router-link to="/product-owners">
-          Product owners
+          Product Owners
         </router-link>
       </span>
     </md-list-item>
@@ -143,7 +151,7 @@
         @click="hideBar"
       >
         <router-link to="/template">
-          Birthday template
+          Birthday Template
         </router-link>
       </span>
     </md-list-item>

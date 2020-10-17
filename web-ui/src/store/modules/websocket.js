@@ -10,6 +10,7 @@ const state = {
   subscription: null
 };
 
+
 const actions = {
   disconnect({commit}) {
     if (state.subscription) {
@@ -23,6 +24,7 @@ const actions = {
   },
 
   connect({commit}) {
+
     state.stompClient = Stomp.over(function() {
       return new SockJS(Url.WS_CONNECTION);
     });

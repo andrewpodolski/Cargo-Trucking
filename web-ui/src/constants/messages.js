@@ -27,5 +27,7 @@ export const Messages = {
 
   REPAIR_ACCOUNT: 'Check your email!',
   RESTORE_PASSWORD: 'Your password have been restored!',
-  TEMPLATE_SAVED: 'Template was successfully saved!'
+  TEMPLATE_SAVED: 'Template was successfully saved!',
+
+  INFO_SAVED: 'Information was successfully saved.'
 };

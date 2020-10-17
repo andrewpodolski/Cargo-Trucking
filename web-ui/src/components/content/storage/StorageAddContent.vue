@@ -161,7 +161,7 @@
           this.addresses = [];
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             this.map.setCenter(results[0].geometry.location);
-            this.map.setZoom(12);
+            this.map.setZoom(16);
             for (let i = 0; i < results.length; i++) {
               this.addresses.push(results[i].name);
             }

@@ -25,5 +25,8 @@ export const Url = {
 
   WS_CONNECTION: '/api/web-socket',
   WS_WAYBILL_NOTIFICATION: '/api/waybill-notifications',
-  WS_CHECKPOINT_REACHED: '/api/checkpoint-reached'
+  WS_CHECKPOINT_REACHED: '/api/checkpoint-reached',
+
+  FINANCE: '/api/finance',
+  LATEST_FINANCE: '/api/finance/latestFinance'
 };

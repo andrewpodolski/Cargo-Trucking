@@ -2,13 +2,14 @@ package com.itechart.cargotrucking.core.report.sysadmin.service;
 
 import com.itechart.cargotrucking.core.client.ClientStatusEnum;
 import com.itechart.cargotrucking.core.client.ClientStatusHistory;
+import com.itechart.cargotrucking.core.client.repository.ClientRepository;
 import com.itechart.cargotrucking.core.client.repository.ClientStatusRepository;
+import com.itechart.cargotrucking.core.finance.repository.FinanceRepository;
 import com.itechart.cargotrucking.core.report.exception.InvalidDateIntervalException;
 import com.itechart.cargotrucking.core.report.sysadmin.SysAdminReport;
 import com.itechart.cargotrucking.core.report.sysadmin.dto.IntervalStatistics;
 import com.itechart.cargotrucking.core.report.sysadmin.dto.SysAdminReportCreateDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -20,23 +21,15 @@ import java.util.Set;
 
 @Service
 public class SysAdminReportServiceImpl implements SysAdminReportService {
-    @Value("${statistics.consumption.sysadmin}")
-    private int sysAdminSalary;
-
-    @Value("${statistics.consumption.dbadmin}")
-    private int dbAdminSalary;
-
-    @Value("${statistics.consumption.server-payment}")
-    private int serverPayment;
-
-    @Value("${statistics.income}")
-    private int incomePerCompany;
-
     private ClientStatusRepository clientStatusRepository;
+    private FinanceRepository financeRepository;
+    private ClientRepository clientRepository;
 
     @Autowired
-    public SysAdminReportServiceImpl(ClientStatusRepository clientStatusRepository) {
+    public SysAdminReportServiceImpl(ClientStatusRepository clientStatusRepository, FinanceRepository financeRepository, ClientRepository clientRepository) {
         this.clientStatusRepository = clientStatusRepository;
+        this.financeRepository = financeRepository;
+        this.clientRepository = clientRepository;
     }
 
     @Override
@@ -45,8 +38,12 @@ public class SysAdminReportServiceImpl implements SysAdminReportService {
 
         long activeClients = 0;
         long lostClients = 0;
-        double income;
+        double income = clientRepository.getIncome();
         double consumption;
+
+        double sysAdminSalary = financeRepository.findFirstByOrderByIdDesc().getSysAdminPayment();
+        double dbAdminSalary = financeRepository.findFirstByOrderByIdDesc().getDbAdminPayment();
+        double serverPayment = financeRepository.findFirstByOrderByIdDesc().getServerPayment();
 
         LocalDateTime start = createDto.getInitialDate().atStartOfDay();
         LocalDateTime end = createDto.getFinalDate().atStartOfDay().plusDays(1);
@@ -69,8 +66,7 @@ public class SysAdminReportServiceImpl implements SysAdminReportService {
             }
         }
 
-        income = activeClients * interval * incomePerCompany;
-        consumption = (dbAdminSalary + sysAdminSalary + serverPayment) * interval;
+        consumption = (dbAdminSalary + sysAdminSalary + serverPayment) * interval / 30;
 
         IntervalStatistics statistics = new IntervalStatistics(createDto.getInitialDate(), createDto.getFinalDate(), consumption, income, activeClients, lostClients);
 

@@ -4,12 +4,20 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="1" author="dmitry.bortnik">
+    <changeSet id="1" author="andrew.podolski">
         <sqlFile path="v1.0.5/2019-09-03-add-exp-date-repair-table.sql" relativeToChangelogFile="true" />
     </changeSet>
 
-    <changeSet id="2" author="dmitry.bortnik">
+    <changeSet id="2" author="andrew.podolski">
         <sqlFile path="v1.0.5/2019-09-04-user-email-change-table.sql" relativeToChangelogFile="true" />
+    </changeSet>
+
+    <changeSet id="3" author="andrew.podolski">
+        <sqlFile path="v1.0.5/2020-10-17-add-finance-table.sql" relativeToChangelogFile="true" />
+    </changeSet>
+
+    <changeSet id="4" author="andrew.podolski">
+        <sqlFile path="v1.0.5/2020-10-17-add-income-per-company.sql" relativeToChangelogFile="true" />
     </changeSet>
 
 </databaseChangeLog>

@@ -17,4 +17,6 @@ public interface ClientRepository extends QuerydslRepository<Client, Long> {
 
     boolean existsByIdAndDeleteDateIsNull(long id);
 
+    @Query(value = "SELECT SUM(cost) FROM client_company WHERE delete_date IS NULL ", nativeQuery = true)
+    long getIncome();
 }

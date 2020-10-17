@@ -12,6 +12,7 @@ import java.util.List;
 public class ClientFilterDto {
     private String name;
     private List<ClientType> status;
+    private Integer cost;
 
     public void setStatus(ClientType[] status) {
         if (status != null) {

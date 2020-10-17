@@ -44,6 +44,9 @@ public class Client {
     @Column(name = "delete_date", insertable = false)
     private LocalDateTime deleteDate;
 
+    @Column(name = "cost", nullable = false)
+    private Integer cost;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "clientId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ClientStatusHistory> clientStatusHistorySet;
 

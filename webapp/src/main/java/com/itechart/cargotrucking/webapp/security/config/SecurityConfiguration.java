@@ -115,6 +115,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.GET, "/api/reports/sysadmin").hasAuthority(Role.SYS_ADMIN.name())
                 .antMatchers(HttpMethod.GET, "/api/reports/client").hasAuthority(Role.COMPANY_OWNER.name())
+                .antMatchers(HttpMethod.POST, "/api/finance").hasAuthority(Role.SYS_ADMIN.name())
+                .antMatchers(HttpMethod.GET, "/api/latestFinance").hasAuthority(Role.SYS_ADMIN.name())
 
                 .anyRequest().authenticated();
 
