@@ -34,16 +34,16 @@ import ProfileContent from '../../components/content/profile/ProfileContent';
 import EmailConfirmedPage from '../../pages/EmailConfirmedPage';
 import TemplateContent from '../../components/content/template/TemplateContent';
 import SysAdminReportContent from '../../components/content/reports/SysAdminReportContent';
+import FinanceContent from '../../components/content/sysadmin/FinanceContent';
 
 export const AppRouter = {
   create: () => {
     Vue.material.router.linkActiveClass = linkActiveClass;
 
-    const router = new Router({
+    return new Router({
       routes,
       linkActiveClass
     });
-    return router;
   }
 };
 
@@ -180,6 +180,10 @@ const routes = [
       {
         path: 'profile',
         component: ProfileContent
+      },
+      {
+        path: 'finances',
+        component: FinanceContent
       }
     ]
   },

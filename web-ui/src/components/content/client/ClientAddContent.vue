@@ -45,6 +45,19 @@
               {{errors.FIELD_IS_REQUIRED}}
             </span>
           </md-field>
+          <md-field :class="getValidationClass('cost')">
+            <label>Cost Per Month*</label>
+            <md-input
+              v-model="cost"
+              name="cost"
+              :disabled="send"/>
+            <span
+              class="md-error"
+              v-if="!$v.name.required"
+            >
+              {{errors.FIELD_IS_REQUIRED}}
+            </span>
+          </md-field>
         </md-card-content>
 
         <md-card-content>
@@ -277,7 +290,6 @@
   import {Url} from '../../../constants/url';
 
 
-
   export default {
     name: 'ClientAddContent',
 
@@ -288,6 +300,7 @@
 
       name: null,
       status: '',
+      cost: null,
       adminInfo: {
         name: null,
         surname: null,
@@ -312,6 +325,9 @@
         maxLength: maxLength(FieldsLength.CLIENT_NAME)
       },
       status: {
+        required
+      },
+      cost: {
         required
       },
       adminInfo: {
@@ -383,6 +399,7 @@
         const form = {
           name: this.name,
           status: this.status,
+          cost: this.cost,
           adminInfo: this.adminInfo
         };
         this.$http.post(Url.CLIENT, JSON.stringify(form), {
@@ -407,6 +424,7 @@
       clearForm() {
         this.name = null;
         this.status = '';
+        this.cost = null;
         this.adminInfo.name = null;
         this.adminInfo.surname = null;
         this.adminInfo.bornDate = null;

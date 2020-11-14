@@ -21,6 +21,9 @@ public class ClientAddDto {
     @NotNull(message = "Client status cannot be empty")
     private ClientType status;
 
+    @NotNull(message = "Clients Cost cannot be null")
+    private Integer cost;
+
     @NotNull(message = "Client admin info cannot be empty")
     private UserAddDto adminInfo;
 }

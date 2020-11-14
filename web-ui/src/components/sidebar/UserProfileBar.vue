@@ -6,8 +6,7 @@
 
     <md-card-header>
       <md-card-header-text v-if="authorized">
-        <div class="md-title">Welcome,</div>
-        <div class="md-subhead">{{username}}</div>
+        <div class="md-title">Welcome, {{username}}</div>
       </md-card-header-text>
 
       <md-card-header-text v-if="!authorized">

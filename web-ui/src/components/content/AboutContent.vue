@@ -14,7 +14,7 @@
     <div class="footer">
       <md-divider></md-divider>
       <div class="md-layout md-alignment-left">
-        Copyright &copy; 2019 iTechArt <span class="right">Application name: {{applicationName}}</span>
+        Copyright &copy; 2020 <span class="right">Application name: {{applicationName}}</span>
       </div>
       <div class="md-layout md-alignment-left">
         All rights reserved <span class="right">Application version: {{applicationVersion}}</span>

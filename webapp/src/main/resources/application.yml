@@ -54,18 +54,11 @@ pagination:
     default: 10
 
 report:
-  fuel-cost: 0.3
-  product-cost: 3
+  fuel-cost: 0.1
+  product-cost: 2
   product-lost-fine: 3
-  kilometer-cost: 1
-  day-fine: 10
-
-statistics:
-  consumption:
-    sysadmin: 50
-    dbadmin: 30
-    server-payment: 20
-  income: 10
+  kilometer-cost: 0.5
+  day-fine: 1
 
 security:
   secret_key: secret-key
