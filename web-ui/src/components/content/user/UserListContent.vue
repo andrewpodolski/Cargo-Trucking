@@ -225,6 +225,7 @@
 <style scoped>
   .operation-column {
     width: 150px;
+    display: flex;
   }
 
   .md-table {

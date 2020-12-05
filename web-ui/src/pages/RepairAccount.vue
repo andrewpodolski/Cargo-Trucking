@@ -147,4 +147,10 @@
     max-width: 600px;
     margin: 8% auto 0;
   }
+  @media (max-width: 500px) {
+    .md-card {
+      margin: 100px auto;
+      width: 90%;
+    }
+  }
 </style>

@@ -466,14 +466,23 @@
   .md-table {
     overflow-x: auto;
   }
+  .md-card{
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
 
   .operation-column {
     width: 150px;
+    display: flex;
   }
 
   .md-field.md-disabled:after {
     background-image: none;
     height: 0;
+  }
+  .md-table-cell-container {
+    padding: 6px 0 6px 8px;
   }
 
   .md-field.md-disabled .md-count {

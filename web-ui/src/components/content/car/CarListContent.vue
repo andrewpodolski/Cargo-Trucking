@@ -244,6 +244,7 @@
   }
   .operation-column {
     width: 150px;
+    display: flex;
   }
 
   .collapse-enter-active, .collapse-leave-active {

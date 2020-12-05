@@ -274,6 +274,7 @@
 
   .operation-column {
     width: 150px;
+    display: flex;
   }
 
   .v-pagination {

@@ -251,6 +251,7 @@
 
   .operation-column {
     width: 150px;
+    display: flex;
   }
 
   .md-card-actions {
