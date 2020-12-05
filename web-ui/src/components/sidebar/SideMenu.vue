@@ -85,6 +85,17 @@
         </router-link>
       </span>
     </md-list-item>
+    <md-list-item v-if="userRoles.includes('DRIVER')">
+      <md-icon>send</md-icon>
+      <span
+        class="md-list-item-text"
+        @click="hideBar"
+      >
+        <router-link to="/driversChat">
+          Drivers Chat
+        </router-link>
+      </span>
+    </md-list-item>
 
     <md-list-item
       v-if="userRoles.includes('ADMIN')"

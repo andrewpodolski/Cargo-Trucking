@@ -28,5 +28,7 @@ export const Url = {
   WS_CHECKPOINT_REACHED: '/api/checkpoint-reached',
 
   FINANCE: '/api/finance',
-  LATEST_FINANCE: '/api/finance/latestFinance'
+  LATEST_FINANCE: '/api/finance/latestFinance',
+
+  DRIVERS_CHAT: '/api/driverChat'
 };

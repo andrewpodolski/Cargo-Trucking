@@ -28,6 +28,7 @@ const actions = {
     state.stompClient = Stomp.over(function() {
       return new SockJS(Url.WS_CONNECTION);
     });
+    state.stompClient.debug = () => {};
     state.stompClient.connect({
       Authorization: `Bearer ${localStorage.accessToken}`
     }, () => {

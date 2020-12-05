@@ -35,6 +35,7 @@ import EmailConfirmedPage from '../../pages/EmailConfirmedPage';
 import TemplateContent from '../../components/content/template/TemplateContent';
 import SysAdminReportContent from '../../components/content/reports/SysAdminReportContent';
 import FinanceContent from '../../components/content/sysadmin/FinanceContent';
+import MessagesList from '../../components/content/driversChat/MessagesList';
 
 export const AppRouter = {
   create: () => {
@@ -184,6 +185,10 @@ const routes = [
       {
         path: 'finances',
         component: FinanceContent
+      },
+      {
+        path: 'driversChat',
+        component: MessagesList
       }
     ]
   },
