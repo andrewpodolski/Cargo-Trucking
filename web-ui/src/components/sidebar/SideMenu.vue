@@ -196,26 +196,26 @@
 </template>
 
 <script>
-  export default {
-    name: 'SideMenu',
+export default {
+  name: 'SideMenu',
 
-    data: () => ({
-      userRoles: []
-    }),
+  data: () => ({
+    userRoles: []
+  }),
 
-    methods: {
-      hideBar() {
-        this.$store.commit('sidebar/changeVisibility', false);
-      }
-    },
-
-    mounted: function() {
-      const roles = JSON.parse(localStorage.getItem('roles'));
-      if (roles) {
-        this.userRoles = roles;
-      }
+  methods: {
+    hideBar() {
+      this.$store.commit('sidebar/changeVisibility', false);
     }
-  };
+  },
+
+  mounted: function () {
+    const roles = JSON.parse(localStorage.getItem('roles'));
+    if (roles) {
+      this.userRoles = roles;
+    }
+  }
+};
 </script>
 
 <style scoped>
