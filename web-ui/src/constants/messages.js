@@ -23,11 +23,12 @@ export const Messages = {
   CAR_SAVED: 'Car was successfully saved!',
   CAR_UPDATED: 'Car was successfully updated!',
 
-  MESSAGE_SENT: 'Email was successfully sent!',
+  EMAIL_SENT: 'Email was successfully sent!',
 
   REPAIR_ACCOUNT: 'Check your email!',
   RESTORE_PASSWORD: 'Your password have been restored!',
   TEMPLATE_SAVED: 'Template was successfully saved!',
 
-  INFO_SAVED: 'Information was successfully saved.'
+  INFO_SAVED: 'Information was successfully saved.',
+  MESSAGE_SENT: 'Message was sent'
 };

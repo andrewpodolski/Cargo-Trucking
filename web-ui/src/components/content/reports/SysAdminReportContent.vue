@@ -81,12 +81,12 @@
 
         <md-table-row slot="md-table-row">
           <md-table-cell>Consumption</md-table-cell>
-          <md-table-cell>{{ statistics.consumption }}$</md-table-cell>
+          <md-table-cell>{{ statistics.consumption.toFixed(2) }}$</md-table-cell>
         </md-table-row>
 
         <md-table-row slot="md-table-row">
           <md-table-cell>Profit</md-table-cell>
-          <md-table-cell>{{ statistics.profit }}$</md-table-cell>
+          <md-table-cell>{{ statistics.profit.toFixed(2) }}$</md-table-cell>
         </md-table-row>
 
         <md-table-row slot="md-table-row">

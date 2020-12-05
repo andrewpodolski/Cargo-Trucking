@@ -53,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/api/users/*").hasAuthority(Role.ADMIN.name())
 
                 .antMatchers(HttpMethod.GET, "/api/clients*").hasAuthority(Role.SYS_ADMIN.name())
-                .antMatchers(HttpMethod.GET,"/api/clients/*").hasAuthority(Role.SYS_ADMIN.name())
+                .antMatchers(HttpMethod.GET, "/api/clients/*").hasAuthority(Role.SYS_ADMIN.name())
                 .antMatchers(HttpMethod.DELETE, "/api/clients").hasAuthority(Role.SYS_ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/api/clients").hasAuthority(Role.SYS_ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "/api/clients/*").hasAuthority(Role.SYS_ADMIN.name())
@@ -88,7 +88,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/invoices").hasAuthority(Role.DISPATCHER.name())
                 .antMatchers(HttpMethod.PUT, "/api/invoices/*").hasAuthority(Role.DISPATCHER.name())
 
-                .antMatchers(HttpMethod.POST,"/api/email").hasAuthority(Role.ADMIN.name())
+                .antMatchers(HttpMethod.POST, "/api/email").hasAuthority(Role.ADMIN.name())
 
                 .antMatchers(HttpMethod.GET, "/api/waybills*").hasAnyAuthority(Role.MANAGER.name(), Role.DRIVER.name(), Role.COMPANY_OWNER.name())
                 .antMatchers(HttpMethod.GET, "/api/waybills/*").hasAnyAuthority(Role.DRIVER.name(), Role.COMPANY_OWNER.name(), Role.MANAGER.name())
@@ -117,6 +117,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/reports/client").hasAuthority(Role.COMPANY_OWNER.name())
                 .antMatchers(HttpMethod.POST, "/api/finance").hasAuthority(Role.SYS_ADMIN.name())
                 .antMatchers(HttpMethod.GET, "/api/latestFinance").hasAuthority(Role.SYS_ADMIN.name())
+                .antMatchers(HttpMethod.POST, "/api/driverChat").hasAuthority(Role.DRIVER.name())
+                .antMatchers(HttpMethod.PATCH, "/api/driverChat").hasAuthority(Role.DRIVER.name())
+                .antMatchers(HttpMethod.DELETE, "/api/driverChat").hasAuthority(Role.DRIVER.name())
 
                 .anyRequest().authenticated();
 
