@@ -86,7 +86,7 @@
       <md-snackbar
         :md-active.sync="emailSent"
       >
-        {{messages.MESSAGE_SENT}}
+        {{messages.EMAIL_SENT}}
       </md-snackbar>
     </form>
   </div>

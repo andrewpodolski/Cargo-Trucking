@@ -85,6 +85,17 @@
         </router-link>
       </span>
     </md-list-item>
+    <md-list-item v-if="userRoles.includes('DRIVER')">
+      <md-icon>send</md-icon>
+      <span
+        class="md-list-item-text"
+        @click="hideBar"
+      >
+        <router-link to="/driversChat">
+          Drivers Chat
+        </router-link>
+      </span>
+    </md-list-item>
 
     <md-list-item
       v-if="userRoles.includes('ADMIN')"
@@ -185,26 +196,26 @@
 </template>
 
 <script>
-  export default {
-    name: 'SideMenu',
+export default {
+  name: 'SideMenu',
 
-    data: () => ({
-      userRoles: []
-    }),
+  data: () => ({
+    userRoles: []
+  }),
 
-    methods: {
-      hideBar() {
-        this.$store.commit('sidebar/changeVisibility', false);
-      }
-    },
-
-    mounted: function() {
-      const roles = JSON.parse(localStorage.getItem('roles'));
-      if (roles) {
-        this.userRoles = roles;
-      }
+  methods: {
+    hideBar() {
+      this.$store.commit('sidebar/changeVisibility', false);
     }
-  };
+  },
+
+  mounted: function () {
+    const roles = JSON.parse(localStorage.getItem('roles'));
+    if (roles) {
+      this.userRoles = roles;
+    }
+  }
+};
 </script>
 
 <style scoped>

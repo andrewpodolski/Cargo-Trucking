@@ -19,6 +19,7 @@
         v-if="authorized && !userRoles.includes('SYS_ADMIN') && !userRoles.includes('ADMIN')"
         class="md-primary"
         @click="hideBar"
+        to=""
       >
         <md-icon>lock</md-icon>
         <router-link to="/profile">
@@ -30,6 +31,7 @@
         class="md-primary"
         v-if="authorized"
         @click="logout"
+        to=""
       >
         <md-icon>exit_to_app</md-icon>
         <span>Logout</span>

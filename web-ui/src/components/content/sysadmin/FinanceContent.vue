@@ -144,7 +144,7 @@
         }).then(() => {
           this.contentSaved = true;
           this.sending = false;
-          this.clearForm();
+          this.content = {};
           this.hasError = false;
           this.$v.$reset();
         }, response => {
@@ -153,10 +153,6 @@
           this.errorMessage = response.body.errors[0];
         });
         this.sending = false;
-      },
-
-      clearForm() {
-        this.content = {};
       }
     },
     mounted: function () {
@@ -171,7 +167,6 @@
         }
       })
         .then(res => {
-          console.log(res);
           this.content.sysAdminPayment = res.body.sysAdminPayment;
           this.content.dbAdminPayment = res.body.dbAdminPayment;
           this.content.serverPayment = res.body.serverPayment;
