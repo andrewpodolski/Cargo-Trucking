@@ -33,4 +33,4 @@ export const FieldsLength = {
   EMAIL_SUBJECT: 50,
   EMAIL_TEXT: 300,
   TEMPLATE_MAX_LENGTH: 350
-};
+}

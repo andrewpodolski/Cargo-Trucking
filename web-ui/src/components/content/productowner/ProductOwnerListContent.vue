@@ -111,10 +111,10 @@
 </template>
 
 <script>
-  import {mapState, mapActions} from 'vuex';
+  import {mapState, mapActions} from 'vuex'
 
-  import {Confirmation} from '../../../constants/confirmation';
-  import {Url} from '../../../constants/url';
+  import {Confirmation} from '../../../constants/confirmation'
+  import {Url} from '../../../constants/url'
 
   export default {
     name: 'ProductOwnerListContent',
@@ -138,8 +138,8 @@
       ]),
 
       onDeleteConfirm() {
-        this.removeSelection();
-        const itemIdsToDelete = this.itemIdsToDelete;
+        this.removeSelection()
+        const itemIdsToDelete = this.itemIdsToDelete
         this.$http.delete(Url.PRODUCT_OWNER, {
             body: itemIdsToDelete,
             headers: {
@@ -148,56 +148,56 @@
           }
         )
           .then(() => {
-            this.hasDeleted = true;
-            this.itemIdsToDelete = [];
+            this.hasDeleted = true
+            this.itemIdsToDelete = []
             this.$store.dispatch('productOwner/pageProductOwnerChange', {
               pageNumber: 1,
               pageSize: 10
-            });
-          });
+            })
+          })
       },
 
       onCancel() {
-        this.removeSelection();
-        this.itemIdsToDelete = [];
+        this.removeSelection()
+        this.itemIdsToDelete = []
       },
 
       showDeleteConfirmDialog(idToDelete) {
-        this.activeConfirmDialog = true;
+        this.activeConfirmDialog = true
         if (Array.isArray(idToDelete)) {
-          this.itemIdsToDelete = idToDelete;
+          this.itemIdsToDelete = idToDelete
         } else {
-          this.itemIdsToDelete.push(idToDelete);
+          this.itemIdsToDelete.push(idToDelete)
         }
       },
 
       onSelect(items) {
-        this.selectedRows = items;
-        this.selectedIds = items.map((item) => item.id);
+        this.selectedRows = items
+        this.selectedIds = items.map((item) => item.id)
       },
 
       getAlternateLabel(count) {
-        const plural = count > 1 ? 's' : '';
-        return `${count} product owner${plural} selected`;
+        const plural = count > 1 ? 's' : ''
+        return `${count} product owner${plural} selected`
       },
 
       removeSelection() {
-        this.selectedRows.splice(0, this.selectedRows.length);
-        this.selectedIds = [];
+        this.selectedRows.splice(0, this.selectedRows.length)
+        this.selectedIds = []
       },
 
       customSort() {
-        let suffix = '';
+        let suffix = ''
         if (this.currentSort === 'name' || this.currentSort === 'address') {
-          suffix = '_str';
+          suffix = '_str'
         }
 
-        this.$store.commit('productOwner/setSort', `${this.currentSort}${suffix},${this.currentSortOrder}`);
+        this.$store.commit('productOwner/setSort', `${this.currentSort}${suffix},${this.currentSortOrder}`)
         if (this.isMounted) {
           this.$store.dispatch('productOwner/pageProductOwnerChange', {
             pageNumber: 1,
             pageSize: 10
-          });
+          })
         }
       },
 
@@ -205,21 +205,21 @@
         this.$store.dispatch('productOwner/pageProductOwnerChange', {
           pageNumber: 1,
           pageSize: 10
-        });
+        })
       },
 
       getProductOwner(id) {
-        this.$router.push({name: 'get-product-owner', params: {id}});
+        this.$router.push({name: 'get-product-owner', params: {id}})
       }
     },
 
     mounted: function() {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('ADMIN')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
 
-      this.isMounted = true;
+      this.isMounted = true
     },
 
     computed: {
@@ -230,14 +230,14 @@
       }),
       name: {
         get() {
-          return this.$store.state.productOwner.filter.name;
+          return this.$store.state.productOwner.filter.name
         },
         set(value) {
-          this.$store.commit('productOwner/updateFilterName', value);
+          this.$store.commit('productOwner/updateFilterName', value)
         }
       }
     }
-  };
+  }
 </script>
 
 <style scoped>

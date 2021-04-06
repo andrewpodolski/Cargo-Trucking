@@ -97,12 +97,12 @@
 </template>
 
 <script>
-  import {required, maxLength} from 'vuelidate/lib/validators';
+  import {required, maxLength} from 'vuelidate/lib/validators'
 
-  import {Errors} from '../../../constants/errors';
-  import {FieldsLength} from '../../../constants/fieldsLength';
-  import {Messages} from '../../../constants/messages';
-  import {Url} from '../../../constants/url';
+  import {Errors} from '../../../constants/errors'
+  import {FieldsLength} from '../../../constants/fieldsLength'
+  import {Messages} from '../../../constants/messages'
+  import {Url} from '../../../constants/url'
 
   export default {
     name: 'ProductOwnerEditContent',
@@ -139,11 +139,11 @@
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
@@ -151,82 +151,82 @@
         const request = {
           query: this.address,
           fields: ['name', 'geometry']
-        };
+        }
 
         /* eslint-disable no-undef */
         this.service.findPlaceFromQuery(request, (results, status) => {
-          this.addresses = [];
+          this.addresses = []
           if (status === google.maps.places.PlacesServiceStatus.OK) {
-            this.map.setCenter(results[0].geometry.location);
-            this.map.setZoom(12);
+            this.map.setCenter(results[0].geometry.location)
+            this.map.setZoom(12)
             for (let i = 0; i < results.length; i++) {
-              this.addresses.push(results[i].name);
+              this.addresses.push(results[i].name)
             }
           }
-        });
+        })
         /* eslint-enable no-undef */
       },
 
       validateProductOwner() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
           const request = {
             query: this.address,
             fields: ['name']
-          };
+          }
 
           /* eslint-disable no-undef */
           this.service.findPlaceFromQuery(request, (results, status) => {
             if (status !== google.maps.places.PlacesServiceStatus.OK || results.length !== 1) {
-              this.addressValid = false;
-              document.getElementById('address').classList.add('md-invalid');
+              this.addressValid = false
+              document.getElementById('address').classList.add('md-invalid')
             } else {
-              document.getElementById('address').classList.remove('md-invalid');
-              this.updateProductOwner();
-              this.addressValid = true;
+              document.getElementById('address').classList.remove('md-invalid')
+              this.updateProductOwner()
+              this.addressValid = true
             }
-          });
+          })
           /* eslint-enable no-undef */
         }
       },
 
       updateProductOwner() {
-        this.sending = true;
+        this.sending = true
         const form = {
           name: this.name,
           address: this.address
-        };
+        }
         this.$http.put(`${Url.PRODUCT_OWNER}/${this.$route.params.id}`, JSON.stringify(form), {
           headers: {
             Authorization: `Bearer ${localStorage.accessToken}`
           }
         })
           .then(() => {
-            this.productOwnerUpdated = true;
-            this.sending = false;
-            this.hasError = false;
-            this.$v.$reset();
+            this.productOwnerUpdated = true
+            this.sending = false
+            this.hasError = false
+            this.$v.$reset()
           }, response => {
-            this.hasError = true;
-            this.sending = false;
-            this.errorMessage = response.body.errors[0];
-          });
+            this.hasError = true
+            this.sending = false
+            this.errorMessage = response.body.errors[0]
+          })
       }
     },
 
     mounted: function() {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('ADMIN')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
 
       /* eslint-disable no-undef */
       const map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 53.540, lng: 27.300},
         zoom: 8
-      });
-      this.map = map;
-      this.service = new google.maps.places.PlacesService(map);
+      })
+      this.map = map
+      this.service = new google.maps.places.PlacesService(map)
       /* eslint-enable no-undef */
 
       this.$http.get(`${Url.PRODUCT_OWNER}/${this.$route.params.id}`, {
@@ -235,28 +235,28 @@
         }
       })
         .then(response => {
-          this.name = response.body.name;
-          this.address = response.body.address;
+          this.name = response.body.name
+          this.address = response.body.address
 
           const request = {
             query: this.address,
             fields: ['geometry']
-          };
+          }
 
           /* eslint-disable no-undef */
           this.service.findPlaceFromQuery(request, (results, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-              this.map.setCenter(results[0].geometry.location);
-              this.map.setZoom(12);
+              this.map.setCenter(results[0].geometry.location)
+              this.map.setZoom(12)
             }
-          });
+          })
           /* eslint-enable no-undef */
         }, response => {
-          this.hasError = true;
-          this.errorMessage = response.body.errors[0];
-        });
+          this.hasError = true
+          this.errorMessage = response.body.errors[0]
+        })
     }
-  };
+  }
 </script>
 
 <style scoped>

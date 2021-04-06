@@ -214,15 +214,15 @@
 </template>
 
 <script>
-  import {required, maxLength} from 'vuelidate/lib/validators';
-  import moment from 'moment';
+  import moment from 'moment'
+  import {required, maxLength} from 'vuelidate/lib/validators'
 
-  import PasswordChangeComponent from './components/PasswordChangeComponent';
-  import EmailChangeComponent from './components/EmailChangeComponent';
-  import {Errors} from '../../../constants/errors';
-  import {FieldsLength} from '../../../constants/fieldsLength';
-  import {Messages} from '../../../constants/messages';
-  import {Url} from '../../../constants/url';
+  import {Errors} from '../../../constants/errors'
+  import {FieldsLength} from '../../../constants/fieldsLength'
+  import {Messages} from '../../../constants/messages'
+  import {Url} from '../../../constants/url'
+  import EmailChangeComponent from './components/EmailChangeComponent'
+  import PasswordChangeComponent from './components/PasswordChangeComponent'
 
   export default {
     name: 'ProfileContent',
@@ -283,23 +283,23 @@
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v.form[fieldName];
+        const field = this.$v.form[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       validateUser() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.updatePersonDataUser();
+          this.updatePersonDataUser()
         }
       },
 
       dateIntoString(date) {
-        return date ? moment(date).format('YYYY-MM-DD') : null;
+        return date ? moment(date).format('YYYY-MM-DD') : null
       },
 
       updatePersonDataUser() {
@@ -312,7 +312,7 @@
           street: this.form.street,
           house: this.form.house,
           flat: this.form.flat
-        };
+        }
 
         this.$http.put(Url.PROFILE, JSON.stringify(form), {
           headers: {
@@ -320,27 +320,27 @@
           }
         })
           .then(() => {
-            this.userUpdated = true;
-            this.sending = false;
-            this.hasError = false;
+            this.userUpdated = true
+            this.sending = false
+            this.hasError = false
           }, response => {
-            this.hasError = true;
-            this.sending = false;
-            this.errorMessage = response.body.errors[0];
-          });
+            this.hasError = true
+            this.sending = false
+            this.errorMessage = response.body.errors[0]
+          })
       }
     },
 
     mounted: function() {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles) {
-        this.$router.replace('/login');
+        this.$router.replace('/login')
       }
       if (userRoles.includes('ADMIN')) {
-        this.$router.replace('/users');
+        this.$router.replace('/users')
       }
       if (userRoles.includes('SYS_ADMIN')) {
-        this.$router.replace('/clients');
+        this.$router.replace('/clients')
       }
 
       this.$http.get(Url.PROFILE, {
@@ -349,24 +349,24 @@
         }
       })
         .then(response => {
-          this.form.login = response.body.login;
-          this.form.email = response.body.email;
-          this.form.name = response.body.name;
-          this.form.surname = response.body.surname;
-          this.form.patronymic = response.body.patronymic;
-          this.form.bornDate = response.body.bornDate;
-          this.form.town = response.body.town;
-          this.form.street = response.body.street;
-          this.form.house = response.body.house;
-          this.form.flat = response.body.flat;
+          this.form.login = response.body.login
+          this.form.email = response.body.email
+          this.form.name = response.body.name
+          this.form.surname = response.body.surname
+          this.form.patronymic = response.body.patronymic
+          this.form.bornDate = response.body.bornDate
+          this.form.town = response.body.town
+          this.form.street = response.body.street
+          this.form.house = response.body.house
+          this.form.flat = response.body.flat
         }, () => {
-          this.hasError = true;
-          this.errorMessage = 'Error has occurred';
-        });
+          this.hasError = true
+          this.errorMessage = 'Error has occurred'
+        })
     },
 
     components: {PasswordChangeComponent, EmailChangeComponent}
-  };
+  }
 </script>
 
 <style scoped>

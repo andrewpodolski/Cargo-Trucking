@@ -145,15 +145,15 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex';
-  import {required, integer} from 'vuelidate/lib/validators';
+  import {required, integer} from 'vuelidate/lib/validators'
+  import {mapState} from 'vuex'
 
-  import {Confirmation} from '../../../../constants/confirmation';
-  import {FieldsValueBounds} from '../../../../constants/fieldsValueBounds';
-  import {FieldsLength} from '../../../../constants/fieldsLength';
-  import {FieldsType} from '../../../../constants/fieldsType';
-  import {Errors} from '../../../../constants/errors';
-  import {Url} from '../../../../constants/url';
+  import {Confirmation} from '../../../../constants/confirmation'
+  import {Errors} from '../../../../constants/errors'
+  import {FieldsLength} from '../../../../constants/fieldsLength'
+  import {FieldsType} from '../../../../constants/fieldsType'
+  import {FieldsValueBounds} from '../../../../constants/fieldsValueBounds'
+  import {Url} from '../../../../constants/url'
 
   export default {
     name: 'ProductWriteoffList',
@@ -190,30 +190,30 @@
 
     methods: {
       getWriteoff(item) {
-        const product = this.$store.state.invoice.data.products.filter(product => product.id === item.productId);
-        this.writeoffItem = Object.assign({}, item);
-        this.writeoffItem.amount += product[0].amount;
-        this.writeoffAmount = item.amount;
-        this.writeoffStatus = item.status;
-        this.activeWriteoffDialog = true;
+        const product = this.$store.state.invoice.data.products.filter(product => product.id === item.productId)
+        this.writeoffItem = Object.assign({}, item)
+        this.writeoffItem.amount += product[0].amount
+        this.writeoffAmount = item.amount
+        this.writeoffStatus = item.status
+        this.activeWriteoffDialog = true
       },
 
       onWriteoffConfirm() {
         if (!this.amountBetween) {
-          document.getElementById('amount').classList.add('md-invalid');
-          return;
+          document.getElementById('amount').classList.add('md-invalid')
+          return
         }
-        this.$v.$touch();
+        this.$v.$touch()
         if (this.$v.$invalid || !this.amountBetween) {
-          return;
+          return
         }
 
-        this.activeWriteoffDialog = false;
+        this.activeWriteoffDialog = false
 
         const form = {
           amount: this.writeoffAmount,
           status: this.writeoffStatus
-        };
+        }
 
         this.$http.put(`${Url.PRODUCT_WRITEOFF}/${this.writeoffItem.id}`, JSON.stringify(form), {
           headers: {
@@ -221,46 +221,46 @@
           }
         })
           .then(() => {
-            this.responseMessage = 'Product writeoff has been updated!';
-            this.hasWriteoffed = true;
+            this.responseMessage = 'Product writeoff has been updated!'
+            this.hasWriteoffed = true
             this.$store.commit('invoice/changeProductCount', {
               id: this.writeoffItem.productId,
               amount: this.writeoffItem.amount - parseInt(this.writeoffAmount, 10)
-            });
-            this.clearWriteoffForm();
-            this.$store.dispatch('invoice/getProductWriteoffs', this.$route.params.id);
+            })
+            this.clearWriteoffForm()
+            this.$store.dispatch('invoice/getProductWriteoffs', this.$route.params.id)
           }, () => {
-            this.responseMessage = 'Something went wrong!';
-            this.hasWriteoffed = true;
-          });
+            this.responseMessage = 'Something went wrong!'
+            this.hasWriteoffed = true
+          })
 
-        this.$v.$reset();
+        this.$v.$reset()
       },
 
       clearWriteoffForm() {
-        this.writeoffItem = null;
-        this.writeoffAmount = null;
-        this.writeoffStatus = null;
+        this.writeoffItem = null
+        this.writeoffAmount = null
+        this.writeoffStatus = null
       },
 
       onWriteoffCancel() {
-        this.$v.$reset();
-        this.activeWriteoffDialog = false;
-        this.clearWriteoffForm();
+        this.$v.$reset()
+        this.activeWriteoffDialog = false
+        this.clearWriteoffForm()
       },
 
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       onDeleteConfirm() {
-        this.removeSelection();
-        const itemIdsToDelete = this.itemIdsToDelete;
+        this.removeSelection()
+        const itemIdsToDelete = this.itemIdsToDelete
         this.$http.delete(Url.PRODUCT_WRITEOFF, {
           body: itemIdsToDelete,
           headers: {
@@ -268,50 +268,50 @@
           }
         })
           .then(() => {
-            this.hasDeleted = true;
-            this.$store.commit('invoice/deleteDataProductWriteoff', itemIdsToDelete);
+            this.hasDeleted = true
+            this.$store.commit('invoice/deleteDataProductWriteoff', itemIdsToDelete)
             this.$http.get(`${Url.INVOICE}/${this.$route.params.id}`, {
               headers: {
                 Authorization: `Bearer ${localStorage.accessToken}`
               }
             })
               .then(response => {
-                this.$store.commit('invoice/updateDataProducts', response.body.products);
+                this.$store.commit('invoice/updateDataProducts', response.body.products)
               }, response => {
-                this.$store.commit('invoice/setHasError', true);
-                this.$store.commit('invoice/setErrorMessage', response.body.errors[0]);
-              });
-          });
-        this.itemIdsToDelete = [];
+                this.$store.commit('invoice/setHasError', true)
+                this.$store.commit('invoice/setErrorMessage', response.body.errors[0])
+              })
+          })
+        this.itemIdsToDelete = []
       },
 
       onCancel() {
-        this.removeSelection();
-        this.itemIdsToDelete = [];
+        this.removeSelection()
+        this.itemIdsToDelete = []
       },
 
       showDeleteConfirmDialog(idToDelete) {
-        this.activeConfirmDialog = true;
+        this.activeConfirmDialog = true
         if (Array.isArray(idToDelete)) {
-          this.itemIdsToDelete = idToDelete;
+          this.itemIdsToDelete = idToDelete
         } else {
-          this.itemIdsToDelete.push(idToDelete);
+          this.itemIdsToDelete.push(idToDelete)
         }
       },
 
       onSelect(items) {
-        this.selectedRows = items;
-        this.selectedIds = items.map((item) => item.id);
+        this.selectedRows = items
+        this.selectedIds = items.map((item) => item.id)
       },
 
       getAlternateLabel(count) {
-        const plural = count > 1 ? 's' : '';
-        return `${count} product writeoff${plural} selected`;
+        const plural = count > 1 ? 's' : ''
+        return `${count} product writeoff${plural} selected`
       },
 
       removeSelection() {
-        this.selectedRows.splice(0, this.selectedRows.length);
-        this.selectedIds = [];
+        this.selectedRows.splice(0, this.selectedRows.length)
+        this.selectedIds = []
       }
     },
 
@@ -321,21 +321,21 @@
       }),
       amountBetween: function() {
         if (this.writeoffAmount < 1 || this.writeoffAmount > this.writeoffItem.amount) {
-          document.getElementById('amount').classList.add('md-invalid');
-          return false;
+          document.getElementById('amount').classList.add('md-invalid')
+          return false
         } else {
           if (document.getElementById('amount')) {
-            document.getElementById('amount').classList.remove('md-invalid');
+            document.getElementById('amount').classList.remove('md-invalid')
           }
-          return true;
+          return true
         }
       }
     },
 
     mounted: function() {
-      this.userRoles = JSON.parse(localStorage.getItem('roles'));
+      this.userRoles = JSON.parse(localStorage.getItem('roles'))
     }
-  };
+  }
 </script>
 
 <style scoped>

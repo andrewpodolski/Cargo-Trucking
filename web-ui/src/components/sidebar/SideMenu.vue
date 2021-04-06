@@ -205,17 +205,17 @@ export default {
 
   methods: {
     hideBar() {
-      this.$store.commit('sidebar/changeVisibility', false);
+      this.$store.commit('sidebar/changeVisibility', false)
     }
   },
 
   mounted: function () {
-    const roles = JSON.parse(localStorage.getItem('roles'));
+    const roles = JSON.parse(localStorage.getItem('roles'))
     if (roles) {
-      this.userRoles = roles;
+      this.userRoles = roles
     }
   }
-};
+}
 </script>
 
 <style scoped>

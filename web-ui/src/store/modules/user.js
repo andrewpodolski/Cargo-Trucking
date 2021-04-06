@@ -1,6 +1,6 @@
-import Vue from 'vue';
+import Vue from 'vue'
 
-import {Url} from '../../constants/url';
+import {Url} from '../../constants/url'
 
 const state = {
   items: [],
@@ -23,7 +23,7 @@ const state = {
     surname: null,
     userRoles: []
   }
-};
+}
 
 const actions = {
   pageUsersChange({commit}, pageInfo) {
@@ -32,12 +32,12 @@ const actions = {
       size: pageInfo.pageSize,
       surname: state.filter.surname,
       userRoles: state.filter.userRoles
-    };
+    }
     if (state.sort){
-      pageAttr.sort = state.sort;
+      pageAttr.sort = state.sort
     }
     if (state.filter.userRoles.length !== 0) {
-      pageAttr.userRoles = state.filter.userRoles;
+      pageAttr.userRoles = state.filter.userRoles
     }
     Vue.http.get(Url.USER + '{?userRoles*}', {
       params: pageAttr,
@@ -46,7 +46,7 @@ const actions = {
       }
     })
       .then(response => {
-        const users = [];
+        const users = []
         for (const item of response.data.content) {
           const user = {
             id: item.id,
@@ -55,51 +55,51 @@ const actions = {
             patronymic: item.patronymic,
             login: item.login,
             userRoles: []
-          };
+          }
           for (let i = 0; i < item.userRoles.length; i++) {
             const role = item.userRoles[i].id.role.charAt(0) +
-                item.userRoles[i].id.role.slice(1).replace('_', ' ').toLowerCase();
+                item.userRoles[i].id.role.slice(1).replace('_', ' ').toLowerCase()
 
-            user.userRoles.push(role);
+            user.userRoles.push(role)
           }
-          users.push(user);
+          users.push(user)
         }
-        commit('setUsers', users);
-        commit('setTotalElements', response.data.totalElements);
-      });
+        commit('setUsers', users)
+        commit('setTotalElements', response.data.totalElements)
+      })
   }
-};
+}
 
 const mutations = {
   setUsers(state, users) {
-    state.items = users;
+    state.items = users
   },
 
   setTotalElements(state, totalElements) {
-    state.totalElements = totalElements;
+    state.totalElements = totalElements
   },
 
   setSort(state, sort) {
-    state.sort = sort;
+    state.sort = sort
   },
 
   removeFilter(state) {
-    state.filter.surname = null;
-    state.filter.userRoles = [];
+    state.filter.surname = null
+    state.filter.userRoles = []
   },
 
   updateSurname(state, surname) {
-    state.filter.surname = surname;
+    state.filter.surname = surname
   },
 
   updateUserRoles(state, userRoles) {
-    state.filter.userRoles = userRoles;
+    state.filter.userRoles = userRoles
   }
-};
+}
 
 export default {
   namespaced: true,
   state,
   actions,
   mutations
-};
+}

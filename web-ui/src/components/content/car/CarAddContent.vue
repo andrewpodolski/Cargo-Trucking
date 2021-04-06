@@ -1,7 +1,6 @@
 <template>
   <div>
     <form novalidate @submit.prevent="validateCar">
-
       <md-card>
         <md-card-content>
           <md-field :class="getValidationClass('number')">
@@ -95,9 +94,7 @@
             </span>
           </md-field>
         </md-card-content>
-
         <md-progress-bar md-mode="indeterminate" v-if="sending"/>
-
         <md-card-actions>
           <md-button
             class="md-primary"
@@ -106,7 +103,6 @@
           >
             Back
           </md-button>
-
           <md-button
             type="submit"
             class="md-primary"
@@ -115,16 +111,13 @@
             Save
           </md-button>
         </md-card-actions>
-
         <md-chip
           class="md-accent md-layout md-alignment-center"
           v-if="hasError"
         >
           {{errorMessage}}
         </md-chip>
-
       </md-card>
-
       <md-snackbar
         :md-active.sync="carSaved"
       >
@@ -135,18 +128,17 @@
 </template>
 
 <script>
-  import {between, decimal, integer, maxLength, required} from 'vuelidate/lib/validators';
 
-  import {Errors} from '../../../constants/errors';
-  import {FieldsLength} from '../../../constants/fieldsLength';
-  import {FieldsValueBounds} from '../../../constants/fieldsValueBounds';
-  import {FieldsType} from '../../../constants/fieldsType';
-  import {Messages} from '../../../constants/messages';
-  import {Url} from '../../../constants/url';
+  import {Errors} from '@/constants/errors'
+  import {FieldsLength} from '@/constants/fieldsLength'
+  import {FieldsType} from '@/constants/fieldsType'
+  import {FieldsValueBounds} from '@/constants/fieldsValueBounds'
+  import {Messages} from '@/constants/messages'
+  import {Url} from '@/constants/url'
+  import {between, decimal, integer, maxLength, required} from 'vuelidate/lib/validators'
 
   export default {
     name: 'CarAddContent',
-
     data: () => ({
       errors: Errors,
       fieldsLength: FieldsLength,
@@ -164,7 +156,6 @@
       hasError: false,
       errorMessage: null
     }),
-
     validations: {
       number: {
         required,
@@ -182,65 +173,59 @@
       },
       carType: {required}
     },
-
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
-
       validateCar() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.saveCar();
+          this.saveCar()
         }
       },
-
       saveCar() {
-        this.sending = true;
+        this.sending = true
         const form = {
           number: this.number,
           fuelConsumption: this.fuelConsumption,
           loadCapacity: this.loadCapacity,
           carType: this.carType
-        };
+        }
         this.$http.post(Url.CAR, JSON.stringify(form), {
           headers: {
             Authorization: `Bearer ${localStorage.accessToken}`
           }
-        })
-          .then(() => {
-            this.carSaved = true;
-            this.sending = false;
-            this.removeData();
-            this.hasError = false;
-            this.$v.$reset();
+        }).then(() => {
+            this.carSaved = true
+            this.sending = false
+            this.removeData()
+            this.hasError = false
+            this.$v.$reset()
           }, response => {
-            this.hasError = true;
-            this.sending = false;
-            this.errorMessage = response.body.errors[0];
-          });
+            this.hasError = true
+            this.sending = false
+            this.errorMessage = response.body.errors[0]
+          })
       },
-
       removeData() {
-        this.number = null;
-        this.fuelConsumption = null;
-        this.loadCapacity = null;
-        this.carType = null;
+        this.number = null
+        this.fuelConsumption = null
+        this.loadCapacity = null
+        this.carType = null
       }
     },
-
-    mounted: function () {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+    mounted () {
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('ADMIN')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
     }
-  };
+  }
 </script>
 
 <style scoped>

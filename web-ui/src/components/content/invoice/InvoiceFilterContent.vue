@@ -48,66 +48,66 @@
         this.$store.dispatch('invoice/pageInvoiceChange', {
           pageNumber: 1,
           pageSize: 10
-        });
+        })
       },
 
       removeFilters() {
-        this.$store.commit('invoice/removeFilter');
-        this.find();
+        this.$store.commit('invoice/removeFilter')
+        this.find()
       }
     },
 
     computed: {
       number: {
         get() {
-          return this.$store.state.invoice.filter.number;
+          return this.$store.state.invoice.filter.number
         },
         set(value) {
-          this.$store.commit('invoice/updateNumber', value);
+          this.$store.commit('invoice/updateNumber', value)
         }
       },
       beforeCreationDate: {
         get() {
-          return this.$store.state.invoice.filter.beforeCreationDate;
+          return this.$store.state.invoice.filter.beforeCreationDate
         },
         set(value) {
-          this.$store.commit('invoice/updateBeforeCreationDate', value);
+          this.$store.commit('invoice/updateBeforeCreationDate', value)
         }
       },
       afterCreationDate: {
         get() {
-          return this.$store.state.invoice.filter.afterCreationDate;
+          return this.$store.state.invoice.filter.afterCreationDate
         },
         set(value) {
-          this.$store.commit('invoice/updateAfterCreationDate', value);
+          this.$store.commit('invoice/updateAfterCreationDate', value)
         }
       },
       beforeVerifiedDate: {
         get() {
-          return this.$store.state.invoice.filter.beforeVerifiedDate;
+          return this.$store.state.invoice.filter.beforeVerifiedDate
         },
         set(value) {
-          this.$store.commit('invoice/updateBeforeVerifiedDate', value);
+          this.$store.commit('invoice/updateBeforeVerifiedDate', value)
         }
       },
       afterVerifiedDate: {
         get() {
-          return this.$store.state.invoice.filter.afterVerifiedDate;
+          return this.$store.state.invoice.filter.afterVerifiedDate
         },
         set(value) {
-          this.$store.commit('invoice/updateAfterVerifiedDate', value);
+          this.$store.commit('invoice/updateAfterVerifiedDate', value)
         }
       },
       statuses: {
         get() {
-          return this.$store.state.invoice.filter.statuses;
+          return this.$store.state.invoice.filter.statuses
         },
         set(value) {
-          this.$store.commit('invoice/updateStatuses', value);
+          this.$store.commit('invoice/updateStatuses', value)
         }
       }
     }
-  };
+  }
 </script>
 
 <style scoped>

@@ -223,15 +223,15 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex';
-  import {required, maxLength, between, integer} from 'vuelidate/lib/validators';
+  import {required, maxLength, between, integer} from 'vuelidate/lib/validators'
+  import {mapState} from 'vuex'
 
-  import {Confirmation} from '../../../../constants/confirmation';
-  import {FieldsValueBounds} from '../../../../constants/fieldsValueBounds';
-  import {FieldsLength} from '../../../../constants/fieldsLength';
-  import {FieldsType} from '../../../../constants/fieldsType';
-  import {Errors} from '../../../../constants/errors';
-  import {Url} from '../../../../constants/url';
+  import {Confirmation} from '../../../../constants/confirmation'
+  import {Errors} from '../../../../constants/errors'
+  import {FieldsLength} from '../../../../constants/fieldsLength'
+  import {FieldsType} from '../../../../constants/fieldsType'
+  import {FieldsValueBounds} from '../../../../constants/fieldsValueBounds'
+  import {Url} from '../../../../constants/url'
 
   export default {
     name: 'ProductList',
@@ -285,31 +285,31 @@
 
     methods: {
       writeoffProduct(item) {
-        this.writeoffItem = item;
-        this.activeWriteoffDialog = true;
+        this.writeoffItem = item
+        this.activeWriteoffDialog = true
       },
 
       onWriteoffConfirm() {
-        this.name = 'q';
-        this.amount = '1';
+        this.name = 'q'
+        this.amount = '1'
 
         if (!this.amountBetween) {
-          document.getElementById('amount').classList.add('md-invalid');
-          return;
+          document.getElementById('amount').classList.add('md-invalid')
+          return
         }
-        this.$v.$touch();
+        this.$v.$touch()
         if (this.$v.$invalid || !this.amountBetween) {
-          return;
+          return
         }
 
-        this.clearForm();
-        this.activeWriteoffDialog = false;
+        this.clearForm()
+        this.activeWriteoffDialog = false
 
         const form = {
           productId: this.writeoffItem.id,
           amount: this.writeoffAmount,
           status: this.writeoffStatus
-        };
+        }
 
         this.$http.post(Url.PRODUCT_WRITEOFF, JSON.stringify(form), {
           headers: {
@@ -317,126 +317,126 @@
           }
         })
           .then(() => {
-            this.responseMessage = 'Product has been writeoffed!';
-            this.hasWriteoffed = true;
+            this.responseMessage = 'Product has been writeoffed!'
+            this.hasWriteoffed = true
             this.$store.commit('invoice/changeProductCount', {
               id: this.writeoffItem.id,
               amount: this.writeoffItem.amount - parseInt(this.writeoffAmount, 10)
-            });
-            this.$store.dispatch('invoice/getProductWriteoffs', this.$route.params.id);
-            this.clearWriteoffForm();
+            })
+            this.$store.dispatch('invoice/getProductWriteoffs', this.$route.params.id)
+            this.clearWriteoffForm()
           }, () => {
-            this.responseMessage = 'Something went wrong!';
-            this.hasWriteoffed = true;
-          });
+            this.responseMessage = 'Something went wrong!'
+            this.hasWriteoffed = true
+          })
 
-        this.$v.$reset();
+        this.$v.$reset()
       },
 
       clearWriteoffForm() {
-        this.writeoffItem = null;
-        this.writeoffAmount = null;
-        this.writeoffStatus = null;
+        this.writeoffItem = null
+        this.writeoffAmount = null
+        this.writeoffStatus = null
       },
 
       onWriteoffCancel() {
-        this.$v.$reset();
-        this.activeWriteoffDialog = false;
-        this.clearWriteoffForm();
+        this.$v.$reset()
+        this.activeWriteoffDialog = false
+        this.clearWriteoffForm()
       },
 
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       onDeleteConfirm() {
-        this.removeSelection();
-        this.$store.commit('invoice/deleteDataProduct', this.itemIdsToDelete);
-        this.itemIdsToDelete = [];
+        this.removeSelection()
+        this.$store.commit('invoice/deleteDataProduct', this.itemIdsToDelete)
+        this.itemIdsToDelete = []
       },
 
       onCancel() {
-        this.removeSelection();
-        this.itemIdsToDelete = [];
+        this.removeSelection()
+        this.itemIdsToDelete = []
       },
 
       showDeleteConfirmDialog(idToDelete) {
-        this.activeConfirmDialog = true;
+        this.activeConfirmDialog = true
         if (Array.isArray(idToDelete)) {
-          this.itemIdsToDelete = idToDelete;
+          this.itemIdsToDelete = idToDelete
         } else {
-          this.itemIdsToDelete.push(idToDelete);
+          this.itemIdsToDelete.push(idToDelete)
         }
       },
 
       onSelect(items) {
-        this.selectedRows = items;
-        this.selectedIds = items.map((item) => item.id);
+        this.selectedRows = items
+        this.selectedIds = items.map((item) => item.id)
       },
 
       getAlternateLabel(count) {
-        const plural = count > 1 ? 's' : '';
-        return `${count} product${plural} selected`;
+        const plural = count > 1 ? 's' : ''
+        return `${count} product${plural} selected`
       },
 
       removeSelection() {
-        this.selectedRows.splice(0, this.selectedRows.length);
-        this.selectedIds = [];
+        this.selectedRows.splice(0, this.selectedRows.length)
+        this.selectedIds = []
       },
 
       addProduct() {
         if (!this.$store.state.invoice.productAdding && !this.$store.state.invoice.productUpdating) {
-          this.$store.commit('invoice/addDataProduct', {});
-          this.$store.commit('invoice/setProductAdding', true);
+          this.$store.commit('invoice/addDataProduct', {})
+          this.$store.commit('invoice/setProductAdding', true)
         } else {
-          this.$v.$touch();
+          this.$v.$touch()
         }
       },
 
       pushProduct() {
-        this.writeoffAmount = 1;
-        this.writeoffStatus = 'q';
+        this.writeoffAmount = 1
+        this.writeoffStatus = 'q'
 
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
           let product = {
             name: this.name,
             amount: this.amount
-          };
-          if (this.updatedId !== null) {
-            product.id = this.updatedId;
-            this.updatedId = null;
-            this.$store.commit('invoice/updateDataProduct', product);
-            this.$store.commit('invoice/setProductUpdating', false);
-          } else {
-            this.$store.commit('invoice/pushDataProduct', product);
-            this.$store.commit('invoice/setProductAdding', false);
           }
-          this.clearForm();
-          this.$v.$reset();
+          if (this.updatedId !== null) {
+            product.id = this.updatedId
+            this.updatedId = null
+            this.$store.commit('invoice/updateDataProduct', product)
+            this.$store.commit('invoice/setProductUpdating', false)
+          } else {
+            this.$store.commit('invoice/pushDataProduct', product)
+            this.$store.commit('invoice/setProductAdding', false)
+          }
+          this.clearForm()
+          this.$v.$reset()
         }
       },
 
       getProduct(item) {
         if (!this.$store.state.invoice.productAdding && !this.$store.state.invoice.productUpdating) {
-          this.updatedId = item.id;
-          this.$store.commit('invoice/setUpdatingDataProduct', item.id);
-          this.$store.commit('invoice/setProductUpdating', true);
-          this.name = item.name;
-          this.amount = item.amount;
+          this.updatedId = item.id
+          this.$store.commit('invoice/setUpdatingDataProduct', item.id)
+          this.$store.commit('invoice/setProductUpdating', true)
+          this.name = item.name
+          this.amount = item.amount
         } else {
-          this.$v.$touch();
+          this.$v.$touch()
         }
       },
 
       clearForm() {
-        this.name = null;
-        this.amount = null;
+        this.name = null
+        this.amount = null
       }
     },
 
@@ -446,20 +446,20 @@
       }),
       amountBetween: function() {
         if (this.writeoffAmount < 1 || this.writeoffAmount > this.writeoffItem.amount) {
-          document.getElementById('amount').classList.add('md-invalid');
-          return false;
+          document.getElementById('amount').classList.add('md-invalid')
+          return false
         } else {
-          document.getElementById('amount').classList.remove('md-invalid');
-          return true;
+          document.getElementById('amount').classList.remove('md-invalid')
+          return true
         }
       }
     },
 
     mounted: function() {
-      this.$store.commit('invoice/setProductAdding', false);
-      this.userRoles = JSON.parse(localStorage.getItem('roles'));
+      this.$store.commit('invoice/setProductAdding', false)
+      this.userRoles = JSON.parse(localStorage.getItem('roles'))
     }
-  };
+  }
 </script>
 
 <style scoped>

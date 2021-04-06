@@ -28,7 +28,7 @@ module.exports = {
     ],
     'semi': [
       2,
-      'always'
+      'never'
     ],
     'import/order': [2, {
       'groups': [
@@ -40,7 +40,36 @@ module.exports = {
     }],
     'import/no-unresolved': 'off'
   },
+  'overrides': [
+    {
+      files: ['*.vue'],
+      rules: {
+        'import/order': [
+          'error',
+          {
+            groups: [
+              [
+                'builtin',
+                'external'
+              ],
+              [
+                'index',
+                'internal',
+                'parent',
+                'sibling'
+              ]
+            ],
+            'newlines-between': 'always',
+            alphabetize: {
+              order: 'asc',
+              caseInsensitive: true
+            }
+          }
+        ]
+      }
+    }
+  ],
   'parserOptions': {
     'parser': 'babel-eslint'
   }
-};
+}

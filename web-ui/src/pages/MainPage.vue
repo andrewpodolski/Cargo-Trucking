@@ -27,11 +27,11 @@
 </template>
 
 <script>
-  import {mapActions, mapState} from 'vuex';
+  import {mapActions, mapState} from 'vuex'
 
-  import ToolBar from '../components/toolbar/ToolBar';
-  import SideBar from '../components/sidebar/SideBar';
-  import ContentContainer from '../components/content/ContentContainer';
+  import ContentContainer from '../components/content/ContentContainer'
+  import SideBar from '../components/sidebar/SideBar'
+  import ToolBar from '../components/toolbar/ToolBar'
 
   export default {
     name: 'MainPage',
@@ -42,10 +42,10 @@
       }),
       messageTaken: {
         get() {
-          return this.$store.state.websocket.messageTaken;
+          return this.$store.state.websocket.messageTaken
         },
         set(value) {
-          this.$store.commit('websocket/changeMessageTaken', value);
+          this.$store.commit('websocket/changeMessageTaken', value)
         }
       }
     },
@@ -57,7 +57,7 @@
     },
 
     components: {ContentContainer, ToolBar, SideBar}
-  };
+  }
 </script>
 
 <style scoped>

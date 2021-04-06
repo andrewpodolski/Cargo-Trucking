@@ -1,52 +1,52 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+import Vue from 'vue'
+import Router from 'vue-router'
 
-import Login from '../../pages/LoginPage.vue';
-import MainPage from '../../pages/MainPage.vue';
-import AboutContent from '../../components/content/AboutContent';
-import HomeContent from '../../components/content/HomeContent';
-import ClientList from '../../components/content/client/ClientList';
-import StorageAddContent from '../../components/content/storage/StorageAddContent';
-import StorageEditContent from '../../components/content/storage/StorageEditContent';
-import StorageListContent from '../../components/content/storage/StorageListContent';
-import InvoiceAddContent from '../../components/content/invoice/InvoiceAddContent';
-import InvoiceEditContent from '../../components/content/invoice/InvoiceEditContent';
-import InvoiceListContent from '../../components/content/invoice/InvoiceListContent';
-import WaybillListContent from '../../components/content/waybill/WaybillListContent';
-import WaybillAddContent from '../../components/content/waybill/WaybillAddContent';
-import WaybillViewContent from '../../components/content/waybill/WaybillViewContent';
-import UserListContent from '../../components/content/user/UserListContent';
-import AddUser from '../../components/content/user/AddUser';
-import EditUser from '../../components/content/user/EditUser';
-import ProductOwnerListContent from '../../components/content/productowner/ProductOwnerListContent';
-import ProductOwnerAddContent from '../../components/content/productowner/ProductOwnerAddContent';
-import ProductOwnerEditContent from '../../components/content/productowner/ProductOwnerEditContent';
-import ClientAddContent from '../../components/content/client/ClientAddContent';
-import CarListContent from '../../components/content/car/CarListContent';
-import CarAddContent from '../../components/content/car/CarAddContent';
-import CarEditContent from '../../components/content/car/CarEditContent';
-import ClientEditContent from '../../components/content/client/ClientEditContent';
-import EmailContent from '../../components/content/email/EmailContent';
-import RepairAccount from '../../pages/RepairAccount';
-import RestorePassword from '../../pages/RestorePassword';
-import CompanyOwnerReportContent from '../../components/content/reports/CompanyOwnerReportContent';
-import ProfileContent from '../../components/content/profile/ProfileContent';
-import EmailConfirmedPage from '../../pages/EmailConfirmedPage';
-import TemplateContent from '../../components/content/template/TemplateContent';
-import SysAdminReportContent from '../../components/content/reports/SysAdminReportContent';
-import FinanceContent from '../../components/content/sysadmin/FinanceContent';
-import MessagesList from '../../components/content/driversChat/MessagesList';
+import Login from '../../pages/LoginPage.vue'
+import MainPage from '../../pages/MainPage.vue'
+import AboutContent from '../../components/content/AboutContent'
+import HomeContent from '../../components/content/HomeContent'
+import ClientList from '../../components/content/client/ClientList'
+import StorageAddContent from '../../components/content/storage/StorageAddContent'
+import StorageEditContent from '../../components/content/storage/StorageEditContent'
+import StorageListContent from '../../components/content/storage/StorageListContent'
+import InvoiceAddContent from '../../components/content/invoice/InvoiceAddContent'
+import InvoiceEditContent from '../../components/content/invoice/InvoiceEditContent'
+import InvoiceListContent from '../../components/content/invoice/InvoiceListContent'
+import WaybillListContent from '../../components/content/waybill/WaybillListContent'
+import WaybillAddContent from '../../components/content/waybill/WaybillAddContent'
+import WaybillViewContent from '../../components/content/waybill/WaybillViewContent'
+import UserListContent from '../../components/content/user/UserListContent'
+import AddUser from '../../components/content/user/AddUser'
+import EditUser from '../../components/content/user/EditUser'
+import ProductOwnerListContent from '../../components/content/productowner/ProductOwnerListContent'
+import ProductOwnerAddContent from '../../components/content/productowner/ProductOwnerAddContent'
+import ProductOwnerEditContent from '../../components/content/productowner/ProductOwnerEditContent'
+import ClientAddContent from '../../components/content/client/ClientAddContent'
+import CarListContent from '../../components/content/car/CarListContent'
+import CarAddContent from '../../components/content/car/CarAddContent'
+import CarEditContent from '../../components/content/car/CarEditContent'
+import ClientEditContent from '../../components/content/client/ClientEditContent'
+import EmailContent from '../../components/content/email/EmailContent'
+import RepairAccount from '../../pages/RepairAccount'
+import RestorePassword from '../../pages/RestorePassword'
+import CompanyOwnerReportContent from '../../components/content/reports/CompanyOwnerReportContent'
+import ProfileContent from '../../components/content/profile/ProfileContent'
+import EmailConfirmedPage from '../../pages/EmailConfirmedPage'
+import TemplateContent from '../../components/content/template/TemplateContent'
+import SysAdminReportContent from '../../components/content/reports/SysAdminReportContent'
+import FinanceContent from '../../components/content/sysadmin/FinanceContent'
+import MessagesList from '../../components/content/driversChat/MessagesList'
 
 export const AppRouter = {
   create: () => {
-    Vue.material.router.linkActiveClass = linkActiveClass;
+    Vue.material.router.linkActiveClass = linkActiveClass
 
     return new Router({
       routes,
       linkActiveClass
-    });
+    })
   }
-};
+}
 
 const routes = [
   {
@@ -216,6 +216,6 @@ const routes = [
     path: '*',
     redirect: '/'
   }
-];
+]
 
-const linkActiveClass = 'md-accent';
+const linkActiveClass = 'md-accent'

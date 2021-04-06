@@ -78,12 +78,12 @@
 </template>
 
 <script>
-  import {maxLength, required} from 'vuelidate/lib/validators';
+  import {maxLength, required} from 'vuelidate/lib/validators'
 
-  import {Errors} from '../../../constants/errors';
-  import {FieldsLength} from '../../../constants/fieldsLength';
-  import {Messages} from '../../../constants/messages';
-  import {Url} from '../../../constants/url';
+  import {Errors} from '../../../constants/errors'
+  import {FieldsLength} from '../../../constants/fieldsLength'
+  import {Messages} from '../../../constants/messages'
+  import {Url} from '../../../constants/url'
 
   export default {
     name: 'ClientEditContent',
@@ -111,49 +111,49 @@
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       updateClient() {
-        this.sending = true;
+        this.sending = true
         const form = {
           name: this.name,
           status: this.status
-        };
+        }
         this.$http.put(`${Url.CLIENT}/${this.$route.params.id}`, JSON.stringify(form), {
           headers: {
             Authorization: `Bearer ${localStorage.accessToken}`
           }
         })
           .then(() => {
-            this.clientUpdated = true;
-            this.sending = false;
-            this.hasError = false;
-            this.$v.$reset();
+            this.clientUpdated = true
+            this.sending = false
+            this.hasError = false
+            this.$v.$reset()
           }, response => {
-            this.hasError = true;
-            this.sending = false;
-            this.errorMessage = response.body.errors[0];
-          });
+            this.hasError = true
+            this.sending = false
+            this.errorMessage = response.body.errors[0]
+          })
       },
 
       validateClient() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.updateClient();
+          this.updateClient()
         }
       }
     },
 
     mounted: function () {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('SYS_ADMIN')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
 
       this.$http.get(`${Url.CLIENT}/${this.$route.params.id}`, {
@@ -162,14 +162,14 @@
         }
       })
         .then(response => {
-          this.name = response.body.name;
-          this.status = response.body.status;
+          this.name = response.body.name
+          this.status = response.body.status
         }, response => {
-          this.hasError = true;
-          this.errorMessage = response.body.errors[0];
-        });
+          this.hasError = true
+          this.errorMessage = response.body.errors[0]
+        })
     }
-  };
+  }
 </script>
 
 <style scoped>

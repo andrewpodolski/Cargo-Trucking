@@ -112,10 +112,10 @@
   </div>
 </template>
 <script>
-  import {mapState, mapActions} from 'vuex';
+  import {mapState, mapActions} from 'vuex'
 
-  import {Url} from '../../../constants/url';
-  import UserFilterContent from './UserFilterContent';
+  import {Url} from '../../../constants/url'
+  import UserFilterContent from './UserFilterContent'
 
   export default {
     name: 'UserListContent',
@@ -140,22 +140,22 @@
       ]),
 
       deleteUsers(idToDelete){
-        this.activeConfirmDialog = true;
+        this.activeConfirmDialog = true
         if (Array.isArray(idToDelete)) {
-          this.itemIdsToDelete = idToDelete;
+          this.itemIdsToDelete = idToDelete
         } else {
-          this.itemIdsToDelete.push(idToDelete);
+          this.itemIdsToDelete.push(idToDelete)
         }
       },
 
       onCancel(){
-        this.removeSelection();
-        this.itemIdsToDelete = [];
+        this.removeSelection()
+        this.itemIdsToDelete = []
       },
 
       onDeleteConfirm(){
-        this.removeSelection();
-        const itemIdsToDelete = this.itemIdsToDelete;
+        this.removeSelection()
+        const itemIdsToDelete = this.itemIdsToDelete
         this.$http.delete(Url.USER, {
           body: itemIdsToDelete,
           headers: {
@@ -163,52 +163,52 @@
           }
         })
           .then(() => {
-            this.hasDeleted = true;
-            this.itemIdsToDelete = [];
+            this.hasDeleted = true
+            this.itemIdsToDelete = []
             this.$store.dispatch('user/pageUsersChange', {
               pageNumber: 1,
               pageSize: 10
-            });
-          });
+            })
+          })
       },
 
       removeSelection() {
-        this.selectedRows.splice(0, this.selectedRows.length);
-        this.selectedIds = [];
+        this.selectedRows.splice(0, this.selectedRows.length)
+        this.selectedIds = []
       },
 
       onSelect (items) {
-        this.selectedRows = items;
-        this.selectedIds = items.map((item)=>item.id);
+        this.selectedRows = items
+        this.selectedIds = items.map((item)=>item.id)
       },
 
       getAlternateLabel (count) {
-        const plural = count > 1 ? 's' : '';
-        return `${count} user${plural} selected`;
+        const plural = count > 1 ? 's' : ''
+        return `${count} user${plural} selected`
       },
 
       customSort() {
-        this.$store.commit('user/setSort', `${this.currentSort},${this.currentSortOrder}`);
+        this.$store.commit('user/setSort', `${this.currentSort},${this.currentSortOrder}`)
         if (this.isMounted) {
           this.$store.dispatch('user/pageUsersChange', {
             pageNumber: 1,
             pageSize: 10
-          });
+          })
         }
       },
 
       getUser(id) {
-        this.$router.push({name: 'get-user', params: {id}});
+        this.$router.push({name: 'get-user', params: {id}})
       }
     },
 
     mounted: function() {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('ADMIN')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
 
-      this.isMounted = true;
+      this.isMounted = true
     },
 
     computed: {
@@ -219,7 +219,7 @@
     },
 
     components: {UserFilterContent}
-  };
+  }
 </script>
 
 <style scoped>

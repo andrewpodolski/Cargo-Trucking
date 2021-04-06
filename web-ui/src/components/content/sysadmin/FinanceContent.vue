@@ -68,13 +68,13 @@
 </template>
 
 <script>
-  import {between, decimal, required} from 'vuelidate/lib/validators';
+  import {between, decimal, required} from 'vuelidate/lib/validators'
 
-  import {Errors} from '../../../constants/errors';
-  import {FieldsLength} from '../../../constants/fieldsLength';
-  import {FieldsValueBounds} from '../../../constants/fieldsValueBounds';
-  import {Messages} from '../../../constants/messages';
-  import {Url} from '../../../constants/url';
+  import {Errors} from '../../../constants/errors'
+  import {FieldsLength} from '../../../constants/fieldsLength'
+  import {FieldsValueBounds} from '../../../constants/fieldsValueBounds'
+  import {Messages} from '../../../constants/messages'
+  import {Url} from '../../../constants/url'
 
   export default {
     name: 'FinanceContent',
@@ -117,48 +117,48 @@
     },
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
       validateContent() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.saveContent();
+          this.saveContent()
         }
       },
       saveContent() {
-        this.sending = true;
+        this.sending = true
         const finance = {
           sysAdminPayment: this.content.sysAdminPayment,
           dbAdminPayment: this.content.dbAdminPayment,
           serverPayment: this.content.serverPayment
-        };
+        }
         this.$http.post(Url.FINANCE, JSON.stringify(finance), {
           headers: {
             Authorization: `Bearer ${localStorage.accessToken}`
           }
         }).then(() => {
-          this.contentSaved = true;
-          this.sending = false;
-          this.content = {};
-          this.hasError = false;
-          this.$v.$reset();
+          this.contentSaved = true
+          this.sending = false
+          this.content = {}
+          this.hasError = false
+          this.$v.$reset()
         }, response => {
-          this.hasError = true;
-          this.sending = false;
-          this.errorMessage = response.body.errors[0];
-        });
-        this.sending = false;
+          this.hasError = true
+          this.sending = false
+          this.errorMessage = response.body.errors[0]
+        })
+        this.sending = false
       }
     },
     mounted: function () {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('SYS_ADMIN')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
 
       this.$http.get(Url.LATEST_FINANCE, {
@@ -167,14 +167,14 @@
         }
       })
         .then(res => {
-          this.content.sysAdminPayment = res.body.sysAdminPayment;
-          this.content.dbAdminPayment = res.body.dbAdminPayment;
-          this.content.serverPayment = res.body.serverPayment;
+          this.content.sysAdminPayment = res.body.sysAdminPayment
+          this.content.dbAdminPayment = res.body.dbAdminPayment
+          this.content.serverPayment = res.body.serverPayment
         }, err => {
-          this.hasError = true;
-          this.errorMessage = err.body.errors[0];
-        });
+          this.hasError = true
+          this.errorMessage = err.body.errors[0]
+        })
     }
-  };
+  }
 
 </script>

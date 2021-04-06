@@ -1,6 +1,6 @@
-import Vue from 'vue';
+import Vue from 'vue'
 
-import {Url} from '../../constants/url';
+import {Url} from '../../constants/url'
 
 const state = {
   items: [],
@@ -9,7 +9,7 @@ const state = {
     name: null
   },
   sort: 'name_str,asc'
-};
+}
 
 const actions = {
   pageProductOwnerChange({commit}, pageInfo) {
@@ -17,9 +17,9 @@ const actions = {
       page: pageInfo.pageNumber - 1,
       size: pageInfo.pageSize,
       name: state.filter.name
-    };
+    }
     if (state.sort){
-      pageAttr.sort = state.sort;
+      pageAttr.sort = state.sort
     }
     Vue.http.get(Url.PRODUCT_OWNER, {
       params: pageAttr,
@@ -28,46 +28,46 @@ const actions = {
       }
     })
       .then(response => {
-        const productOwners = [];
+        const productOwners = []
         for (const item of response.data.content) {
           const productOwner = {
             id: item.id,
             name: item.name,
             address: item.address
-          };
-          productOwners.push(productOwner);
+          }
+          productOwners.push(productOwner)
         }
-        commit('setProductOwners', productOwners);
-        commit('setTotalElements', response.data.totalElements);
-      });
+        commit('setProductOwners', productOwners)
+        commit('setTotalElements', response.data.totalElements)
+      })
   }
-};
+}
 
 const mutations = {
   setProductOwners(state, productOwners) {
-    state.items = productOwners;
+    state.items = productOwners
   },
 
   setTotalElements(state, totalElements) {
-    state.totalElements = totalElements;
+    state.totalElements = totalElements
   },
 
   removeFilter(state) {
-    state.filter.name = null;
+    state.filter.name = null
   },
 
   setSort(state, sort) {
-    state.sort = sort;
+    state.sort = sort
   },
 
   updateFilterName(state, name) {
-    state.filter.name = name;
+    state.filter.name = name
   }
-};
+}
 
 export default {
   namespaced: true,
   state,
   actions,
   mutations
-};
+}

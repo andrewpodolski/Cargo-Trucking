@@ -63,7 +63,7 @@
 </template>
 
 <script>
-  import {mapState, mapActions} from 'vuex';
+  import {mapState, mapActions} from 'vuex'
 
   export default {
     name: 'ProductOwnerList',
@@ -77,16 +77,16 @@
         this.$store.dispatch('productOwner/pageProductOwnerChange', {
           pageNumber: 1,
           pageSize: 10
-        });
+        })
       },
 
       onSelect(item) {
-        this.$store.commit('invoice/updateDataProductOwner', item);
-        this.showMainForm();
+        this.$store.commit('invoice/updateDataProductOwner', item)
+        this.showMainForm()
       },
 
       showMainForm() {
-        this.$store.commit('invoice/showMainForm');
+        this.$store.commit('invoice/showMainForm')
       }
     },
 
@@ -97,18 +97,18 @@
       }),
       name: {
         get() {
-          return this.$store.state.productOwner.filter.name;
+          return this.$store.state.productOwner.filter.name
         },
         set(value) {
-          this.$store.commit('productOwner/updateFilterName', value);
+          this.$store.commit('productOwner/updateFilterName', value)
         }
       }
     },
 
     mounted: function() {
-      this.$store.commit('productOwner/setSort', 'name_str,asc');
+      this.$store.commit('productOwner/setSort', 'name_str,asc')
     }
-  };
+  }
 </script>
 
 <style scoped>

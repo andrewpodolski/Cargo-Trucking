@@ -67,12 +67,12 @@
 </template>
 
 <script>
-  import {email, maxLength, required} from 'vuelidate/lib/validators';
+  import {email, maxLength, required} from 'vuelidate/lib/validators'
 
-  import {FieldsLength} from '../constants/fieldsLength';
-  import {Errors} from '../constants/errors';
-  import {Messages} from '../constants/messages';
-  import {Url} from '../constants/url';
+  import {Errors} from '../constants/errors'
+  import {FieldsLength} from '../constants/fieldsLength'
+  import {Messages} from '../constants/messages'
+  import {Url} from '../constants/url'
 
   export default {
     name: 'RepairAccount',
@@ -100,46 +100,46 @@
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       validateForm() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.sendEmail();
+          this.sendEmail()
         }
       },
 
       sendEmail() {
-        this.sending = true;
+        this.sending = true
         const form = {
           recipient: this.recipient,
           text: `Hello dear user!\nIn order to reset your password follow the link bellow:\n${Url.HOST_ADDRESS}#/restore/%s`
-        };
+        }
         this.$http.post(Url.REPAIR, JSON.stringify(form))
           .then(() => {
-            this.emailSent = true;
-            this.sending = false;
-            this.clearForm();
-            this.hasError = false;
-            this.$v.$reset();
+            this.emailSent = true
+            this.sending = false
+            this.clearForm()
+            this.hasError = false
+            this.$v.$reset()
           }, response => {
-            this.hasError = true;
-            this.sending = false;
-            this.errorMessage = response.body.errors[0];
-          });
+            this.hasError = true
+            this.sending = false
+            this.errorMessage = response.body.errors[0]
+          })
       },
 
       clearForm() {
-        this.recipient = null;
+        this.recipient = null
       }
     }
-  };
+  }
 </script>
 
 <style scoped>

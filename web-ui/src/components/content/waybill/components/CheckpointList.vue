@@ -16,20 +16,17 @@
           <md-icon title="add checkpoint">add</md-icon>
         </md-button>
       </md-table-toolbar>
-
       <md-table-toolbar
         slot="md-table-alternate-header"
         slot-scope="{ count }"
       >
         <div class="md-toolbar-section-start">{{ getAlternateLabel(count) }}</div>
-
         <div class="md-toolbar-section-end">
           <md-button class="md-icon-button" @click="showDeleteConfirmDialog(selectedIds)">
             <md-icon>delete</md-icon>
           </md-button>
         </div>
       </md-table-toolbar>
-
       <md-table-row
         slot="md-table-row"
         slot-scope="{ item }"
@@ -77,7 +74,6 @@
             v-model="requiredArrivalDate"
           >
             <label>Required arrival date</label>
-
             <span
               class="md-error"
               v-if="!$v.requiredArrivalDate.required"
@@ -92,7 +88,6 @@
             </span>
           </md-datepicker>
         </md-table-cell>
-
         <md-table-cell md-label="Required Arrival Time (24H:MM)">
           {{ item.requiredArrivalTime }}
           <md-field
@@ -153,7 +148,6 @@
 
       <md-table-empty-state md-label="Add checkpoints" />
     </md-table>
-
     <md-dialog-confirm
       :md-active.sync="activeConfirmDialog"
       :md-title="tittleConfirmDialog"
@@ -163,7 +157,6 @@
       @md-cancel="onCancel"
       @md-confirm="onDeleteConfirm"
     />
-
     <md-dialog-alert
       :md-active.sync="hasDeleted"
       md-content="Checkpoints has been deleted!"
@@ -174,17 +167,17 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex';
-  import {required, maxLength} from 'vuelidate/lib/validators';
-  import {TimeSelect} from 'element-ui';
-  import 'element-ui/lib/theme-chalk/index.css';
-  import moment from 'moment';
+  import {TimeSelect} from 'element-ui'
+  import moment from 'moment'
+  import {required, maxLength} from 'vuelidate/lib/validators'
+  import {mapState} from 'vuex'
+  import 'element-ui/lib/theme-chalk/index.css'
 
-  import {Confirmation} from '../../../../constants/confirmation';
-  import {FieldsValueBounds} from '../../../../constants/fieldsValueBounds';
-  import {FieldsLength} from '../../../../constants/fieldsLength';
-  import {FieldsType} from '../../../../constants/fieldsType';
-  import {Errors} from '../../../../constants/errors';
+  import {Confirmation} from '../../../../constants/confirmation'
+  import {Errors} from '../../../../constants/errors'
+  import {FieldsLength} from '../../../../constants/fieldsLength'
+  import {FieldsType} from '../../../../constants/fieldsType'
+  import {FieldsValueBounds} from '../../../../constants/fieldsValueBounds'
 
   export default {
     name: 'CheckpointList',
@@ -243,17 +236,17 @@
         waybillArrivalDate: state => state.waybill.data.arrivalDate
       }),
       getRequiredWaybillArrivalDate() {
-        return 'Required arrival date (must greater than ' + new Date().toISOString().substring(0, 10) + ')';
+        return 'Required arrival date (must greater than ' + new Date().toISOString().substring(0, 10) + ')'
       }
     },
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
@@ -261,162 +254,162 @@
         const request = {
           query: this.address,
           fields: ['name']
-        };
+        }
 
         /* eslint-disable no-undef */
         this.service.findPlaceFromQuery(request, (results, status) => {
-          this.addresses = [];
+          this.addresses = []
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             for (let i = 0; i < results.length; i++) {
-              this.addresses.push(results[i].name);
+              this.addresses.push(results[i].name)
             }
           }
-        });
+        })
         /* eslint-enable no-undef */
       },
 
       onDeleteConfirm() {
-        this.removeSelection();
-        this.$store.commit('waybill/deleteDataCheckpoint', this.itemIdsToDelete);
+        this.removeSelection()
+        this.$store.commit('waybill/deleteDataCheckpoint', this.itemIdsToDelete)
       },
 
       onCancel() {
-        this.removeSelection();
-        this.itemIdsToDelete = [];
+        this.removeSelection()
+        this.itemIdsToDelete = []
       },
 
       showDeleteConfirmDialog(idToDelete) {
-        this.activeConfirmDialog = true;
+        this.activeConfirmDialog = true
         if (Array.isArray(idToDelete)) {
-          this.itemIdsToDelete = idToDelete;
+          this.itemIdsToDelete = idToDelete
         } else {
-          this.itemIdsToDelete.push(idToDelete);
+          this.itemIdsToDelete.push(idToDelete)
         }
       },
 
       onSelect(items) {
-        this.selectedRows = items;
-        this.selectedIds = items.map((item) => item.id);
+        this.selectedRows = items
+        this.selectedIds = items.map((item) => item.id)
       },
 
       getAlternateLabel(count) {
-        const plural = count > 1 ? 's' : '';
-        return `${count} checkpoint${plural} selected`;
+        const plural = count > 1 ? 's' : ''
+        return `${count} checkpoint${plural} selected`
       },
 
       removeSelection() {
-        this.selectedRows.splice(0, this.selectedRows.length);
-        this.selectedIds = [];
+        this.selectedRows.splice(0, this.selectedRows.length)
+        this.selectedIds = []
       },
 
       addCheckpoint() {
         if (this.waybillArrivalDate) {
           if (dateIntoString(this.waybillArrivalDate) > new Date().toISOString().substring(0, 10)) {
             if (!this.$store.state.waybill.checkpointAdding && !this.$store.state.waybill.checkpointUpdating) {
-              this.$store.commit('waybill/addDataCheckpoint', {});
-              this.$store.commit('waybill/setCheckpointAdding', true);
-              this.$store.commit('waybill/setInvalidArrivalDate', false);
+              this.$store.commit('waybill/addDataCheckpoint', {})
+              this.$store.commit('waybill/setCheckpointAdding', true)
+              this.$store.commit('waybill/setInvalidArrivalDate', false)
             }
           }
         } else {
-          this.$store.commit('waybill/setInvalidArrivalDate', true);
+          this.$store.commit('waybill/setInvalidArrivalDate', true)
         }
       },
 
       pushCheckpoint() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (this.waybillArrivalDate && this.requiredArrivalDate) {
-          const waybillArrivalDateInMs = this.waybillArrivalDate.getTime();
-          const checkpointArrivalDateInMs = this.stringIntoDate(this.requiredArrivalDate).getTime();
+          const waybillArrivalDateInMs = this.waybillArrivalDate.getTime()
+          const checkpointArrivalDateInMs = this.stringIntoDate(this.requiredArrivalDate).getTime()
 
           if (checkpointArrivalDateInMs > waybillArrivalDateInMs) {
-            this.requiredArrivalDate = null;
-            const field = this.$v['requiredArrivalDate'];
+            this.requiredArrivalDate = null
+            const field = this.$v['requiredArrivalDate']
             return {
               'md-invalid': field.$invalid && field.$dirty
-            };
+            }
           }
 
           if (!this.$v.$invalid) {
             const request = {
               query: this.address,
               fields: ['name']
-            };
+            }
 
             /* eslint-disable no-undef */
             this.service.findPlaceFromQuery(request, (results, status) => {
               if (status !== google.maps.places.PlacesServiceStatus.OK || results.length !== 1) {
-                this.addressValid = false;
-                document.getElementById('address').classList.add('md-invalid');
+                this.addressValid = false
+                document.getElementById('address').classList.add('md-invalid')
               } else {
-                document.getElementById('address').classList.remove('md-invalid');
+                document.getElementById('address').classList.remove('md-invalid')
 
                 const checkpoint = {
                   address: this.address,
                   requiredArrivalDate: dateIntoString(this.requiredArrivalDate),
                   requiredArrivalTime: this.requiredArrivalTime
-                };
-
-                if (this.updatedId !== null) {
-                  checkpoint.id = this.updatedId;
-                  this.updatedId = null;
-                  this.$store.commit('waybill/updateDataCheckpoint', checkpoint);
-                  this.$store.commit('waybill/setCheckpointUpdating', false);
-                } else {
-                  this.$store.commit('waybill/pushDataCheckpoint', checkpoint);
-                  this.$store.commit('waybill/setCheckpointAdding', false);
                 }
 
-                this.clearForm();
-                this.$v.$reset();
-                this.addressValid = true;
+                if (this.updatedId !== null) {
+                  checkpoint.id = this.updatedId
+                  this.updatedId = null
+                  this.$store.commit('waybill/updateDataCheckpoint', checkpoint)
+                  this.$store.commit('waybill/setCheckpointUpdating', false)
+                } else {
+                  this.$store.commit('waybill/pushDataCheckpoint', checkpoint)
+                  this.$store.commit('waybill/setCheckpointAdding', false)
+                }
+
+                this.clearForm()
+                this.$v.$reset()
+                this.addressValid = true
               }
-            });
+            })
             /* eslint-enable no-undef */
           }
-          this.$store.commit('waybill/setInvalidArrivalDate', false);
+          this.$store.commit('waybill/setInvalidArrivalDate', false)
         } else {
-          this.$store.commit('waybill/setInvalidArrivalDate', true);
+          this.$store.commit('waybill/setInvalidArrivalDate', true)
         }
       },
 
       getCheckpoint(item) {
         if (!this.$store.state.waybill.checkpointAdding && !this.$store.state.waybill.checkpointUpdating) {
-          this.updatedId = item.id;
-          this.$store.commit('waybill/setUpdatingDataCheckpoint', item.id);
-          this.$store.commit('waybill/setCheckpointAdding', true);
-          this.address = item.address;
-          this.requiredArrivalDate = item.requiredArrivalDate;
+          this.updatedId = item.id
+          this.$store.commit('waybill/setUpdatingDataCheckpoint', item.id)
+          this.$store.commit('waybill/setCheckpointAdding', true)
+          this.address = item.address
+          this.requiredArrivalDate = item.requiredArrivalDate
         } else {
-          this.$v.$touch();
+          this.$v.$touch()
         }
       },
 
       clearForm() {
-        this.address = null;
-        this.requiredArrivalDate = null;
-        this.requiredArrivalTime = '00:00';
+        this.address = null
+        this.requiredArrivalDate = null
+        this.requiredArrivalTime = '00:00'
       },
 
       stringIntoDate(string) {
-        return string ? moment(string, 'YYYY-MM-DD').toDate() : null;
+        return string ? moment(string, 'YYYY-MM-DD').toDate() : null
       }
     },
 
     mounted: function() {
-      this.$store.commit('waybill/setCheckpointAdding', false);
+      this.$store.commit('waybill/setCheckpointAdding', false)
 
       /* eslint-disable no-undef */
-      const map = new google.maps.Map(document.getElementById('google-service'));
-      this.service = new google.maps.places.PlacesService(map);
+      const map = new google.maps.Map(document.getElementById('google-service'))
+      this.service = new google.maps.places.PlacesService(map)
       /* eslint-enable no-undef */
     },
 
     components: {TimeSelect}
-  };
+  }
 
   function dateIntoString(date) {
-    return date ? moment(date).format('YYYY-MM-DD') : null;
+    return date ? moment(date).format('YYYY-MM-DD') : null
   }
 </script>
 

@@ -105,12 +105,12 @@
 </template>
 
 <script>
-  import {required} from 'vuelidate/lib/validators';
-  import moment from 'moment';
-  import Excel from 'exceljs';
+  import Excel from 'exceljs'
+  import moment from 'moment'
+  import {required} from 'vuelidate/lib/validators'
 
-  import {Url} from '../../../constants/url';
-  import {Errors} from '../../../constants/errors';
+  import {Errors} from '../../../constants/errors'
+  import {Url} from '../../../constants/url'
 
   export default {
     name: 'SysAdminReport',
@@ -134,34 +134,34 @@
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           if (fieldName === 'arrivalDate') {
-            this.$store.commit('waybill/setInvalidArrivalDate', true);
+            this.$store.commit('waybill/setInvalidArrivalDate', true)
           }
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       validateForm() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
           if (this.initialDate > this.finalDate) {
-            this.invalidInitialDate = true;
-            document.getElementById('initialDate').classList.add('md-invalid');
-            return;
+            this.invalidInitialDate = true
+            document.getElementById('initialDate').classList.add('md-invalid')
+            return
           }
 
-          this.invalidInitialDate = false;
-          document.getElementById('initialDate').classList.remove('md-invalid');
-          this.showStatistics();
+          this.invalidInitialDate = false
+          document.getElementById('initialDate').classList.remove('md-invalid')
+          this.showStatistics()
         }
       },
 
       showStatistics() {
-        this.sending = true;
+        this.sending = true
         this.$http.get(Url.REPORT + '/sysadmin', {
           params: {
             initialDate: moment(this.initialDate).format('YYYY-MM-DD'),
@@ -172,9 +172,9 @@
           }
         })
           .then(response => {
-            this.statistics = response.body.statistics;
+            this.statistics = response.body.statistics
 
-            let series = [];
+            let series = []
 
             const data = [
               response.body.statistics.consumption,
@@ -183,87 +183,87 @@
               response.body.statistics.activeClients,
               response.body.statistics.lostClients
 
-            ];
+            ]
             series.push({
               name: response.body.statistics,
               data: data
-            });
+            })
 
-          });
-        this.sending = false;
+          })
+        this.sending = false
       },
 
       downloadExcel() {
-        const workbook = new Excel.Workbook();
-        const profitSheet = workbook.addWorksheet('Statistics');
+        const workbook = new Excel.Workbook()
+        const profitSheet = workbook.addWorksheet('Statistics')
 
         profitSheet.columns = [
           {header: 'Parameter', key: 'param', width: 15},
           {header: 'Value', key: 'value', width: 15}
-        ];
+        ]
         profitSheet.getRow(1).fill = {
           type: 'pattern',
           pattern: 'solid',
           fgColor: {
             argb: 'ADD5AF'
           }
-        };
+        }
 
         profitSheet.addRow({
           param: 'Initial date',
           value: this.statistics.startIntervalDate
-        });
+        })
         profitSheet.addRow({
           param: 'Final date',
           value: this.statistics.endIntervalDate
-        });
+        })
         profitSheet.addRow({
           param: 'Consumption',
           value: this.statistics.consumption
-        });
+        })
         profitSheet.addRow({
           param: 'Income',
           value: this.statistics.income
-        });
+        })
         profitSheet.addRow({
           param: 'Profit',
           value: this.statistics.profit
-        });
+        })
         profitSheet.addRow({
           param: 'Active clients',
           value: this.statistics.activeClients
-        });
+        })
         profitSheet.addRow({
           param: 'Lost clients',
           value: this.statistics.lostClients
-        });
+        })
 
         workbook.xlsx.writeBuffer()
           .then(buffer => {
-            const a = document.createElement('a');
-            document.body.appendChild(a);
-            a.style = 'display: none';
-            const blob = new Blob([buffer]);
-            const url = window.URL.createObjectURL(blob);
-            a.href = url;
-            a.download = moment(new Date).format('YYYY-MM-DD') + 'report.xlsx';
-            a.click();
-            window.URL.revokeObjectURL(url);
-          });
+            const a = document.createElement('a')
+            document.body.appendChild(a)
+            a.style = 'display: none'
+            const blob = new Blob([buffer])
+            const url = window.URL.createObjectURL(blob)
+            a.href = url
+            a.download = moment(new Date).format('YYYY-MM-DD') + 'report.xlsx'
+            a.click()
+            window.URL.revokeObjectURL(url)
+          })
       }
     },
 
     mounted: function () {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('SYS_ADMIN')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
-      this.initialDate = new Date();
-      this.finalDate = new Date();
-      this.initialDate.setMonth(this.initialDate.getMonth() - 1);
+      this.initialDate = new Date()
+      this.finalDate = new Date()
+      this.initialDate.setMonth(this.initialDate.getMonth() - 1)
 
-      this.showStatistics();
+      this.showStatistics()
     }
-  };
+  }
 </script>
 

@@ -141,9 +141,9 @@
 </template>
 
 <script>
-  import {mapActions, mapState} from 'vuex';
+  import {mapActions, mapState} from 'vuex'
 
-  import ClientListFilter from './ClientListFilter';
+  import ClientListFilter from './ClientListFilter'
 
   export default {
     name: 'ClientList',
@@ -180,8 +180,8 @@
       ]),
 
       showActivateConfirmDialog(item) {
-        this.activeActivateDialog = true;
-        this.clientForActivate = item;
+        this.activeActivateDialog = true
+        this.clientForActivate = item
       },
 
       activateClient() {
@@ -191,14 +191,14 @@
           }
         })
           .then(() => {
-            this.hasActivated = true;
-            this.clientForActivate.deleteDate = null;
-          });
+            this.hasActivated = true
+            this.clientForActivate.deleteDate = null
+          })
       },
 
       onDeleteConfirm() {
-        this.removeSelection();
-        const itemIdsToDelete = this.itemIdsToDelete;
+        this.removeSelection()
+        const itemIdsToDelete = this.itemIdsToDelete
         this.$http.delete('/api/clients', {
           body: itemIdsToDelete,
           headers: {
@@ -206,66 +206,66 @@
           }
         })
           .then(() => {
-            this.hasDeleted = true;
-            this.itemIdsToDelete = [];
+            this.hasDeleted = true
+            this.itemIdsToDelete = []
             this.$store.dispatch('client/pageClientChange', {
               pageNumber: 1,
               pageSize: 10
-            });
-          });
+            })
+          })
       },
 
       onCancel() {
-        this.removeSelection();
-        this.itemIdsToDelete = [];
+        this.removeSelection()
+        this.itemIdsToDelete = []
       },
 
       showDeleteConfirmDialog(idToDelete) {
-        this.activeConfirmDialog = true;
+        this.activeConfirmDialog = true
         if (Array.isArray(idToDelete)) {
-          this.itemIdsToDelete = idToDelete;
+          this.itemIdsToDelete = idToDelete
         } else {
-          this.itemIdsToDelete.push(idToDelete);
+          this.itemIdsToDelete.push(idToDelete)
         }
       },
 
       onSelect(items) {
-        this.selectedRows = items;
-        this.selectedIds = items.map((item) => item.id);
+        this.selectedRows = items
+        this.selectedIds = items.map((item) => item.id)
       },
 
       getAlternateLabel(count) {
-        const plural = count > 1 ? 's' : '';
-        return `${count} client${plural} selected`;
+        const plural = count > 1 ? 's' : ''
+        return `${count} client${plural} selected`
       },
 
       removeSelection() {
-        this.selectedRows.splice(0, this.selectedRows.length);
-        this.selectedIds = [];
+        this.selectedRows.splice(0, this.selectedRows.length)
+        this.selectedIds = []
       },
 
       customSort() {
-        this.$store.commit('client/setSort', `${this.currentSort},${this.currentSortOrder}`);
+        this.$store.commit('client/setSort', `${this.currentSort},${this.currentSortOrder}`)
         if (this.isMounted) {
           this.$store.dispatch('client/pageClientChange', {
             pageNumber: 1,
             pageSize: 10
-          });
+          })
         }
       },
 
       getClient(id) {
-        this.$router.push({name: 'get-client', params: {id}});
+        this.$router.push({name: 'get-client', params: {id}})
       }
     },
 
     mounted: function() {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('SYS_ADMIN')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
 
-      this.isMounted = true;
+      this.isMounted = true
     },
 
     computed: {
@@ -274,7 +274,7 @@
         clients: state => state.client.items
       })
     }
-  };
+  }
 </script>
 
 <style scoped>

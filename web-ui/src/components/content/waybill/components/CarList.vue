@@ -61,7 +61,7 @@
 </template>
 
 <script>
-  import {mapActions, mapState} from 'vuex';
+  import {mapActions, mapState} from 'vuex'
 
   export default {
     name: 'CarList',
@@ -77,28 +77,28 @@
       ]),
 
       onSelect(item) {
-        this.$store.commit('waybill/updateDataCar', item);
-        this.showMainForm();
+        this.$store.commit('waybill/updateDataCar', item)
+        this.showMainForm()
       },
 
       showMainForm() {
-        this.$store.commit('waybill/showMainForm');
+        this.$store.commit('waybill/showMainForm')
       },
 
       customSort() {
-        this.$store.commit('car/updateFilterLoadCapacityMore', this.$store.state.waybill.data.invoice.load);
-        this.$store.commit('car/setSort', `${this.currentSort},${this.currentSortOrder}`);
+        this.$store.commit('car/updateFilterLoadCapacityMore', this.$store.state.waybill.data.invoice.load)
+        this.$store.commit('car/setSort', `${this.currentSort},${this.currentSortOrder}`)
         this.$store.dispatch('car/pageCarChange', {
           pageNumber: 1,
           pageSize: 10
-        });
+        })
       },
 
       search() {
         this.$store.dispatch('car/pageCarChange', {
           pageNumber: 1,
           pageSize: 10
-        });
+        })
       }
     },
 
@@ -108,7 +108,7 @@
         cars: state => state.car.items
       })
     }
-  };
+  }
 </script>
 
 <style scoped>

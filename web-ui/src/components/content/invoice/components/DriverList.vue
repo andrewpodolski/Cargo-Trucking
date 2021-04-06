@@ -48,7 +48,7 @@
 </template>
 
 <script>
-  import {mapState, mapActions} from 'vuex';
+  import {mapState, mapActions} from 'vuex'
 
   export default {
     name: 'UserList',
@@ -62,17 +62,17 @@
         this.$store.dispatch('user/pageUsersChange', {
           pageNumber: 1,
           pageSize: 10
-        });
+        })
       },
 
       onSelect(item) {
-        this.$store.commit('invoice/updateDataDriver', item);
-        this.showMainForm();
+        this.$store.commit('invoice/updateDataDriver', item)
+        this.showMainForm()
       },
 
       showMainForm() {
-        this.$store.commit('user/updateUserRoles', []);
-        this.$store.commit('invoice/showMainForm');
+        this.$store.commit('user/updateUserRoles', [])
+        this.$store.commit('invoice/showMainForm')
       }
     },
 
@@ -84,9 +84,9 @@
     },
 
     mounted: function() {
-      this.$store.commit('user/setSort', 'name,asc');
+      this.$store.commit('user/setSort', 'name,asc')
     }
-  };
+  }
 </script>
 
 <style scoped>

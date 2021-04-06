@@ -94,12 +94,12 @@
 </template>
 
 <script>
-  import {required, maxLength, minLength} from 'vuelidate/lib/validators';
+  import {required, maxLength, minLength} from 'vuelidate/lib/validators'
 
-  import {Errors} from '../../../../constants/errors';
-  import {FieldsLength} from '../../../../constants/fieldsLength';
-  import {Messages} from '../../../../constants/messages';
-  import {Url} from '../../../../constants/url';
+  import {Errors} from '../../../../constants/errors'
+  import {FieldsLength} from '../../../../constants/fieldsLength'
+  import {Messages} from '../../../../constants/messages'
+  import {Url} from '../../../../constants/url'
 
   export default {
     name: 'PasswordChangeComponent',
@@ -133,29 +133,29 @@
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       validatePasswordChangeForm() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.updatePassword();
+          this.updatePassword()
         }
       },
 
       updatePassword() {
-        this.sending = true;
+        this.sending = true
 
         const form = {
           oldPassword: this.oldPassword,
           newPassword: this.newPassword
-        };
-        this.clearForm();
+        }
+        this.clearForm()
 
         this.$http.put(Url.CHANGE_PASSWORD, JSON.stringify(form), {
           headers: {
@@ -163,23 +163,23 @@
           }
         })
           .then(() => {
-            this.passwordUpdated = true;
-            this.sending = false;
-            this.hasError = false;
+            this.passwordUpdated = true
+            this.sending = false
+            this.hasError = false
           }, response => {
-            this.hasError = true;
-            this.sending = false;
-            this.errorMessage = response.body.errors[0];
-          });
-        this.$v.$reset();
+            this.hasError = true
+            this.sending = false
+            this.errorMessage = response.body.errors[0]
+          })
+        this.$v.$reset()
       },
 
       clearForm() {
-        this.oldPassword = null;
-        this.newPassword = null;
+        this.oldPassword = null
+        this.newPassword = null
       }
     }
-  };
+  }
 </script>
 
 <style scoped>

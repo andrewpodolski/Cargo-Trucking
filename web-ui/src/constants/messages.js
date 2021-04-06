@@ -31,4 +31,4 @@ export const Messages = {
 
   INFO_SAVED: 'Information was successfully saved.',
   MESSAGE_SENT: 'Message was sent'
-};
+}

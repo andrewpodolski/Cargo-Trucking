@@ -6,8 +6,8 @@
 </template>
 
 <script>
-  import UserProfileBar from './UserProfileBar';
-  import SideMenu from './SideMenu';
+  import SideMenu from './SideMenu'
+  import UserProfileBar from './UserProfileBar'
 
   export default {
     name: 'SideBar',
@@ -15,16 +15,16 @@
     computed: {
       shown: {
         get() {
-          return this.$store.state.sidebar.shown;
+          return this.$store.state.sidebar.shown
         },
         set(value) {
-          this.$store.commit('sidebar/changeVisibility', value);
+          this.$store.commit('sidebar/changeVisibility', value)
         }
       }
     },
 
     components: {SideMenu, UserProfileBar}
-  };
+  }
 </script>
 
 <style scoped>
