@@ -1,17 +1,17 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-import storage from './modules/storage';
-import client from './modules/client';
-import invoice from './modules/invoice';
-import waybill from './modules/waybill';
-import sidebar from './modules/sidebar';
-import user from './modules/user';
-import productOwner from './modules/productOwner';
-import car from './modules/car';
-import websocket from './modules/websocket';
+import storage from './modules/storage'
+import client from './modules/client'
+import invoice from './modules/invoice'
+import waybill from './modules/waybill'
+import sidebar from './modules/sidebar'
+import user from './modules/user'
+import productOwner from './modules/productOwner'
+import car from './modules/car'
+import websocket from './modules/websocket'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   modules: {
@@ -25,7 +25,7 @@ export const store = new Vuex.Store({
     sidebar: sidebar,
     websocket: websocket
   }
-});
+})
 
 
 

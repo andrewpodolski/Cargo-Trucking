@@ -24,7 +24,7 @@
 </template>
 
 <script>
-  import {Url} from '../../constants/url';
+  import {Url} from '../../constants/url'
 
   export default {
     name: 'AboutContent',
@@ -37,11 +37,11 @@
     mounted:function () {
       this.$http.get(Url.ABOUT)
         .then(response => {
-          this.applicationName = response.data.applicationName;
-          this.applicationVersion = response.data.version;
-        });
+          this.applicationName = response.data.applicationName
+          this.applicationVersion = response.data.version
+        })
     }
-  };
+  }
 </script>
 
 <style scoped>

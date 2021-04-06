@@ -93,12 +93,12 @@
 </template>
 
 <script>
-  import {required, maxLength, minLength, email} from 'vuelidate/lib/validators';
+  import {required, maxLength, minLength, email} from 'vuelidate/lib/validators'
 
-  import {Errors} from '../../../../constants/errors';
-  import {FieldsLength} from '../../../../constants/fieldsLength';
-  import {Messages} from '../../../../constants/messages';
-  import {Url} from '../../../../constants/url';
+  import {Errors} from '../../../../constants/errors'
+  import {FieldsLength} from '../../../../constants/fieldsLength'
+  import {Messages} from '../../../../constants/messages'
+  import {Url} from '../../../../constants/url'
 
   export default {
     name: 'EmailChangeComponent',
@@ -132,29 +132,29 @@
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       validateEmailChangeForm() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.updateEmail();
+          this.updateEmail()
         }
       },
 
       updateEmail() {
-        this.sending = true;
+        this.sending = true
 
         const form = {
           recipient: this.email,
           text: `Hello dear user!\nIn order to update your email follow the link bellow:\n${Url.HOST_ADDRESS}#/confirm-change-email/%s`,
           password: this.password
-        };
+        }
 
         this.$http.put(Url.CHANGE_EMAIL, JSON.stringify(form), {
           headers: {
@@ -162,24 +162,24 @@
           }
         })
           .then(() => {
-            this.emailUpdated = true;
-            this.sending = false;
-            this.hasError = false;
-            this.clearForm();
+            this.emailUpdated = true
+            this.sending = false
+            this.hasError = false
+            this.clearForm()
           }, response => {
-            this.hasError = true;
-            this.sending = false;
-            this.errorMessage = response.body.errors[0];
-          });
-        this.$v.$reset();
+            this.hasError = true
+            this.sending = false
+            this.errorMessage = response.body.errors[0]
+          })
+        this.$v.$reset()
       },
 
       clearForm() {
-        this.password = null;
-        this.email = null;
+        this.password = null
+        this.email = null
       }
     }
-  };
+  }
 </script>
 
 <style scoped>

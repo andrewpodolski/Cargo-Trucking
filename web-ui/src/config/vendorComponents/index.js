@@ -1,5 +1,5 @@
-import page from 'v-page';
-import Vue from 'vue';
+import page from 'v-page'
+import Vue from 'vue'
 
 export const VendorComponents = {
   use: () => {
@@ -10,6 +10,6 @@ export const VendorComponents = {
       align: 'center',
       first: false,
       last:  false
-    });
+    })
   }
-};
+}

@@ -124,12 +124,12 @@
 </template>
 
 <script>
-  import {maxLength, minLength, required, sameAs} from 'vuelidate/lib/validators';
+  import {maxLength, minLength, required, sameAs} from 'vuelidate/lib/validators'
 
-  import {FieldsLength} from '../constants/fieldsLength';
-  import {Errors} from '../constants/errors';
-  import {Messages} from '../constants/messages';
-  import {Url} from '../constants/url';
+  import {Errors} from '../constants/errors'
+  import {FieldsLength} from '../constants/fieldsLength'
+  import {Messages} from '../constants/messages'
+  import {Url} from '../constants/url'
 
   export default {
     name: 'RestorePassword',
@@ -166,50 +166,50 @@
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       validateForm() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.restorePassword();
+          this.restorePassword()
         }
       },
 
       restorePassword() {
-        this.sending = true;
+        this.sending = true
         const form = {
           password: this.password,
           passwordConfirm: this.passwordConfirm
-        };
+        }
         this.$http.put(`${Url.RESTORE_PASSWORD}/${this.$route.params.uuid}`, JSON.stringify(form))
           .then(() => {
-            this.passwordRestored = true;
-            this.sending = false;
-            this.firstPage = false;
-            this.clearForm();
-            this.hasError = false;
-            this.successfulPage = true;
+            this.passwordRestored = true
+            this.sending = false
+            this.firstPage = false
+            this.clearForm()
+            this.hasError = false
+            this.successfulPage = true
 
-            this.$v.$reset();
+            this.$v.$reset()
           }, response => {
-            this.hasError = true;
-            this.sending = false;
-            this.errorMessage = response.body.errors[0];
-          });
+            this.hasError = true
+            this.sending = false
+            this.errorMessage = response.body.errors[0]
+          })
       },
 
       clearForm() {
-        this.password = null;
-        this.passwordConfirm = null;
+        this.password = null
+        this.passwordConfirm = null
       }
     }
-  };
+  }
 </script>
 
 <style scoped>

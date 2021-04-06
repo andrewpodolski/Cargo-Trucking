@@ -28,34 +28,34 @@
         this.$store.dispatch('client/pageClientChange', {
           pageNumber: 1,
           pageSize: 10
-        });
+        })
       },
 
       removeFilter() {
-        this.$store.commit('client/removeFilter');
-        this.find();
+        this.$store.commit('client/removeFilter')
+        this.find()
       }
     },
 
     computed: {
       name: {
         get() {
-          return this.$store.state.client.filter.name;
+          return this.$store.state.client.filter.name
         },
         set(value) {
-          this.$store.commit('client/updateName', value);
+          this.$store.commit('client/updateName', value)
         }
       },
       status:{
         get(){
-          return this.$store.state.client.filter.status;
+          return this.$store.state.client.filter.status
         },
         set(value){
-          this.$store.commit('client/updateStatus',value);
+          this.$store.commit('client/updateStatus',value)
         }
       }
     }
-  };
+  }
 </script>
 
 <style scoped>

@@ -46,66 +46,66 @@
         this.$store.dispatch('car/pageCarChange', {
           pageNumber: 1,
           pageSize: 10
-        });
+        })
       },
       removeFilters() {
-        this.$store.commit('car/removeFilter');
+        this.$store.commit('car/removeFilter')
 
-        this.find();
+        this.find()
       }
     },
 
     computed: {
       number: {
         get() {
-          return this.$store.state.car.filter.number;
+          return this.$store.state.car.filter.number
         },
         set(value) {
-          this.$store.commit('car/updateFilterNumber', value);
+          this.$store.commit('car/updateFilterNumber', value)
         }
       },
       fuelConsumptionLess: {
         get() {
-          return this.$store.state.car.filter.fuelConsumptionLess;
+          return this.$store.state.car.filter.fuelConsumptionLess
         },
         set(value) {
-          this.$store.commit('car/updateFilterFuelConsumptionLess', value);
+          this.$store.commit('car/updateFilterFuelConsumptionLess', value)
         }
       },
       fuelConsumptionMore: {
         get() {
-          return this.$store.state.car.filter.fuelConsumptionMore;
+          return this.$store.state.car.filter.fuelConsumptionMore
         },
         set(value) {
-          this.$store.commit('car/updateFilterFuelConsumptionMore', value);
+          this.$store.commit('car/updateFilterFuelConsumptionMore', value)
         }
       },
       loadCapacityLess: {
         get() {
-          return this.$store.state.car.filter.loadCapacityLess;
+          return this.$store.state.car.filter.loadCapacityLess
         },
         set(value) {
-          this.$store.commit('car/updateFilterLoadCapacityLess', value);
+          this.$store.commit('car/updateFilterLoadCapacityLess', value)
         }
       },
       loadCapacityMore: {
         get() {
-          return this.$store.state.car.filter.loadCapacityMore;
+          return this.$store.state.car.filter.loadCapacityMore
         },
         set(value) {
-          this.$store.commit('car/updateFilterLoadCapacityMore', value);
+          this.$store.commit('car/updateFilterLoadCapacityMore', value)
         }
       },
       carTypes: {
         get() {
-          return this.$store.state.car.filter.carTypes;
+          return this.$store.state.car.filter.carTypes
         },
         set(value) {
-          this.$store.commit('car/updateFilterCarTypes', value);
+          this.$store.commit('car/updateFilterCarTypes', value)
         }
       }
     }
-  };
+  }
 </script>
 
 <style scoped>

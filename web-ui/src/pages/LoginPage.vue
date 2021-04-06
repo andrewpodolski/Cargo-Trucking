@@ -100,11 +100,11 @@
 </template>
 
 <script>
-  import {required, maxLength, minLength} from 'vuelidate/lib/validators';
+  import {required, maxLength, minLength} from 'vuelidate/lib/validators'
 
-  import {FieldsLength} from '../constants/fieldsLength';
-  import {Errors} from '../constants/errors';
-  import {Url} from '../constants/url';
+  import {Errors} from '../constants/errors'
+  import {FieldsLength} from '../constants/fieldsLength'
+  import {Url} from '../constants/url'
 
   export default {
     name: 'Login',
@@ -134,88 +134,88 @@
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       checkFields() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.signin();
+          this.signin()
         }
       },
 
       signin() {
-        this.sending = true;
+        this.sending = true
         if (!localStorage.refreshToken) {
-          this.authorize();
-          return;
+          this.authorize()
+          return
         }
-        const refreshTokenPayload = JSON.parse(atob(localStorage.refreshToken.split('.')[1]));
+        const refreshTokenPayload = JSON.parse(atob(localStorage.refreshToken.split('.')[1]))
         if (refreshTokenPayload.exp + '000' < Date.now()) {
           this.$http.post(Url.LOGOUT, {
             userId: refreshTokenPayload.userId,
             ip: localStorage.ip
           })
             .then(() => {
-              this.hasError = false;
-              this.sending = false;
-              localStorage.removeItem('accessToken');
-              localStorage.removeItem('refreshToken');
-              localStorage.removeItem('ip');
-              localStorage.removeItem('roles');
-              localStorage.removeItem('clientId');
-              this.authorize();
+              this.hasError = false
+              this.sending = false
+              localStorage.removeItem('accessToken')
+              localStorage.removeItem('refreshToken')
+              localStorage.removeItem('ip')
+              localStorage.removeItem('roles')
+              localStorage.removeItem('clientId')
+              this.authorize()
             }, response => {
-              this.hasError = true;
-              this.sending = false;
-              this.errorMessage = response.body.errors[0];
-            });
+              this.hasError = true
+              this.sending = false
+              this.errorMessage = response.body.errors[0]
+            })
         } else {
-          this.authorize();
+          this.authorize()
         }
       },
 
       authorize() {
         this.$http.get('//api.ipify.org?format=json').then(response => {
-          localStorage.ip = response.body.ip;
+          localStorage.ip = response.body.ip
           this.$http.post(Url.SIGNIN, {
             login: this.login,
             password: this.password,
             ip: response.body.ip
           })
             .then(response => {
-              this.$store.dispatch('websocket/disconnect');
+              this.$store.dispatch('websocket/disconnect')
 
-              this.hasError = false;
-              this.sending = false;
+              this.hasError = false
+              this.sending = false
 
-              const tokens = response.bodyText.split(' ');
-              localStorage.accessToken = tokens[0];
-              localStorage.refreshToken = tokens[1];
+              const tokens = response.bodyText.split(' ')
+              localStorage.accessToken = tokens[0]
+              localStorage.refreshToken = tokens[1]
 
-              const payload = JSON.parse(atob(tokens[0].split('.')[1]));
-              localStorage.setItem('roles', JSON.stringify(payload.auth));
-              localStorage.clientId = payload.clientId;
+              const payload = JSON.parse(atob(tokens[0].split('.')[1]))
+              localStorage.setItem('roles', JSON.stringify(payload.auth))
+              localStorage.clientId = payload.clientId
 
-              this.$router.push('/');
+              this.$router.push('/')
             }, response => {
-              this.hasError = true;
-              this.sending = false;
-              this.errorMessage = response.body.errors[0];
-            });
-        });
+              this.hasError = true
+              this.sending = false
+              this.errorMessage = response.body.errors[0]
+            })
+        })
       }
     },
 
     mounted: function() {
-      this.$store.commit('sidebar/changeVisibility', false);
+      this.$store.commit('sidebar/changeVisibility', false)
     }
-  };
+  }
 </script>
 
 <style scoped>

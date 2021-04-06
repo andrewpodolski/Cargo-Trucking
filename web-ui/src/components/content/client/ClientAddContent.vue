@@ -281,13 +281,13 @@
 </template>
 
 <script>
-  import {alpha, email, maxLength, maxValue, minLength, required, sameAs} from 'vuelidate/lib/validators';
-  import moment from 'moment';
+  import moment from 'moment'
+  import {alpha, email, maxLength, maxValue, minLength, required, sameAs} from 'vuelidate/lib/validators'
 
-  import {Errors} from '../../../constants/errors';
-  import {FieldsLength} from '../../../constants/fieldsLength';
-  import {Messages} from '../../../constants/messages';
-  import {Url} from '../../../constants/url';
+  import {Errors} from '../../../constants/errors'
+  import {FieldsLength} from '../../../constants/fieldsLength'
+  import {Messages} from '../../../constants/messages'
+  import {Url} from '../../../constants/url'
 
 
   export default {
@@ -370,76 +370,76 @@
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       getValidationClassAdminInfo(fieldName) {
-        const field = this.$v.adminInfo[fieldName];
+        const field = this.$v.adminInfo[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       validateClient() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.saveClient();
+          this.saveClient()
         }
       },
 
       saveClient() {
-        this.sending = true;
+        this.sending = true
         const form = {
           name: this.name,
           status: this.status,
           cost: this.cost,
           adminInfo: this.adminInfo
-        };
+        }
         this.$http.post(Url.CLIENT, JSON.stringify(form), {
           headers: {
             Authorization: `Bearer ${localStorage.accessToken}`
           }
         })
           .then(() => {
-            this.clientSaved = true;
-            this.sending = false;
-            this.clearForm();
-            this.hasError = false;
-            this.$v.$reset();
+            this.clientSaved = true
+            this.sending = false
+            this.clearForm()
+            this.hasError = false
+            this.$v.$reset()
           }, response => {
-            this.hasError = true;
-            this.sending = false;
-            this.errorMessage = response.body.errors[0];
-          });
+            this.hasError = true
+            this.sending = false
+            this.errorMessage = response.body.errors[0]
+          })
 
       },
 
       clearForm() {
-        this.name = null;
-        this.status = '';
-        this.cost = null;
-        this.adminInfo.name = null;
-        this.adminInfo.surname = null;
-        this.adminInfo.bornDate = null;
-        this.adminInfo.email = null;
-        this.adminInfo.login = null;
-        this.adminInfo.password = null;
-        this.adminInfo.passwordConfirm = null;
+        this.name = null
+        this.status = ''
+        this.cost = null
+        this.adminInfo.name = null
+        this.adminInfo.surname = null
+        this.adminInfo.bornDate = null
+        this.adminInfo.email = null
+        this.adminInfo.login = null
+        this.adminInfo.password = null
+        this.adminInfo.passwordConfirm = null
       }
     },
 
     mounted: function () {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('SYS_ADMIN')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
     }
-  };
+  }
 </script>

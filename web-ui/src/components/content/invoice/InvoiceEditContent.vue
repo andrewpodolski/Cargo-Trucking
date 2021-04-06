@@ -168,18 +168,18 @@
 </template>
 
 <script>
-  import {mapState, mapGetters} from 'vuex';
-  import {required, maxLength} from 'vuelidate/lib/validators';
+  import {required, maxLength} from 'vuelidate/lib/validators'
+  import {mapState, mapGetters} from 'vuex'
 
-  import ProductList from './components/ProductList';
-  import ProductWriteoffList from './components/ProductWriteoffList';
-  import ProductOwnerList from './components/ProductOwnerList';
-  import StorageList from './components/StorageList';
-  import DriverList from './components/DriverList';
-  import {Errors} from '../../../constants/errors';
-  import {FieldsLength} from '../../../constants/fieldsLength';
-  import {Messages} from '../../../constants/messages';
-  import {Url} from '../../../constants/url';
+  import {Errors} from '../../../constants/errors'
+  import {FieldsLength} from '../../../constants/fieldsLength'
+  import {Messages} from '../../../constants/messages'
+  import {Url} from '../../../constants/url'
+  import DriverList from './components/DriverList'
+  import ProductList from './components/ProductList'
+  import ProductOwnerList from './components/ProductOwnerList'
+  import ProductWriteoffList from './components/ProductWriteoffList'
+  import StorageList from './components/StorageList'
 
   export default {
     name: 'InvoiceEditContent',
@@ -225,72 +225,72 @@
       }),
       number: {
         get() {
-          return this.$store.state.invoice.data.number;
+          return this.$store.state.invoice.data.number
         },
         set(value) {
-          this.$store.commit('invoice/updateDataNumber', value);
+          this.$store.commit('invoice/updateDataNumber', value)
         }
       },
       invoiceUpdated: {
         get() {
-          return this.$store.state.invoice.invoiceUpdated;
+          return this.$store.state.invoice.invoiceUpdated
         },
         set(value) {
-          this.$store.commit('invoice/setInvoiceUpdated', value);
+          this.$store.commit('invoice/setInvoiceUpdated', value)
         }
       }
     },
 
     methods: {
       openWaybillCreationForm() {
-        this.$router.push({name: 'create-waybill', params: {id: this.$route.params.id}});
+        this.$router.push({name: 'create-waybill', params: {id: this.$route.params.id}})
       },
 
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       validateInvoice() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.updateInvoice();
+          this.updateInvoice()
         }
       },
 
       updateInvoice() {
-        this.$store.dispatch('invoice/updateInvoice', this.$route.params.id);
+        this.$store.dispatch('invoice/updateInvoice', this.$route.params.id)
       },
 
       showProductOwnersTable() {
-        this.$store.commit('invoice/showProductOwnersTable');
+        this.$store.commit('invoice/showProductOwnersTable')
       },
 
       showStoragesTable() {
-        this.$store.commit('invoice/showStoragesTable');
+        this.$store.commit('invoice/showStoragesTable')
       },
 
       showDriversTable() {
-        this.$store.commit('user/updateUserRoles', ['DRIVER']);
-        this.$store.commit('invoice/showDriversTable');
+        this.$store.commit('user/updateUserRoles', ['DRIVER'])
+        this.$store.commit('invoice/showDriversTable')
       }
     },
 
     mounted: function() {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('DISPATCHER') &&
           !userRoles.includes('COMPANY_OWNER') && !userRoles.includes('MANAGER')
       ) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
 
-      this.$store.commit('invoice/setInvoiceUpdated', false);
-      this.$store.commit('invoice/setSending', false);
-      this.$store.commit('invoice/setHasError', false);
+      this.$store.commit('invoice/setInvoiceUpdated', false)
+      this.$store.commit('invoice/setSending', false)
+      this.$store.commit('invoice/setHasError', false)
 
       this.$http.get(`${Url.INVOICE}/${this.$route.params.id}`, {
         headers: {
@@ -298,27 +298,27 @@
         }
       })
         .then(response => {
-          this.$store.commit('invoice/updateDataNumber', response.body.number);
-          this.$store.commit('invoice/updateDataProductOwner', response.body.productOwner);
-          this.$store.commit('invoice/updateDataStorage', response.body.storage);
-          this.$store.commit('invoice/updateDataDriver', response.body.driver);
-          this.$store.commit('invoice/updateDataProducts', response.body.products);
+          this.$store.commit('invoice/updateDataNumber', response.body.number)
+          this.$store.commit('invoice/updateDataProductOwner', response.body.productOwner)
+          this.$store.commit('invoice/updateDataStorage', response.body.storage)
+          this.$store.commit('invoice/updateDataDriver', response.body.driver)
+          this.$store.commit('invoice/updateDataProducts', response.body.products)
 
-          this.invoiceStatus = response.body.status;
+          this.invoiceStatus = response.body.status
         }, response => {
-          this.$store.commit('invoice/setHasError', true);
-          this.$store.commit('invoice/setErrorMessage', response.body.errors[0]);
-        });
+          this.$store.commit('invoice/setHasError', true)
+          this.$store.commit('invoice/setErrorMessage', response.body.errors[0])
+        })
 
-      this.userRoles = JSON.parse(localStorage.getItem('roles'));
+      this.userRoles = JSON.parse(localStorage.getItem('roles'))
 
       if (this.userRoles.includes('MANAGER')) {
-        this.$store.dispatch('invoice/getProductWriteoffs', this.$route.params.id);
+        this.$store.dispatch('invoice/getProductWriteoffs', this.$route.params.id)
       }
     },
 
     components: {ProductOwnerList, StorageList, DriverList, ProductList, ProductWriteoffList}
-  };
+  }
 </script>
 
 <style scoped>

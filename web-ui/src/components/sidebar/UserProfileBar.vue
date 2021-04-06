@@ -50,7 +50,7 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex';
+  import {mapState} from 'vuex'
 
   export default {
     name: 'UserProfileBar',
@@ -62,39 +62,39 @@
 
     methods: {
       hideBar() {
-        this.$store.commit('sidebar/changeVisibility', false);
+        this.$store.commit('sidebar/changeVisibility', false)
       },
 
       refreshTokens() {
-        const refreshTokenPayload = JSON.parse(atob(localStorage.refreshToken.split('.')[1]));
+        const refreshTokenPayload = JSON.parse(atob(localStorage.refreshToken.split('.')[1]))
 
         this.$http.post('/api/refresh', {
           userId: refreshTokenPayload.userId,
           token: localStorage.refreshToken,
           ip: localStorage.ip
         }).then(response => {
-          const tokens = response.bodyText.split(' ');
-          localStorage.accessToken = tokens[0];
-          localStorage.refreshToken = tokens[1];
+          const tokens = response.bodyText.split(' ')
+          localStorage.accessToken = tokens[0]
+          localStorage.refreshToken = tokens[1]
 
-          const newAccessTokenPayload = JSON.parse(atob(localStorage.accessToken.split('.')[1]));
-          this.$store.commit('sidebar/changeUsername', newAccessTokenPayload.sub);
-          this.$store.commit('sidebar/changeAuthorized', true);
-        });
+          const newAccessTokenPayload = JSON.parse(atob(localStorage.accessToken.split('.')[1]))
+          this.$store.commit('sidebar/changeUsername', newAccessTokenPayload.sub)
+          this.$store.commit('sidebar/changeAuthorized', true)
+        })
       },
 
       logout() {
         if (localStorage.refreshToken) {
-          const refreshTokenPayload = JSON.parse(atob(localStorage.refreshToken.split('.')[1]));
+          const refreshTokenPayload = JSON.parse(atob(localStorage.refreshToken.split('.')[1]))
           this.$http.post('/api/logout', {
             userId: refreshTokenPayload.userId,
             ip: localStorage.ip
           })
             .then(() => {
-              localStorage.clear();
-              this.$store.commit('sidebar/changeAuthorized', false);
-              this.$router.push('/login');
-            });
+              localStorage.clear()
+              this.$store.commit('sidebar/changeAuthorized', false)
+              this.$router.push('/login')
+            })
         }
       }
     },
@@ -108,29 +108,29 @@
 
     mounted: function() {
       if (localStorage.accessToken) {
-        const accessTokenPayload = JSON.parse(atob(localStorage.accessToken.split('.')[1]));
+        const accessTokenPayload = JSON.parse(atob(localStorage.accessToken.split('.')[1]))
 
         if ((accessTokenPayload.exp - 100) + '000' < Date.now()) {
-          this.refreshTokens();
+          this.refreshTokens()
         } else {
-          this.$store.commit('sidebar/changeUsername', accessTokenPayload.sub);
-          this.$store.commit('sidebar/changeAuthorized', true);
+          this.$store.commit('sidebar/changeUsername', accessTokenPayload.sub)
+          this.$store.commit('sidebar/changeAuthorized', true)
         }
 
-        this.userRoles = JSON.parse(localStorage.getItem('roles'));
-        this.$store.dispatch('websocket/connect');
+        this.userRoles = JSON.parse(localStorage.getItem('roles'))
+        this.$store.dispatch('websocket/connect')
       }
 
       this.intervalFunction = setInterval(() => {
         if (localStorage.accessToken) {
-          const accessTokenPayload = JSON.parse(atob(localStorage.accessToken.split('.')[1]));
+          const accessTokenPayload = JSON.parse(atob(localStorage.accessToken.split('.')[1]))
           if ((accessTokenPayload.exp - 100) + '000' < Date.now()) {
-            this.refreshTokens();
+            this.refreshTokens()
           }
         }
-      }, 120000);
+      }, 120000)
     }
-  };
+  }
 </script>
 
 <style scoped>

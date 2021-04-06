@@ -94,12 +94,12 @@
 </template>
 
 <script>
-  import {maxLength, required, email} from 'vuelidate/lib/validators';
+  import {maxLength, required, email} from 'vuelidate/lib/validators'
 
-  import {Errors} from '../../../constants/errors';
-  import {FieldsLength} from '../../../constants/fieldsLength';
-  import {Messages} from '../../../constants/messages';
-  import {Url} from '../../../constants/url';
+  import {Errors} from '../../../constants/errors'
+  import {FieldsLength} from '../../../constants/fieldsLength'
+  import {Messages} from '../../../constants/messages'
+  import {Url} from '../../../constants/url'
 
   export default {
     name: 'EmailContent',
@@ -136,60 +136,60 @@
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       validateEmail() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.sendEmail();
+          this.sendEmail()
         }
       },
 
       sendEmail() {
-        this.sending = true;
+        this.sending = true
         const form = {
           recipient: this.recipient,
           subject: this.subject,
           text: this.text
-        };
+        }
         this.$http.post(Url.EMAIL, JSON.stringify(form), {
           headers: {
             Authorization: `Bearer ${localStorage.accessToken}`
           }
         })
           .then(() => {
-            this.emailSent = true;
-            this.clearForm();
-            this.sending = false;
-            this.hasError = false;
-            this.$v.$reset();
+            this.emailSent = true
+            this.clearForm()
+            this.sending = false
+            this.hasError = false
+            this.$v.$reset()
           }, response => {
-            this.hasError = true;
-            this.sending = false;
-            this.errorMessage = response.body.errors[0];
-          });
+            this.hasError = true
+            this.sending = false
+            this.errorMessage = response.body.errors[0]
+          })
       },
 
       clearForm() {
-        this.recipient = null;
-        this.subject = null;
-        this.text = null;
+        this.recipient = null
+        this.subject = null
+        this.text = null
       }
     },
 
     mounted: function() {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('ADMIN')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
     }
-  };
+  }
 </script>
 
 <style scoped>

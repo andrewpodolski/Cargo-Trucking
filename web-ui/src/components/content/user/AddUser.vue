@@ -329,13 +329,13 @@
 </template>
 
 <script>
-  import {maxLength, minLength, required, sameAs, email, maxValue} from 'vuelidate/lib/validators';
-  import moment from 'moment';
+  import moment from 'moment'
+  import {maxLength, minLength, required, sameAs, email, maxValue} from 'vuelidate/lib/validators'
 
-  import {Errors} from '../../../constants/errors';
-  import {FieldsLength} from '../../../constants/fieldsLength';
-  import {Messages} from '../../../constants/messages';
-  import {Url} from '../../../constants/url';
+  import {Errors} from '../../../constants/errors'
+  import {FieldsLength} from '../../../constants/fieldsLength'
+  import {Messages} from '../../../constants/messages'
+  import {Url} from '../../../constants/url'
 
   export default {
     name: 'AddUser',
@@ -423,40 +423,40 @@
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v.form[fieldName];
+        const field = this.$v.form[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       validateUser () {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.saveUser();
+          this.saveUser()
         }
       },
 
       clearForm () {
-        this.$v.$reset();
-        this.form.name = null;
-        this.form.surname = null;
-        this.form.patronymic = null;
-        this.form.email = null;
-        this.form.bornDate = null;
-        this.form.town = null;
-        this.form.street = null;
-        this.form.house = null;
-        this.form.flat = null;
-        this.form.login = null;
-        this.form.password = null;
-        this.form.passwordConfirm = null;
-        this.form.userRoles = null;
+        this.$v.$reset()
+        this.form.name = null
+        this.form.surname = null
+        this.form.patronymic = null
+        this.form.email = null
+        this.form.bornDate = null
+        this.form.town = null
+        this.form.street = null
+        this.form.house = null
+        this.form.flat = null
+        this.form.login = null
+        this.form.password = null
+        this.form.passwordConfirm = null
+        this.form.userRoles = null
       },
 
       dateIntoString(date) {
-        return date ? moment(date).format('YYYY-MM-DD') : null;
+        return date ? moment(date).format('YYYY-MM-DD') : null
       },
 
       saveUser() {
@@ -474,32 +474,32 @@
           password: this.form.password,
           passwordConfirm: this.form.passwordConfirm,
           userRoles: this.form.userRoles
-        };
+        }
         this.$http.post(Url.USER, JSON.stringify(form), {
           headers: {
             Authorization: `Bearer ${localStorage.accessToken}`
           }
         })
           .then(() => {
-            this.userSaved = true;
-            this.sending = false;
-            this.clearForm();
-            this.hasError = false;
+            this.userSaved = true
+            this.sending = false
+            this.clearForm()
+            this.hasError = false
           }, response => {
-            this.hasError = true;
-            this.sending = false;
-            this.errorMessage = response.body.errors[0];
-          });
+            this.hasError = true
+            this.sending = false
+            this.errorMessage = response.body.errors[0]
+          })
       }
     },
 
     mounted: function() {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('ADMIN')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
     }
-  };
+  }
 </script>
 
 <style scoped>

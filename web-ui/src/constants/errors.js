@@ -15,4 +15,4 @@ export const Errors = {
   NOT_CONFIRMED: 'Password doesn\'t match',
 
   INVALID_ADDRESS: 'Address is not valid'
-};
+}

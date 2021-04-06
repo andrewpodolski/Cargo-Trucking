@@ -128,14 +128,14 @@
 </template>
 
 <script>
-  import {required, maxLength, between, decimal, integer} from 'vuelidate/lib/validators';
+  import {required, maxLength, between, decimal, integer} from 'vuelidate/lib/validators'
 
-  import {Errors} from '../../../constants/errors';
-  import {FieldsLength} from '../../../constants/fieldsLength';
-  import {FieldsValueBounds} from '../../../constants/fieldsValueBounds';
-  import {FieldsType} from '../../../constants/fieldsType';
-  import {Messages} from '../../../constants/messages';
-  import {Url} from '../../../constants/url';
+  import {Errors} from '../../../constants/errors'
+  import {FieldsLength} from '../../../constants/fieldsLength'
+  import {FieldsType} from '../../../constants/fieldsType'
+  import {FieldsValueBounds} from '../../../constants/fieldsValueBounds'
+  import {Messages} from '../../../constants/messages'
+  import {Url} from '../../../constants/url'
 
   export default {
     name: 'CarEditContent',
@@ -177,51 +177,51 @@
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       validateCar() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.updateCar();
+          this.updateCar()
         }
       },
 
       updateCar() {
-        this.sending = true;
+        this.sending = true
         const form = {
           number: this.number,
           fuelConsumption: this.fuelConsumption,
           loadCapacity: this.loadCapacity,
           carType: this.carType
-        };
+        }
         this.$http.put(`${Url.CAR}/${this.$route.params.id}`, JSON.stringify(form), {
           headers: {
             Authorization: `Bearer ${localStorage.accessToken}`
           }
         })
           .then(() => {
-            this.carUpdated = true;
-            this.sending = false;
-            this.hasError = false;
-            this.$v.$reset();
+            this.carUpdated = true
+            this.sending = false
+            this.hasError = false
+            this.$v.$reset()
           }, response => {
-            this.hasError = true;
-            this.sending = false;
-            this.errorMessage = response.body.errors[0];
-          });
+            this.hasError = true
+            this.sending = false
+            this.errorMessage = response.body.errors[0]
+          })
       }
     },
 
     mounted: function() {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('ADMIN')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
 
       this.$http.get(`${Url.CAR}/${this.$route.params.id}`, {
@@ -230,16 +230,16 @@
         }
       })
         .then(response => {
-          this.number = response.body.number;
-          this.fuelConsumption = response.body.fuelConsumption;
-          this.loadCapacity = response.body.loadCapacity;
-          this.carType = response.body.carType;
+          this.number = response.body.number
+          this.fuelConsumption = response.body.fuelConsumption
+          this.loadCapacity = response.body.loadCapacity
+          this.carType = response.body.carType
         }, response => {
-          this.hasError = true;
-          this.errorMessage = response.body.errors[0];
-        });
+          this.hasError = true
+          this.errorMessage = response.body.errors[0]
+        })
     }
-  };
+  }
 </script>
 
 <style scoped>

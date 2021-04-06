@@ -31,4 +31,4 @@ export const Url = {
   LATEST_FINANCE: '/api/finance/latestFinance',
 
   DRIVERS_CHAT: '/api/driverChat'
-};
+}

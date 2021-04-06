@@ -31,7 +31,7 @@
 </template>
 
 <script>
-  import moment from 'moment';
+  import moment from 'moment'
 
   export default {
     name: 'MessageItem',
@@ -44,16 +44,16 @@
 
     methods: {
       editMessageItem() {
-        this.editMessage(this.messageInfo);
+        this.editMessage(this.messageInfo)
       },
       closeEditItem() {
-        this.closeEdit();
+        this.closeEdit()
       },
       deleteMessageItem() {
         this.deleteMessage(this.messageInfo)
       }
     }
-  };
+  }
 
 </script>
 

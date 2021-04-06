@@ -1,7 +1,7 @@
-import Vue from 'vue';
-import moment from 'moment';
+import Vue from 'vue'
+import moment from 'moment'
 
-import {Url} from '../../constants/url';
+import {Url} from '../../constants/url'
 
 const state = {
   items: [],
@@ -34,34 +34,34 @@ const state = {
 
   hideMainForm: false,
   showCars: false
-};
+}
 
 const getters = {
   getCarInfo: state => {
     if (state.data.car) {
-      const item = state.data.car;
-      return `Number: ${item.number}`;
+      const item = state.data.car
+      return `Number: ${item.number}`
     } else {
-      return null;
+      return null
     }
   },
 
   getInvoiceNumber: state => {
     if (state.data.invoice) {
-      const item = state.data.invoice;
-      return item.number;
+      const item = state.data.invoice
+      return item.number
     }
   }
-};
+}
 
 const actions = {
   pageWaybillChange({commit}, pageInfo) {
     const pageAttr = {
       page: pageInfo.pageNumber - 1,
       size: pageInfo.pageSize
-    };
+    }
     if (state.sort){
-      pageAttr.sort = state.sort;
+      pageAttr.sort = state.sort
     }
 
     Vue.http.get(Url.WAYBILL + '{?statuses*}', {
@@ -71,9 +71,9 @@ const actions = {
       }
     })
       .then(response => {
-        const waybills = [];
+        const waybills = []
         for (const item of response.data.content) {
-          const status = item.status.charAt(0) + item.status.slice(1).replace('_', ' ').toLowerCase();
+          const status = item.status.charAt(0) + item.status.slice(1).replace('_', ' ').toLowerCase()
 
           const waybill = {
             id: item.id,
@@ -83,12 +83,12 @@ const actions = {
             carNumber: item.carNumber,
             startDate: item.startDate.substring(0, 10),
             status: status
-          };
-          waybills.push(waybill);
+          }
+          waybills.push(waybill)
         }
-        commit('setWaybills', waybills);
-        commit('setTotalElements', response.data.totalElements);
-      });
+        commit('setWaybills', waybills)
+        commit('setTotalElements', response.data.totalElements)
+      })
   },
 
   saveWaybill({commit}) {
@@ -98,24 +98,24 @@ const actions = {
         destination: state.data.invoice.storageAddress,
         waypoints: state.data.checkpoints.map(item => ({location: item.address})),
         travelMode: google.maps.DirectionsTravelMode.DRIVING
-    };
+    }
 
     state.directionsService.route(request, (response, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
-        let distance = 0;
+        let distance = 0
         for (let i = 0; i < response.routes[0].legs.length; i++) {
-          distance += response.routes[0].legs[i].distance.value;
+          distance += response.routes[0].legs[i].distance.value
         }
 
         /* eslint-enable no-undef */
-        const dateAndTime = dateIntoString(state.data.arrivalDate) + 'T' + state.data.arrivalTime;
-        const checkpointsToSend = [];
+        const dateAndTime = dateIntoString(state.data.arrivalDate) + 'T' + state.data.arrivalTime
+        const checkpointsToSend = []
         for (let i = 0; i < state.data.checkpoints.length; i++) {
           let checkpoint = {
             address: state.data.checkpoints[i].address,
             requiredArrivalDate: state.data.checkpoints[i].requiredArrivalDate + 'T' + state.data.checkpoints[i].requiredArrivalTime
-          };
-          checkpointsToSend.push(checkpoint);
+          }
+          checkpointsToSend.push(checkpoint)
         }
         const form = {
           invoiceId: state.data.invoice.id,
@@ -123,148 +123,148 @@ const actions = {
           endDate: dateAndTime,
           checkpoints: checkpointsToSend,
           distance: distance
-        };
-        commit('setSending', true);
+        }
+        commit('setSending', true)
         Vue.http.post(Url.WAYBILL, JSON.stringify(form), {
           headers: {
             Authorization: `Bearer ${localStorage.accessToken}`
           }
         })
           .then(() => {
-            commit('setWaybillSaved', true);
-            commit('setSending', false);
-            commit('setHasError', false);
-            commit('removeData');
+            commit('setWaybillSaved', true)
+            commit('setSending', false)
+            commit('setHasError', false)
+            commit('removeData')
           }, response => {
-            commit('setSending', false);
-            commit('setHasError', true);
-            commit('setErrorMessage', response.body.errors[0]);
-          });
+            commit('setSending', false)
+            commit('setHasError', true)
+            commit('setErrorMessage', response.body.errors[0])
+          })
       }
-    });
+    })
   }
-};
+}
 
 const mutations = {
   setWaybills(state, waybills) {
-    state.items = waybills;
+    state.items = waybills
   },
 
   setTotalElements(state, totalElements) {
-    state.totalElements = totalElements;
+    state.totalElements = totalElements
   },
 
   setSort(state, sort) {
-    state.sort = sort;
+    state.sort = sort
   },
 
   setCheckpointAdding(state, booleanValue) {
-    state.checkpointAdding = booleanValue;
+    state.checkpointAdding = booleanValue
   },
 
   setCheckpointUpdating(state, booleanValue) {
-    state.checkpointUpdating = booleanValue;
+    state.checkpointUpdating = booleanValue
   },
 
   setSending(state, booleanValue) {
-    state.sending = booleanValue;
+    state.sending = booleanValue
   },
 
   setWaybillSaved(state, booleanValue) {
-    state.waybillSaved = booleanValue;
+    state.waybillSaved = booleanValue
   },
 
   setHasError(state, booleanValue) {
-    state.hasError = booleanValue;
+    state.hasError = booleanValue
   },
 
   setErrorMessage(state, errorMessage) {
-    state.errorMessage = errorMessage;
+    state.errorMessage = errorMessage
   },
 
   setInvalidArrivalDate(state, booleanValue) {
-    state.invalidArrivalDate = booleanValue;
+    state.invalidArrivalDate = booleanValue
   },
 
   setArrivalDate(state, arrivalDate) {
-    state.data.arrivalDate = arrivalDate;
+    state.data.arrivalDate = arrivalDate
   },
 
   updateArrivalTime(state, arrivalTime) {
-    state.data.arrivalTime = arrivalTime;
+    state.data.arrivalTime = arrivalTime
   },
 
   updateDataCar(state, car) {
-    state.data.car = car;
+    state.data.car = car
   },
 
   addDataCheckpoint(state, checkpoint) {
-    state.data.checkpoints.push(checkpoint);
+    state.data.checkpoints.push(checkpoint)
   },
 
   setUpdatingDataCheckpoint(state, id) {
     for (let i = 0; i < state.data.checkpoints.length; i++) {
       if (state.data.checkpoints[i].id === id) {
-        let checkpoint = state.data.checkpoints[i];
-        checkpoint.id = null;
-        state.data.checkpoints.splice(i, 1, checkpoint);
-        return;
+        let checkpoint = state.data.checkpoints[i]
+        checkpoint.id = null
+        state.data.checkpoints.splice(i, 1, checkpoint)
+        return
       }
     }
   },
 
   removeData(state) {
-    state.data.invoice = {};
-    state.data.car = null;
-    state.data.arrivalDate = null;
-    state.data.checkpoints = [];
+    state.data.invoice = {}
+    state.data.car = null
+    state.data.arrivalDate = null
+    state.data.checkpoints = []
   },
 
   pushDataCheckpoint(state, checkpoint) {
     if (state.data.checkpoints.length === 1) {
-      checkpoint.id = 1;
+      checkpoint.id = 1
     } else {
-      checkpoint.id = state.data.checkpoints[state.data.checkpoints.length - 2].id + 1;
+      checkpoint.id = state.data.checkpoints[state.data.checkpoints.length - 2].id + 1
     }
-    state.data.checkpoints.splice(state.data.checkpoints.length - 1, 1, checkpoint);
+    state.data.checkpoints.splice(state.data.checkpoints.length - 1, 1, checkpoint)
   },
 
   updateDataCheckpoint(state, checkpoint) {
     for (let i = 0; i < state.data.checkpoints.length; i++) {
       if (state.data.checkpoints[i].id === null) {
-        state.data.checkpoints.splice(i, 1, checkpoint);
-        return;
+        state.data.checkpoints.splice(i, 1, checkpoint)
+        return
       }
     }
   },
 
   updateArrivalDate(state, arrivalDate) {
-    state.data.arrivalDate = arrivalDate;
+    state.data.arrivalDate = arrivalDate
   },
 
   deleteDataCheckpoint(state, checkpointIds) {
     state.data.checkpoints = state.data.checkpoints.filter(function(value) {
-      return !checkpointIds.includes(value.id);
-    });
+      return !checkpointIds.includes(value.id)
+    })
   },
 
   showCarsTable(state) {
-    state.hideMainForm = true;
-    state.showCars = true;
+    state.hideMainForm = true
+    state.showCars = true
   },
 
   showMainForm(state) {
-    state.hideMainForm = false;
-    state.showCars = false;
+    state.hideMainForm = false
+    state.showCars = false
   },
 
   updateInvoice(state, invoice) {
-    state.data.invoice = invoice;
+    state.data.invoice = invoice
   }
-};
+}
 
 function dateIntoString(date) {
-  return date ? moment(date).format('YYYY-MM-DD') : null;
+  return date ? moment(date).format('YYYY-MM-DD') : null
 }
 
 export default {
@@ -273,4 +273,4 @@ export default {
   getters,
   actions,
   mutations
-};
+}

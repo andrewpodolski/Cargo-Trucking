@@ -304,13 +304,13 @@
 </template>
 
 <script>
-  import {email, maxLength, maxValue, minLength, required, sameAs} from 'vuelidate/lib/validators';
-  import moment from 'moment';
+  import moment from 'moment'
+  import {email, maxLength, maxValue, minLength, required, sameAs} from 'vuelidate/lib/validators'
 
-  import {Errors} from '../../../constants/errors';
-  import {FieldsLength} from '../../../constants/fieldsLength';
-  import {Messages} from '../../../constants/messages';
-  import {Url} from '../../../constants/url';
+  import {Errors} from '../../../constants/errors'
+  import {FieldsLength} from '../../../constants/fieldsLength'
+  import {Messages} from '../../../constants/messages'
+  import {Url} from '../../../constants/url'
 
   export default {
     name: 'EditUser',
@@ -399,31 +399,31 @@
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v.form[fieldName];
+        const field = this.$v.form[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       dateIntoString(date) {
-        return date ? moment(date).format('YYYY-MM-DD') : null;
+        return date ? moment(date).format('YYYY-MM-DD') : null
       },
 
       validateUser() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.updateUser();
+          this.updateUser()
         }
       },
 
       updateUser() {
         if (this.form.password !== null && this.form.password !== undefined && this.form.password !== '') {
-          this.form.isChangePassword = true;
+          this.form.isChangePassword = true
         } else {
-          this.form.password = this.password;
-          this.form.passwordConfirm = this.passwordConfirm;
+          this.form.password = this.password
+          this.form.passwordConfirm = this.passwordConfirm
         }
 
         const form = {
@@ -441,7 +441,7 @@
           passwordConfirm: this.form.passwordConfirm,
           isChangePassword: this.form.isChangePassword,
           userRoles: this.form.userRoles
-        };
+        }
 
         this.$http.put(`${Url.USER}/${this.$route.params.id}`, JSON.stringify(form), {
           headers: {
@@ -449,26 +449,26 @@
           }
         })
           .then(() => {
-            this.userUpdated = true;
-            this.sending = false;
-            this.hasError = false;
-            this.form.isChangePassword = false;
-            this.form.password = null;
-            this.form.passwordConfirm = null;
+            this.userUpdated = true
+            this.sending = false
+            this.hasError = false
+            this.form.isChangePassword = false
+            this.form.password = null
+            this.form.passwordConfirm = null
           })
           .catch((response) => {
-            this.form.isChangePassword = false;
-            this.form.password = null;
-            this.form.passwordConfirm = null;
-            this.errorMessage = response.body.errors[0];
-          });
+            this.form.isChangePassword = false
+            this.form.password = null
+            this.form.passwordConfirm = null
+            this.errorMessage = response.body.errors[0]
+          })
       }
     },
 
     mounted: function () {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('ADMIN')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
 
       this.$http.get(`${Url.USER}/${this.$route.params.id}`, {
@@ -477,27 +477,27 @@
         }
       })
         .then(response => {
-          this.form.name = response.body.name;
-          this.form.surname = response.body.surname;
-          this.form.patronymic = response.body.patronymic;
-          this.form.bornDate = new Date(response.body.bornDate);
-          this.form.town = response.body.town;
-          this.form.street = response.body.street;
-          this.form.house = response.body.house;
-          this.form.flat = response.body.flat;
-          this.form.email = response.body.email;
-          this.form.login = response.body.login;
+          this.form.name = response.body.name
+          this.form.surname = response.body.surname
+          this.form.patronymic = response.body.patronymic
+          this.form.bornDate = new Date(response.body.bornDate)
+          this.form.town = response.body.town
+          this.form.street = response.body.street
+          this.form.house = response.body.house
+          this.form.flat = response.body.flat
+          this.form.email = response.body.email
+          this.form.login = response.body.login
           for (let i = 0; i < response.body.userRoles.length; i++) {
-            this.form.userRoles.push(response.body.userRoles[i].id.role);
+            this.form.userRoles.push(response.body.userRoles[i].id.role)
           }
-          this.password = 'password';
-          this.passwordConfirm = 'password';
+          this.password = 'password'
+          this.passwordConfirm = 'password'
         }, response => {
-          this.hasError = true;
-          this.errorMessage = response.body.errors[0];
-        });
+          this.hasError = true
+          this.errorMessage = response.body.errors[0]
+        })
     }
-  };
+  }
 </script>
 
 <style scoped>

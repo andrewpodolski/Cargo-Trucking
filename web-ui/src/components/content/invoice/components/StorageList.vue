@@ -63,7 +63,7 @@
 </template>
 
 <script>
-  import {mapState, mapActions} from 'vuex';
+  import {mapState, mapActions} from 'vuex'
 
   export default {
     name: 'StorageList',
@@ -77,16 +77,16 @@
         this.$store.dispatch('storage/pageStorageChange', {
           pageNumber: 1,
           pageSize: 10
-        });
+        })
       },
 
       onSelect(item) {
-        this.$store.commit('invoice/updateDataStorage', item);
-        this.showMainForm();
+        this.$store.commit('invoice/updateDataStorage', item)
+        this.showMainForm()
       },
 
       showMainForm() {
-        this.$store.commit('invoice/showMainForm');
+        this.$store.commit('invoice/showMainForm')
       }
     },
 
@@ -97,18 +97,18 @@
       }),
       name: {
         get() {
-          return this.$store.state.storage.filter.name;
+          return this.$store.state.storage.filter.name
         },
         set(value) {
-          this.$store.commit('storage/updateFilterName', value);
+          this.$store.commit('storage/updateFilterName', value)
         }
       }
     },
 
     mounted: function() {
-      this.$store.commit('storage/setSort', 'name_str,asc');
+      this.$store.commit('storage/setSort', 'name_str,asc')
     }
-  };
+  }
 </script>
 
 <style scoped>

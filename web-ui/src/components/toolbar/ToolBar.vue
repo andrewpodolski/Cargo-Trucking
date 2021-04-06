@@ -13,7 +13,7 @@ export default {
 
   methods: {
     showBar() {
-      this.$store.commit('sidebar/changeVisibility', true);
+      this.$store.commit('sidebar/changeVisibility', true)
     }
   },
 
@@ -23,16 +23,15 @@ export default {
 
   computed: {
     normalizedTitle: function () {
-      console.log(this.title);
       if (this.title === '/driversChat') {
-        return "Drivers Chat";
+        return 'Drivers Chat'
       } else {
-        const splitted = this.title.replace('-', ' ').split('/');
-        return splitted[1].charAt(0).toUpperCase() + splitted[1].slice(1).toLowerCase();
+        const splitted = this.title.replace('-', ' ').split('/')
+        return splitted[1].charAt(0).toUpperCase() + splitted[1].slice(1).toLowerCase()
       }
     }
   }
-};
+}
 </script>
 
 <style scoped>

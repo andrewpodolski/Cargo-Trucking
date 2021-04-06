@@ -143,11 +143,11 @@
 </template>
 
 <script>
-  import {mapActions, mapState} from 'vuex';
+  import {mapActions, mapState} from 'vuex'
 
-  import {Confirmation} from '../../../constants/confirmation';
-  import {Url} from '../../../constants/url';
-  import {Messages} from '../../../constants/messages';
+  import {Confirmation} from '../../../constants/confirmation'
+  import {Messages} from '../../../constants/messages'
+  import {Url} from '../../../constants/url'
 
   export default {
     name: 'WaybillListContent',
@@ -178,10 +178,10 @@
       }),
       waybillSaved: {
         get() {
-          return this.$store.state.waybill.waybillSaved;
+          return this.$store.state.waybill.waybillSaved
         },
         set(value) {
-          this.$store.commit('waybill/setWaybillSaved', value);
+          this.$store.commit('waybill/setWaybillSaved', value)
         }
       }
     },
@@ -192,8 +192,8 @@
       ]),
 
       onDeleteConfirm() {
-        this.removeSelection();
-        const itemIdsToDelete = this.itemIdsToDelete;
+        this.removeSelection()
+        const itemIdsToDelete = this.itemIdsToDelete
         this.$http.delete(Url.WAYBILL, {
           body: itemIdsToDelete,
           headers: {
@@ -201,70 +201,70 @@
           }
         })
           .then(() => {
-            this.hasDeleted = true;
-            this.itemIdsToDelete = [];
+            this.hasDeleted = true
+            this.itemIdsToDelete = []
             this.$store.dispatch('waybill/pageWaybillChange', {
               pageNumber: 1,
               pageSize: 10
-            });
-          });
+            })
+          })
       },
 
       getAlternateLabel(count) {
-        const plural = count > 1 ? 's' : '';
-        return `${count} waybill${plural} selected`;
+        const plural = count > 1 ? 's' : ''
+        return `${count} waybill${plural} selected`
       },
 
       removeSelection() {
-        this.selectedRows.splice(0, this.selectedRows.length);
-        this.selectedIds = [];
+        this.selectedRows.splice(0, this.selectedRows.length)
+        this.selectedIds = []
       },
 
       onCancel() {
-        this.removeSelection();
-        this.itemIdsToDelete = [];
+        this.removeSelection()
+        this.itemIdsToDelete = []
       },
 
       showDeleteConfirmDialog(idToDelete) {
-        this.activeConfirmDialog = true;
+        this.activeConfirmDialog = true
         if (Array.isArray(idToDelete)) {
-          this.itemIdsToDelete = idToDelete;
+          this.itemIdsToDelete = idToDelete
         } else {
-          this.itemIdsToDelete.push(idToDelete);
+          this.itemIdsToDelete.push(idToDelete)
         }
       },
 
       onSelect(items) {
-        this.selectedRows = items;
-        this.selectedIds = items.map((item) => item.id);
+        this.selectedRows = items
+        this.selectedIds = items.map((item) => item.id)
       },
 
       getWaybill(id) {
-        this.$router.push({name: 'get-waybill', params: {id}});
+        this.$router.push({name: 'get-waybill', params: {id}})
       },
 
       customSort() {
-        this.$store.commit('waybill/setSort', `${this.currentSort},${this.currentSortOrder}`);
+        this.$store.commit('waybill/setSort', `${this.currentSort},${this.currentSortOrder}`)
         if (this.isMounted) {
           this.$store.dispatch('waybill/pageWaybillChange', {
             pageNumber: 1,
             pageSize: 10
-          });
+          })
         }
       }
     },
 
     mounted: function() {
-      this.userRoles = JSON.parse(localStorage.getItem('roles'));
+      this.userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!this.userRoles || !this.userRoles.includes('MANAGER')
           && !this.userRoles.includes('DRIVER')
           && !this.userRoles.includes('COMPANY_OWNER')
       ) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
-      this.isMounted = true;
+      this.isMounted = true
     }
-  };
+  }
 </script>
 
 <style scoped>

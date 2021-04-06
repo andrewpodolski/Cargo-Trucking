@@ -51,10 +51,10 @@
 </template>
 
 <script>
-  import moment from 'moment';
+  import moment from 'moment'
 
-  import {Messages} from '../../../constants/messages';
-  import {Url} from '../../../constants/url';
+  import {Messages} from '../../../constants/messages'
+  import {Url} from '../../../constants/url'
 
   export default {
     name: 'WaybillViewContent',
@@ -87,17 +87,17 @@
             this.$store.dispatch('websocket/send', {
               achieveTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
               checkpointAddress: this.currentCheckpoint.address
-            });
+            })
 
-            this.getCheckpoints();
+            this.getCheckpoints()
 
-            this.hasError = false;
-            this.sending = false;
+            this.hasError = false
+            this.sending = false
           }, response => {
-            this.hasError = true;
-            this.errorMessage = response.body.errors[0];
-            this.sending = false;
-          });
+            this.hasError = true
+            this.errorMessage = response.body.errors[0]
+            this.sending = false
+          })
       },
 
       getCheckpoints() {
@@ -112,17 +112,17 @@
                 address: item.address,
                 requiredArrivalDate: moment(item.requiredArrivalDate).format('YYYY-MM-DD HH:MM'),
                 checkpointDate: item.checkpointDate ? moment(item.checkpointDate).format('YYYY-MM-DD HH:MM') : null
-              };
-            });
+              }
+            })
 
             for (let i = 0; i < this.checkpoints.length; i++) {
-              this.currentCheckpoint = null;
+              this.currentCheckpoint = null
               if (this.checkpoints[i].checkpointDate === null) {
-                this.currentCheckpoint = this.checkpoints[i];
+                this.currentCheckpoint = this.checkpoints[i]
                 if (i === this.checkpoints.length - 1) {
-                  this.reachButtonTitle = 'Finish';
+                  this.reachButtonTitle = 'Finish'
                 }
-                break;
+                break
               }
             }
 
@@ -131,58 +131,58 @@
               const request = {
                 query: this.checkpoints[i].address,
                 fields: ['name', 'geometry']
-              };
+              }
 
               this.service.findPlaceFromQuery(request, (results, status) => {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
-                  let color = 'blue';
+                  let color = 'blue'
                   if (i === this.checkpoints.length - 1) {
-                    color = 'green';
+                    color = 'green'
                   }
                   if (this.checkpoints[i].checkpointDate !== null) {
-                    color = 'red';
+                    color = 'red'
                   }
-                  this.pushCheckpointLocation(i, results[0].geometry.location);
+                  this.pushCheckpointLocation(i, results[0].geometry.location)
                   new google.maps.Marker({
                     map: this.map,
                     title: results[0].name,
                     icon: `http://maps.google.com/mapfiles/ms/micons/${color}.png`,
                     position: results[0].geometry.location
-                  });
+                  })
                 }
-              });
+              })
             }
             /* eslint-enable no-undef */
-          });
+          })
       },
 
       pushCheckpointLocation(index, location) {
-        this.checkpoints[index].location = location;
+        this.checkpoints[index].location = location
 
         for (let i = 0; i < this.checkpoints.length; i++) {
           if (!this.checkpoints[i].location) {
-            return;
+            return
           }
         }
-        this.writePath(this.map);
+        this.writePath(this.map)
       },
 
       writePath(map) {
         /* eslint-disable no-undef */
-        let path = new google.maps.MVCArray();
+        let path = new google.maps.MVCArray()
         let poly = new google.maps.Polyline({
           map: this.map,
           strokeColor: '#4986E7'
-        });
-        const directionService = new google.maps.DirectionsService();
+        })
+        const directionService = new google.maps.DirectionsService()
 
-        const waypoints = [...this.checkpoints];
-        waypoints.shift();
-        waypoints.pop();
+        const waypoints = [...this.checkpoints]
+        waypoints.shift()
+        waypoints.pop()
 
-        const waypointsArray = [];
+        const waypointsArray = []
         for (let i = 0; i < waypoints.length; i++) {
-          waypointsArray.push({location: waypoints[i].location});
+          waypointsArray.push({location: waypoints[i].location})
         }
 
         directionService.route({
@@ -193,39 +193,39 @@
         }, (result, status) => {
           if (status == google.maps.DirectionsStatus.OK) {
             for (let j = 0, len = result.routes[0].overview_path.length; j < len; j++) {
-              path.push(result.routes[0].overview_path[j]);
-              poly.getPath().push(path.getAt(j));
-              map.panTo(path.getAt(j));
+              path.push(result.routes[0].overview_path[j])
+              poly.getPath().push(path.getAt(j))
+              map.panTo(path.getAt(j))
             }
             const latlng = this.currentCheckpoint ? this.currentCheckpoint.location
-                          : this.checkpoints[this.checkpoints.length - 1].location;
-            map.setCenter(latlng);
+                          : this.checkpoints[this.checkpoints.length - 1].location
+            map.setCenter(latlng)
           }
-        });
+        })
         /* eslint-enable no-undef */
       }
     },
 
     mounted: function() {
-      this.userRoles = JSON.parse(localStorage.getItem('roles'));
+      this.userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!this.userRoles || !this.userRoles.includes('MANAGER')
           && !this.userRoles.includes('DRIVER')
           && !this.userRoles.includes('COMPANY_OWNER')
       ) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
 
       /* eslint-disable no-undef */
       const map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8
-      });
-      this.map = map;
-      this.service = new google.maps.places.PlacesService(map);
+      })
+      this.map = map
+      this.service = new google.maps.places.PlacesService(map)
       /* eslint-enable no-undef */
 
-      this.getCheckpoints();
+      this.getCheckpoints()
     }
-  };
+  }
 </script>
 
 <style scoped>

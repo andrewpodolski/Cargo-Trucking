@@ -23,4 +23,4 @@ export const FieldsValueBounds = {
     min: 1,
     max: 20000
   }
-};
+}

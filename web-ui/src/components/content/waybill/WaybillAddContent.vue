@@ -111,17 +111,17 @@
 </template>
 
 <script>
-  import {mapGetters, mapState} from 'vuex';
-  import {required} from 'vuelidate/lib/validators';
-  import {TimeSelect} from 'element-ui';
-  import 'element-ui/lib/theme-chalk/index.css';
-  import moment from 'moment';
+  import {TimeSelect} from 'element-ui'
+  import 'element-ui/lib/theme-chalk/index.css'
+  import moment from 'moment'
+  import {required} from 'vuelidate/lib/validators'
+  import {mapGetters, mapState} from 'vuex'
 
-  import CarList from './components/CarList';
-  import CheckpointList from './components/CheckpointList';
-  import {Messages} from '../../../constants/messages';
-  import {Errors} from '../../../constants/errors';
-  import {Url} from '../../../constants/url';
+  import {Errors} from '../../../constants/errors'
+  import {Messages} from '../../../constants/messages'
+  import {Url} from '../../../constants/url'
+  import CarList from './components/CarList'
+  import CheckpointList from './components/CheckpointList'
 
   export default {
     name: 'WaybillAddContent',
@@ -163,80 +163,80 @@
       }),
       arrivalDate: {
         get() {
-          return this.$store.state.waybill.data.arrivalDate;
+          return this.$store.state.waybill.data.arrivalDate
         },
         set(value) {
-          this.$store.commit('waybill/updateArrivalDate', value);
+          this.$store.commit('waybill/updateArrivalDate', value)
         }
       },
       arrivalTime: {
         get() {
-          return this.$store.state.waybill.data.arrivalTime;
+          return this.$store.state.waybill.data.arrivalTime
         },
         set(value) {
-          this.$store.commit('waybill/updateArrivalTime', value);
+          this.$store.commit('waybill/updateArrivalTime', value)
         }
       }
     },
 
     methods: {
       goBack() {
-        this.$router.push({name: 'get-invoice', params: {id: this.$route.params.id}});
+        this.$router.push({name: 'get-invoice', params: {id: this.$route.params.id}})
       },
 
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           if (fieldName === 'arrivalDate') {
-            this.$store.commit('waybill/setInvalidArrivalDate', true);
+            this.$store.commit('waybill/setInvalidArrivalDate', true)
           }
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       validateWaybillWhenCheckpointAdd() {
         if (this.invalidArrivalDate) {
-          this.$v.$touch();
+          this.$v.$touch()
         }
       },
 
       validateArrivalDate() {
-        this.$v.$touch();
+        this.$v.$touch()
       },
 
       showCarsTable() {
-        this.$store.commit('waybill/showCarsTable');
+        this.$store.commit('waybill/showCarsTable')
       },
 
       validateWaybill() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.saveWaybill();
+          this.saveWaybill()
         }
       },
 
       setArrivalDate() {
-        this.$store.commit('waybill/setArrivalDate', this.arrivalDate);
+        this.$store.commit('waybill/setArrivalDate', this.arrivalDate)
       },
 
       saveWaybill() {
-        this.setArrivalDate();
-        this.$store.dispatch('waybill/saveWaybill');
-        this.$router.push('/waybills');
-        this.$v.$reset();
+        this.setArrivalDate()
+        this.$store.dispatch('waybill/saveWaybill')
+        this.$router.push('/waybills')
+        this.$v.$reset()
       }
     },
 
     mounted: function() {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('MANAGER')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
 
-      this.$store.commit('waybill/removeData');
-      this.$v.$reset();
+      this.$store.commit('waybill/removeData')
+      this.$v.$reset()
 
       this.$http.get(`${Url.INVOICE}/${this.$route.params.id}`, {
         headers: {
@@ -244,9 +244,9 @@
         }
       })
         .then(response => {
-          let load = 0;
+          let load = 0
           for (let i = 0; i < response.body.products.length; i++) {
-            load += response.body.products[i].amount;
+            load += response.body.products[i].amount
           }
 
           const invoice = {
@@ -255,20 +255,20 @@
             storageAddress: response.body.storage.address,
             productOwnerAddress: response.body.productOwner.address,
             load: load
-          };
+          }
 
-          this.$store.commit('waybill/updateInvoice', invoice);
+          this.$store.commit('waybill/updateInvoice', invoice)
         }, response => {
-          this.$store.commit('waybill/setHasError', true);
-          this.$store.commit('waybill/setErrorMessage', response.body.errors[0]);
-        });
+          this.$store.commit('waybill/setHasError', true)
+          this.$store.commit('waybill/setErrorMessage', response.body.errors[0])
+        })
     },
 
     components: {CheckpointList, CarList, TimeSelect}
-  };
+  }
 
   function dateIntoString(date) {
-    return date ? moment(date).format('YYYY-MM-DD') : null;
+    return date ? moment(date).format('YYYY-MM-DD') : null
   }
 </script>
 

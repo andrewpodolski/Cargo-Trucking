@@ -139,16 +139,16 @@
 </template>
 
 <script>
-  import {mapState, mapGetters} from 'vuex';
-  import {required, maxLength} from 'vuelidate/lib/validators';
+  import {required, maxLength} from 'vuelidate/lib/validators'
+  import {mapState, mapGetters} from 'vuex'
 
-  import ProductList from './components/ProductList';
-  import ProductOwnerList from './components/ProductOwnerList';
-  import StorageList from './components/StorageList';
-  import DriverList from './components/DriverList';
-  import {Errors} from '../../../constants/errors';
-  import {FieldsLength} from '../../../constants/fieldsLength';
-  import {Messages} from '../../../constants/messages';
+  import {Errors} from '../../../constants/errors'
+  import {FieldsLength} from '../../../constants/fieldsLength'
+  import {Messages} from '../../../constants/messages'
+  import DriverList from './components/DriverList'
+  import ProductList from './components/ProductList'
+  import ProductOwnerList from './components/ProductOwnerList'
+  import StorageList from './components/StorageList'
 
   export default {
     name: 'InvoiceAddContent',
@@ -192,72 +192,72 @@
       }),
       number: {
         get() {
-          return this.$store.state.invoice.data.number;
+          return this.$store.state.invoice.data.number
         },
         set(value) {
-          this.$store.commit('invoice/updateDataNumber', value);
+          this.$store.commit('invoice/updateDataNumber', value)
         }
       },
       invoiceSaved: {
         get() {
-          return this.$store.state.invoice.invoiceSaved;
+          return this.$store.state.invoice.invoiceSaved
         },
         set(value) {
-          this.$store.commit('invoice/setInvoiceSaved', value);
+          this.$store.commit('invoice/setInvoiceSaved', value)
         }
       }
     },
 
     methods: {
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       },
 
       validateInvoice() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.saveInvoice();
+          this.saveInvoice()
         }
       },
 
       saveInvoice() {
-        this.$store.dispatch('invoice/saveInvoice');
-        this.$v.$reset();
+        this.$store.dispatch('invoice/saveInvoice')
+        this.$v.$reset()
       },
 
       showProductOwnersTable() {
-        this.$store.commit('invoice/showProductOwnersTable');
+        this.$store.commit('invoice/showProductOwnersTable')
       },
 
       showStoragesTable() {
-        this.$store.commit('invoice/showStoragesTable');
+        this.$store.commit('invoice/showStoragesTable')
       },
 
       showDriversTable() {
-        this.$store.commit('user/updateUserRoles', ['DRIVER']);
-        this.$store.commit('invoice/showDriversTable');
+        this.$store.commit('user/updateUserRoles', ['DRIVER'])
+        this.$store.commit('invoice/showDriversTable')
       }
     },
 
     mounted: function() {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('DISPATCHER')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
 
-      this.$store.commit('invoice/setInvoiceSaved', false);
-      this.$store.commit('invoice/setSending', false);
-      this.$store.commit('invoice/setHasError', false);
-      this.$store.commit('invoice/removeData');
+      this.$store.commit('invoice/setInvoiceSaved', false)
+      this.$store.commit('invoice/setSending', false)
+      this.$store.commit('invoice/setHasError', false)
+      this.$store.commit('invoice/removeData')
     },
 
     components: {ProductOwnerList, StorageList, DriverList, ProductList}
-  };
+  }
 </script>
 
 <style scoped>

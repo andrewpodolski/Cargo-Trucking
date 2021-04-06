@@ -77,12 +77,12 @@
 </template>
 
 <script>
-  import {maxLength, required} from 'vuelidate/lib/validators';
+  import {maxLength, required} from 'vuelidate/lib/validators'
 
-  import {Messages} from '../../../constants/messages';
-  import {Errors} from '../../../constants/errors';
-  import {FieldsLength} from '../../../constants/fieldsLength';
-  import {Url} from '../../../constants/url';
+  import {Errors} from '../../../constants/errors'
+  import {FieldsLength} from '../../../constants/fieldsLength'
+  import {Messages} from '../../../constants/messages'
+  import {Url} from '../../../constants/url'
 
   export default {
     name: 'TemplateContent',
@@ -113,57 +113,57 @@
     methods: {
       addTemplateText(chip) {
         if (chip === 'Full Name') {
-          this.templateMessage = (this.templateMessage ? this.templateMessage : '') + '<fullName; separator=" ">';
+          this.templateMessage = (this.templateMessage ? this.templateMessage : '') + '<fullName; separator=" ">'
         } else if (chip === 'Full Address') {
-          this.templateMessage = (this.templateMessage ? this.templateMessage : '') + '<fullAddress; separator=" ">';
+          this.templateMessage = (this.templateMessage ? this.templateMessage : '') + '<fullAddress; separator=" ">'
         } else if (chip === 'Email') {
-          this.templateMessage = (this.templateMessage ? this.templateMessage : '') + '<email>';
+          this.templateMessage = (this.templateMessage ? this.templateMessage : '') + '<email>'
         }
       },
 
       saveTemplate() {
-        this.sending = true;
+        this.sending = true
         this.$http.post(Url.TEMPLATE, JSON.stringify(this.templateMessage), {
           headers: {
             Authorization: `Bearer ${localStorage.accessToken}`
           }
         })
           .then(() => {
-            this.templateSaved = true;
-            this.sending = false;
-            this.hasError = false;
-            this.$v.$reset();
+            this.templateSaved = true
+            this.sending = false
+            this.hasError = false
+            this.$v.$reset()
           }, response => {
-            this.sending = false;
-            this.hasError = true;
-            this.errorMessage = response.body.errors[0];
-          });
+            this.sending = false
+            this.hasError = true
+            this.errorMessage = response.body.errors[0]
+          })
       },
 
       validateTemplate() {
-        this.$v.$touch();
+        this.$v.$touch()
         if (!this.$v.$invalid) {
-          this.saveTemplate();
+          this.saveTemplate()
         }
       },
 
       getValidationClass(fieldName) {
-        const field = this.$v[fieldName];
+        const field = this.$v[fieldName]
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
-          };
+          }
         }
       }
     },
 
     mounted: function() {
-      const userRoles = JSON.parse(localStorage.getItem('roles'));
+      const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('ADMIN')) {
-        this.$router.replace('/');
+        this.$router.replace('/')
       }
     }
-  };
+  }
 </script>
 
 <style scoped>

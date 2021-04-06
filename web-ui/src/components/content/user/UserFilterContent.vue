@@ -35,34 +35,34 @@
         this.$store.dispatch('user/pageUsersChange', {
           pageNumber: 1,
           pageSize: 10
-        });
+        })
       },
 
       removeFilters() {
-        this.$store.commit('user/removeFilter');
-        this.find();
+        this.$store.commit('user/removeFilter')
+        this.find()
       }
     },
 
     computed: {
       surname: {
         get() {
-          return this.$store.state.user.filter.surname;
+          return this.$store.state.user.filter.surname
         },
         set(value) {
-          this.$store.commit('user/updateSurname', value);
+          this.$store.commit('user/updateSurname', value)
         }
       },
       userRoles: {
         get() {
-          return this.$store.state.user.filter.userRoles;
+          return this.$store.state.user.filter.userRoles
         },
         set(value) {
-          this.$store.commit('user/updateUserRoles', value);
+          this.$store.commit('user/updateUserRoles', value)
         }
       }
     }
-  };
+  }
 </script>
 
 <style scoped>
