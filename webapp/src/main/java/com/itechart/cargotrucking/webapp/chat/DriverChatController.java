@@ -44,10 +44,7 @@ public class DriverChatController {
     }
 
     @GetMapping
-    public Page<MessageInfoDto> getMessages(
-            @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable,
-            MessageFilterDto filter
-    ) {
+    public Page<MessageInfoDto> getMessages(@PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable, MessageFilterDto filter) {
         return messageService.find(filter, pageable);
     }
 

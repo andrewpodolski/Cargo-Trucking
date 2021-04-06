@@ -14,7 +14,6 @@ public interface MessageService {
     @Transactional
     long add(MessageAddDto message);
 
-    @Transactional
     Page<MessageInfoDto> find(MessageFilterDto message, Pageable pageable);
 
     @Transactional

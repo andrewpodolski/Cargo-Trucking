@@ -86,7 +86,7 @@
             this.errorMessage = res.body.errors[0];
           })
           .then(() => {
-            this.$http.get(`${Url.DRIVERS_CHAT}?page=0&size=1000`, {headers}).then(res => {
+            this.$http.get(`${Url.DRIVERS_CHAT}`, {headers}).then(res => {
               this.messages = res.body.content.reverse();
             });
           });

@@ -8,26 +8,31 @@
 </template>
 
 <script>
-  export default {
-    name: 'ToolBar',
+export default {
+  name: 'ToolBar',
 
-    methods: {
-      showBar() {
-        this.$store.commit('sidebar/changeVisibility', true);
-      }
-    },
+  methods: {
+    showBar() {
+      this.$store.commit('sidebar/changeVisibility', true);
+    }
+  },
 
-    props: {
-      title: String
-    },
+  props: {
+    title: String
+  },
 
-    computed: {
-      normalizedTitle: function() {
+  computed: {
+    normalizedTitle: function () {
+      console.log(this.title);
+      if (this.title === '/driversChat') {
+        return "Drivers Chat";
+      } else {
         const splitted = this.title.replace('-', ' ').split('/');
         return splitted[1].charAt(0).toUpperCase() + splitted[1].slice(1).toLowerCase();
       }
     }
-  };
+  }
+};
 </script>
 
 <style scoped>
