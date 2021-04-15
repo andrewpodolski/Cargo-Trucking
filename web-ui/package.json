@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -27,7 +28,9 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.1",
     "@vue/cli-plugin-eslint": "^3.12.1",
+    "@vue/cli-plugin-unit-jest": "^4.5.12",
     "@vue/cli-service": "^3.12.1",
+    "@vue/test-utils": "^1.0.3",
     "babel-eslint": "^10.1.0",
     "eslint": "^5.16.0",
     "eslint-loader": "^4.0.2",
