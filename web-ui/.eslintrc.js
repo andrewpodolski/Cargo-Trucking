@@ -71,5 +71,45 @@ module.exports = {
   ],
   'parserOptions': {
     'parser': 'babel-eslint'
-  }
+  },
+  overrides: [
+    {
+      files: [
+        '*.vue'
+      ],
+      rules: {
+        'import/order': [
+          'error',
+          {
+            groups: [
+              [
+                'builtin',
+                'external'
+              ],
+              [
+                'index',
+                'internal',
+                'parent',
+                'sibling'
+              ]
+            ],
+            'newlines-between': 'always',
+            alphabetize: {
+              order: 'asc',
+              caseInsensitive: true
+            }
+          }
+        ]
+      }
+    },
+    {
+      files: [
+        '**/__tests__/*.{j,t}s?(x)',
+        '**/tests/unit/**/*.spec.{j,t}s?(x)'
+      ],
+      env: {
+        jest: true
+      }
+    }
+  ]
 }

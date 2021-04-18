@@ -28,8 +28,7 @@ const actions = {
       headers: {
         Authorization: `Bearer ${localStorage.accessToken}`
       }
-    })
-      .then(response => {
+    }).then(response => {
         const clients = []
         for (const item of response.data.content) {
           const status = item.status.charAt(0) + item.status.slice(1).toLowerCase()

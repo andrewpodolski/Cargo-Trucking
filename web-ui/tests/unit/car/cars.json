@@ -1,0 +1,19 @@
+{
+  "cars": [
+    {
+      "number": "1324",
+      "loadCapacity": 1000,
+      "carType": "REFRIGERATOR"
+    },
+    {
+      "number": "1666",
+      "loadCapacity": 700,
+      "carType": "COVERED_BODY"
+    },
+    {
+      "number": "0007",
+      "loadCapacity": 800,
+      "carType": "COVERED_BODY"
+    }
+  ]
+}
