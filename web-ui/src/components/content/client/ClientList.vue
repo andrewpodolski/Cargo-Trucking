@@ -189,8 +189,7 @@
           headers: {
             Authorization: `Bearer ${localStorage.accessToken}`
           }
-        })
-          .then(() => {
+        }).then(() => {
             this.hasActivated = true
             this.clientForActivate.deleteDate = null
           })
@@ -204,8 +203,7 @@
           headers: {
             Authorization: `Bearer ${localStorage.accessToken}`
           }
-        })
-          .then(() => {
+        }).then(() => {
             this.hasDeleted = true
             this.itemIdsToDelete = []
             this.$store.dispatch('client/pageClientChange', {

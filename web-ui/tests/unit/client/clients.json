@@ -1,0 +1,24 @@
+{
+  "clients": [
+    {
+      "name": "FinTechLogistics",
+      "status": "PRIVATE"
+    },
+    {
+      "name": "ITechTrans",
+      "status": "LEGAL"
+    },
+    {
+      "name": "ComoLog",
+      "status": "PRIVATE"
+    },
+    {
+      "name": "AB Group",
+      "status": "PRIVATE"
+    },
+    {
+      "name": "PodolLogTrans",
+      "status": "PRIVATE"
+    }
+  ]
+}

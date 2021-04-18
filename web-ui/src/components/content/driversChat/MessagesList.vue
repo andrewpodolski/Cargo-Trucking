@@ -3,8 +3,12 @@
     <form novalidate @submit.prevent="validateMessage">
       <md-card>
         <md-card-content>
-          <MessageItem class="message-in-edit" :message-info="messageInEdit" v-if="messageInEdit" :isInEdit="isInEdit"
-                       :closeEdit="closeEdit"/>
+          <MessageItem
+            class="message-in-edit"
+            :message-info="messageInEdit"
+            v-if="messageInEdit"
+            :isInEdit="isInEdit"
+            :closeEdit="closeEdit"/>
           <md-field>
             <label class="align-top">Message</label>
             <md-input v-model="text" name="text" :disabled="sending"/>
@@ -22,7 +26,10 @@
       </md-snackbar>
     </form>
     <div v-for="message in messages" v-bind:key="message.id">
-      <MessageItem :messageInfo="message" :editMessage="fillInput" :deleteMessage="deleteMessage"></MessageItem>
+      <MessageItem
+        :messageInfo="message"
+        :editMessage="fillInput"
+        :deleteMessage="deleteMessage"></MessageItem>
     </div>
   </div>
 </template>
@@ -76,16 +83,14 @@
         this.$http.delete(Url.DRIVERS_CHAT, {
           body: message.id,
           headers
-        })
-          .then(() => {
+        }).then(() => {
             this.sending = false
             this.hasError = false
           }, res => {
             this.hasError = true
             this.sending = false
             this.errorMessage = res.body.errors[0]
-          })
-          .then(() => {
+          }).then(() => {
             this.$http.get(`${Url.DRIVERS_CHAT}`, {headers}).then(res => {
               this.messages = res.body.content.reverse()
             })

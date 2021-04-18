@@ -36,6 +36,5 @@ describe('CarListContent component', () => {
 
   it('renders list correctly', () => {
     expect(wrapper.find('md-table').exists()).toBeTruthy()
-
   })
 })

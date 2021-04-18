@@ -1,6 +1,6 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import {shallowMount, createLocalVue} from '@vue/test-utils'
 import VueRouter from 'vue-router'
-import { Vuelidate } from 'vuelidate'
+import {Vuelidate} from 'vuelidate'
 
 import CarAddContent from '../../../src/components/content/car/CarAddContent'
 
@@ -28,12 +28,12 @@ describe('CarAddContent component', () => {
   })
 
   it('renders error messages when the form is empty', async () => {
-     await wrapper.setData({
-        number: 0
-     })
+    await wrapper.setData({
+      number: 0
+    })
     await wrapper.vm.$nextTick()
 
-    wrapper.vm.$emit('submit')
+    await wrapper.vm.$emit('submit')
     await wrapper.vm.$nextTick()
     expect(wrapper.findAll('.md-error').length).toBe(4)
     expect(wrapper.find('.md-error').text()).toBe('Field must be maximum 10 characters')

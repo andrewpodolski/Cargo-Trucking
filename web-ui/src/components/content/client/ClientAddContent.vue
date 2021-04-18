@@ -367,7 +367,6 @@
         }
       }
     },
-
     methods: {
       getValidationClass(fieldName) {
         const field = this.$v[fieldName]
@@ -377,7 +376,6 @@
           }
         }
       },
-
       getValidationClassAdminInfo(fieldName) {
         const field = this.$v.adminInfo[fieldName]
         if (field) {
@@ -386,14 +384,12 @@
           }
         }
       },
-
       validateClient() {
         this.$v.$touch()
         if (!this.$v.$invalid) {
           this.saveClient()
         }
       },
-
       saveClient() {
         this.sending = true
         const form = {
@@ -406,8 +402,7 @@
           headers: {
             Authorization: `Bearer ${localStorage.accessToken}`
           }
-        })
-          .then(() => {
+        }).then(() => {
             this.clientSaved = true
             this.sending = false
             this.clearForm()
@@ -418,9 +413,7 @@
             this.sending = false
             this.errorMessage = response.body.errors[0]
           })
-
       },
-
       clearForm() {
         this.name = null
         this.status = ''
@@ -434,7 +427,6 @@
         this.adminInfo.passwordConfirm = null
       }
     },
-
     mounted: function () {
       const userRoles = JSON.parse(localStorage.getItem('roles'))
       if (!userRoles || !userRoles.includes('SYS_ADMIN')) {
