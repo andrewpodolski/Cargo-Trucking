@@ -67,40 +67,6 @@ module.exports = {
           }
         ]
       }
-    }
-  ],
-  'parserOptions': {
-    'parser': 'babel-eslint'
-  },
-  overrides: [
-    {
-      files: [
-        '*.vue'
-      ],
-      rules: {
-        'import/order': [
-          'error',
-          {
-            groups: [
-              [
-                'builtin',
-                'external'
-              ],
-              [
-                'index',
-                'internal',
-                'parent',
-                'sibling'
-              ]
-            ],
-            'newlines-between': 'always',
-            alphabetize: {
-              order: 'asc',
-              caseInsensitive: true
-            }
-          }
-        ]
-      }
     },
     {
       files: [
@@ -111,5 +77,8 @@ module.exports = {
         jest: true
       }
     }
-  ]
+  ],
+  'parserOptions': {
+    'parser': 'babel-eslint'
+  }
 }

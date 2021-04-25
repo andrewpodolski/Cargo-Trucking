@@ -3,8 +3,8 @@
     <md-card md-with-hover v-bind:class="{'edit-card': isInEdit}">
       <md-ripple>
         <md-card-content v-bind:class="{'edit-content': isInEdit}">
-          {{messageInfo.message}}
-          <span class="action-buttons" v-if="messageInfo.author === this.$store.state.sidebar.username && !isInEdit">
+          <span data-test-id="message">{{messageInfo.message}}</span>
+          <span class="action-buttons" v-if="messageInfo.author === userName && !isInEdit">
             <md-button class="md-icon-button md-dense md-primary" @click="editMessageItem">
               <md-icon title="edit message">edit</md-icon>
             </md-button>
@@ -22,7 +22,11 @@
           <div class="md-subhead" v-bind:class="{'edit-time': isInEdit}">Author: {{messageInfo.author}}</div>
           <div class="md-subhead" v-bind:class="{'edit-date': isInEdit}">Date:
             {{moment(messageInfo.date).format(dateFormat)}}
-            <span class="md-subhead" v-if="messageInfo.isEdited">(Edited)</span>
+            <span
+              data-test-id="is-edited-label"
+              class="md-subhead" v-if="messageInfo.isEdited">
+              (Edited)
+            </span>
           </div>
         </md-card-header>
       </md-ripple>
@@ -32,16 +36,45 @@
 
 <script>
   import moment from 'moment'
+  import {mapState} from 'vuex'
 
   export default {
     name: 'MessageItem',
-    props: ['messageInfo', 'editMessage', 'isInEdit', 'closeEdit', 'deleteMessage'],
+    props: {
+      messageInfo: {
+        type: Object,
+        default () {
+          return {}
+        }
+      },
+      editMessage: {
+        type: Function,
+        default: () => null
+      },
+      isInEdit: {
+        type: Boolean,
+        default: false
+      },
+      closeEdit: {
+        type: Function,
+        default: () => null
+      },
+      deleteMessage: {
+        type: Function,
+        default: () => null
+      }
+    },
 
     data: () => ({
       moment,
       dateFormat: 'MM/DD/YYYY HH:mm'
     }),
-
+    computed: {
+      ...mapState('sidebar'),
+      userName () {
+        return this.$store.state.sidebar.username
+      }
+    },
     methods: {
       editMessageItem() {
         this.editMessage(this.messageInfo)
