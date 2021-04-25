@@ -231,13 +231,18 @@
       }
 
       /* eslint-disable no-undef */
-      const map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 53.540, lng: 27.300},
-        zoom: 8
-      })
-      this.map = map
-      this.service = new google.maps.places.PlacesService(map)
-      /* eslint-enable no-undef */
+      if (typeof google === 'undefined') {
+        return {}
+      } else {
+        const map = new google.maps.Map(document.getElementById('map') , {
+          center: {lat: 53.540, lng: 27.300},
+          zoom: 8
+        })
+        this.map = map
+        this.service = new google.maps.places.PlacesService(map) || null
+        /* eslint-enable no-undef */
+      }
+
     }
   }
 </script>
