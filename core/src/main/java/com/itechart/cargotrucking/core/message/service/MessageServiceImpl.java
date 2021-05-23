@@ -7,6 +7,7 @@ import com.itechart.cargotrucking.core.message.dto.MessageFilterDto;
 import com.itechart.cargotrucking.core.message.dto.MessageInfoDto;
 import com.itechart.cargotrucking.core.message.dto.MessageUpdateDto;
 import com.itechart.cargotrucking.core.message.repository.MessageRepository;
+import com.itechart.cargotrucking.core.user.service.UserService;
 import com.querydsl.core.BooleanBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -29,37 +31,41 @@ public class MessageServiceImpl implements MessageService {
 
     private MessageRepository messageRepository;
     private ModelMapper modelMapper;
+    private UserService userService;
 
     @Autowired
-    public MessageServiceImpl(MessageRepository messageRepository, ModelMapper modelMapper) {
+    public MessageServiceImpl(MessageRepository messageRepository, ModelMapper modelMapper, UserService userService) {
         this.messageRepository = messageRepository;
         this.modelMapper = modelMapper;
+        this.userService = userService;
     }
 
     @Override
     public long add(MessageAddDto messageAddDto) {
         Message message = modelMapper.map(messageAddDto, Message.class);
+        long clientId = userService.findByLogin(messageAddDto.getAuthor()).getClientId();
         message.setDate(LocalDateTime.now());
         message.setIsEdited(false);
+        message.setClientId(clientId);
         messageRepository.save(message);
 
         return message.getId();
     }
 
     @Override
-    public Page<MessageInfoDto> find(MessageFilterDto message, Pageable pageable) {
-        if (pageable.getPageSize() < minPageSize || pageable.getPageSize() > maxPageSize) {
-            pageable = PageRequest.of(pageable.getPageNumber(), defaultPageSize, Sort.Direction.ASC, "id");
-        }
-        Page<Message> page = messageRepository.findAll(whereBuilder(message), pageable);
-        return page.map(messageItem -> modelMapper.map(messageItem, MessageInfoDto.class));
+    public List<Message> find(String username) {
+        long clientId = userService.findByLogin(username).getClientId();
+        List<Message> page = messageRepository.findAllByClientId(clientId);
+        return page;
     }
 
     @Override
     public void update(long id, MessageUpdateDto messageUpdateDto) {
         Message message = modelMapper.map(messageUpdateDto, Message.class);
+        long clientId = userService.findByLogin(messageUpdateDto.getAuthor()).getClientId();
         message.setDate(LocalDateTime.now());
         message.setIsEdited(true);
+        message.setClientId(clientId);
         messageRepository.save(message);
     }
 

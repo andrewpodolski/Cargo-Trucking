@@ -123,6 +123,7 @@
 
       service: null,
       map: null,
+      marker: {},
       addressValid: true
     }),
 
@@ -157,8 +158,10 @@
         this.service.findPlaceFromQuery(request, (results, status) => {
           this.addresses = []
           if (status === google.maps.places.PlacesServiceStatus.OK) {
-            this.map.setCenter(results[0].geometry.location)
-            this.map.setZoom(12)
+            const position = results[0].geometry.location
+            this.map.setCenter(position)
+            this.marker.setPosition(position)
+            this.map.setZoom(15)
             for (let i = 0; i < results.length; i++) {
               this.addresses.push(results[i].name)
             }
@@ -246,8 +249,15 @@
           /* eslint-disable no-undef */
           this.service.findPlaceFromQuery(request, (results, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-              this.map.setCenter(results[0].geometry.location)
-              this.map.setZoom(12)
+              const position = results[0].geometry.location
+              const marker = new google.maps.Marker({
+                title: 'Marker',
+                map,
+                position
+              })
+              this.map.setCenter(position)
+              this.marker = marker
+              this.map.setZoom(15)
             }
           })
           /* eslint-enable no-undef */

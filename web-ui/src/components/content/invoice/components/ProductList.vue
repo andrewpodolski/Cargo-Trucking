@@ -8,7 +8,7 @@
       <md-table-toolbar>
         <h1 class="md-title">Product List</h1>
         <md-button
-          v-if="userRoles.includes('DISPATCHER') && !delivered"
+          v-if="userRoles.includes('MANAGER') && !delivered"
           class="md-icon-button
           md-raised
           md-primary"
@@ -19,7 +19,7 @@
       </md-table-toolbar>
 
       <md-table-toolbar
-        v-if="userRoles.includes('DISPATCHER') && !delivered"
+        v-if="userRoles.includes('MANAGER') && !delivered"
         slot="md-table-alternate-header"
         slot-scope="{ count }"
       >
@@ -36,7 +36,7 @@
         slot="md-table-row"
         slot-scope="{ item }"
         md-selectable="multiple"
-        :md-disabled="!userRoles.includes('DISPATCHER') || delivered"
+        :md-disabled="!userRoles.includes('MANAGER') || delivered"
       >
         <md-table-cell md-label="Name">
           {{ item.name }}
@@ -96,7 +96,7 @@
         </md-table-cell>
 
         <md-table-cell
-          v-if="userRoles.includes('DISPATCHER') && !delivered"
+          v-if="userRoles.includes('MANAGER') && !delivered"
           md-label="Operation"
           class="operation-column"
         >

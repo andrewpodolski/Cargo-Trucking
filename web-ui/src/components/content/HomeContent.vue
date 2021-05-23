@@ -14,7 +14,7 @@
           this.$router.replace('/clients')
         } else if (roles.includes('ADMIN')) {
           this.$router.replace('/users')
-        } else if (roles.includes('DISPATCHER') || roles.includes('MANAGER')) {
+        } else if (roles.includes('MANAGER')) {
           this.$router.replace('/invoices')
         } else if (roles.includes('DRIVER')) {
           this.$router.replace('/waybills')

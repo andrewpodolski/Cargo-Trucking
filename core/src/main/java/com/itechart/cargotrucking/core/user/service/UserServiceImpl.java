@@ -259,12 +259,6 @@ public class UserServiceImpl extends QuerydslUtil implements UserService {
                 && userRoleRepository.existsByIdAndCancelDateIsNull(new UserRoleKey(id, UserRoleEnum.MANAGER));
     }
 
-    @Override
-    public boolean existsByIdAndDispatcherRole(long id) {
-        return userRepository.existsByIdAndDeleteDateIsNull(id)
-                && userRoleRepository.existsByIdAndCancelDateIsNull(new UserRoleKey(id, UserRoleEnum.DISPATCHER));
-    }
-
     private void validateAdd(UserAddDto userAddDto) {
         if (userAddDto.getClientId() == null) {
             throw new UserBadCredentialsException("User cannot have null client id");

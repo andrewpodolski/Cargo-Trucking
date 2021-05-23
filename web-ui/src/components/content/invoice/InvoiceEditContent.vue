@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="userRoles.includes('DISPATCHER')">
+    <div v-if="userRoles.includes('MANAGER')">
       <product-owner-list v-if="showProductOwners"/>
       <storage-list v-if="showStorages"/>
       <driver-list v-if="showDrivers"/>
@@ -20,8 +20,8 @@
               v-model="number"
               name="number"
               :disabled="sending ||
-              (userRoles.includes('MANAGER') && !userRoles.includes('DISPATCHER')) ||
-              (userRoles.includes('COMPANY_OWNER') && !userRoles.includes('MANAGER') && !userRoles.includes('DISPATCHER')) ||
+              (userRoles.includes('MANAGER')) ||
+              (userRoles.includes('COMPANY_OWNER') && !userRoles.includes('MANAGER')) ||
               invoiceStatus === 'DELIVERED'"
               :maxlength="fieldsLength.INVOICE_NUMBER"
             />
@@ -46,8 +46,8 @@
               class="c-pointer"
               readonly
               :disabled="sending ||
-              (userRoles.includes('MANAGER') && !userRoles.includes('DISPATCHER')) ||
-              (userRoles.includes('COMPANY_OWNER') && !userRoles.includes('MANAGER') && !userRoles.includes('DISPATCHER')) ||
+              (userRoles.includes('MANAGER')) ||
+              (userRoles.includes('COMPANY_OWNER') && !userRoles.includes('MANAGER')) ||
               invoiceStatus === 'DELIVERED'"
               @click="showProductOwnersTable"
             />
@@ -66,8 +66,8 @@
               readonly
               class="c-pointer"
               :disabled="sending ||
-              (userRoles.includes('MANAGER') && !userRoles.includes('DISPATCHER')) ||
-              (userRoles.includes('COMPANY_OWNER') && !userRoles.includes('MANAGER') && !userRoles.includes('DISPATCHER')) ||
+              (userRoles.includes('MANAGER')) ||
+              (userRoles.includes('COMPANY_OWNER') && !userRoles.includes('MANAGER')) ||
               invoiceStatus === 'DELIVERED'"
               @click="showStoragesTable"
             />
@@ -86,8 +86,8 @@
               readonly
               class="c-pointer"
               :disabled="sending ||
-              (userRoles.includes('MANAGER') && !userRoles.includes('DISPATCHER')) ||
-              (userRoles.includes('COMPANY_OWNER') && !userRoles.includes('MANAGER') && !userRoles.includes('DISPATCHER')) ||
+              (userRoles.includes('MANAGER')) ||
+              (userRoles.includes('COMPANY_OWNER') && !userRoles.includes('MANAGER')) ||
               invoiceStatus === 'DELIVERED'"
               @click="showDriversTable"
             />
@@ -132,7 +132,7 @@
           </md-button>
 
           <md-button
-            v-if="userRoles.includes('DISPATCHER') && invoiceStatus !== 'DELIVERED'"
+            v-if="userRoles.includes('MANAGER') && invoiceStatus !== 'DELIVERED'"
             type="submit"
             class="md-primary"
             :disabled="sending"
@@ -282,9 +282,7 @@
 
     mounted: function() {
       const userRoles = JSON.parse(localStorage.getItem('roles'))
-      if (!userRoles || !userRoles.includes('DISPATCHER') &&
-          !userRoles.includes('COMPANY_OWNER') && !userRoles.includes('MANAGER')
-      ) {
+      if (!userRoles || !userRoles.includes('MANAGER') && !userRoles.includes('COMPANY_OWNER') && !userRoles.includes('MANAGER')) {
         this.$router.replace('/')
       }
 

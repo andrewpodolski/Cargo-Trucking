@@ -124,8 +124,7 @@ public class InvoiceController {
     ) {
         UserCredentials userCredentials = (UserCredentials) authentication.getCredentials();
 
-        if (userService.existsByIdAndDispatcherRole(userCredentials.getUserId())
-            || userService.existsByIdAndManagerRole(userCredentials.getUserId())
+        if (userService.existsByIdAndManagerRole(userCredentials.getUserId())
         ) {
             if (filter.getStatuses() == null) {
                 filter.setStatuses(new InvoiceStatus[0]);

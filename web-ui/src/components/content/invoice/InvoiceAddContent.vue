@@ -246,7 +246,7 @@
 
     mounted: function() {
       const userRoles = JSON.parse(localStorage.getItem('roles'))
-      if (!userRoles || !userRoles.includes('DISPATCHER')) {
+      if (!userRoles || !userRoles.includes('MANAGER')) {
         this.$router.replace('/')
       }
 

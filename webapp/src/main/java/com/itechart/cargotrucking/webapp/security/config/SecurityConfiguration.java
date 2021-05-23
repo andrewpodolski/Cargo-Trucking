@@ -46,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers("/api/web-socket/**").permitAll()
 
-                .antMatchers(HttpMethod.GET, "/api/users*").hasAnyAuthority(Role.ADMIN.name(), Role.DISPATCHER.name())
+                .antMatchers(HttpMethod.GET, "/api/users*").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name())
                 .antMatchers(HttpMethod.GET, "/api/users/*").hasAuthority(Role.ADMIN.name())
                 .antMatchers(HttpMethod.DELETE, "/api/users").hasAuthority(Role.ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/api/users").hasAuthority(Role.ADMIN.name())
@@ -59,13 +59,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/api/clients/*").hasAuthority(Role.SYS_ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "/api/clients/activate*").hasAuthority(Role.SYS_ADMIN.name())
 
-                .antMatchers(HttpMethod.GET, "/api/storages*").hasAnyAuthority(Role.ADMIN.name(), Role.DISPATCHER.name())
+                .antMatchers(HttpMethod.GET, "/api/storages*").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name())
                 .antMatchers(HttpMethod.GET, "/api/storages/*").hasAuthority(Role.ADMIN.name())
                 .antMatchers(HttpMethod.DELETE, "/api/storages").hasAuthority(Role.ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/api/storages").hasAuthority(Role.ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "/api/storages/*").hasAuthority(Role.ADMIN.name())
 
-                .antMatchers(HttpMethod.GET, "/api/product-owners*").hasAnyAuthority(Role.ADMIN.name(), Role.DISPATCHER.name())
+                .antMatchers(HttpMethod.GET, "/api/product-owners*").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name())
                 .antMatchers(HttpMethod.GET, "/api/product-owners/*").hasAuthority(Role.ADMIN.name())
                 .antMatchers(HttpMethod.DELETE, "/api/product-owners").hasAuthority(Role.ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/api/product-owners").hasAuthority(Role.ADMIN.name())
@@ -82,11 +82,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/cars").hasAuthority(Role.ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "/api/cars/*").hasAuthority(Role.ADMIN.name())
 
-                .antMatchers(HttpMethod.GET, "/api/invoices*").hasAnyAuthority(Role.DISPATCHER.name(), Role.MANAGER.name(), Role.COMPANY_OWNER.name())
-                .antMatchers(HttpMethod.GET, "/api/invoices/*").hasAnyAuthority(Role.DISPATCHER.name(), Role.MANAGER.name(), Role.COMPANY_OWNER.name())
-                .antMatchers(HttpMethod.DELETE, "/api/invoices").hasAnyAuthority(Role.DISPATCHER.name(), Role.MANAGER.name())
-                .antMatchers(HttpMethod.POST, "/api/invoices").hasAuthority(Role.DISPATCHER.name())
-                .antMatchers(HttpMethod.PUT, "/api/invoices/*").hasAuthority(Role.DISPATCHER.name())
+                .antMatchers(HttpMethod.GET, "/api/invoices*").hasAnyAuthority(Role.MANAGER.name(), Role.MANAGER.name(), Role.COMPANY_OWNER.name())
+                .antMatchers(HttpMethod.GET, "/api/invoices/*").hasAnyAuthority(Role.MANAGER.name(), Role.MANAGER.name(), Role.COMPANY_OWNER.name())
+                .antMatchers(HttpMethod.DELETE, "/api/invoices").hasAnyAuthority(Role.MANAGER.name(), Role.MANAGER.name())
+                .antMatchers(HttpMethod.POST, "/api/invoices").hasAuthority(Role.MANAGER.name())
+                .antMatchers(HttpMethod.PUT, "/api/invoices/*").hasAuthority(Role.MANAGER.name())
 
                 .antMatchers(HttpMethod.POST, "/api/email").hasAuthority(Role.ADMIN.name())
 
@@ -105,11 +105,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/logout").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/refresh").permitAll()
 
-                .antMatchers(HttpMethod.GET, "/api/profile").hasAnyAuthority(Role.COMPANY_OWNER.name(), Role.DISPATCHER.name(), Role.MANAGER.name(), Role.DRIVER.name())
-                .antMatchers(HttpMethod.PUT, "/api/profile").hasAnyAuthority(Role.COMPANY_OWNER.name(), Role.DISPATCHER.name(), Role.MANAGER.name(), Role.DRIVER.name())
-                .antMatchers(HttpMethod.PUT, "/api/profile/change-password").hasAnyAuthority(Role.COMPANY_OWNER.name(), Role.DISPATCHER.name(), Role.MANAGER.name(), Role.DRIVER.name())
-                .antMatchers(HttpMethod.PUT, "/api/profile/change-email").hasAnyAuthority(Role.COMPANY_OWNER.name(), Role.DISPATCHER.name(), Role.MANAGER.name(), Role.DRIVER.name())
-                .antMatchers(HttpMethod.GET, "/api/profile/confirm-change-email/*").hasAnyAuthority(Role.COMPANY_OWNER.name(), Role.DISPATCHER.name(), Role.MANAGER.name(), Role.DRIVER.name())
+                .antMatchers(HttpMethod.GET, "/api/profile").hasAnyAuthority(Role.COMPANY_OWNER.name(), Role.MANAGER.name(), Role.MANAGER.name(), Role.DRIVER.name())
+                .antMatchers(HttpMethod.PUT, "/api/profile").hasAnyAuthority(Role.COMPANY_OWNER.name(), Role.MANAGER.name(), Role.MANAGER.name(), Role.DRIVER.name())
+                .antMatchers(HttpMethod.PUT, "/api/profile/change-password").hasAnyAuthority(Role.COMPANY_OWNER.name(), Role.MANAGER.name(), Role.MANAGER.name(), Role.DRIVER.name())
+                .antMatchers(HttpMethod.PUT, "/api/profile/change-email").hasAnyAuthority(Role.COMPANY_OWNER.name(), Role.MANAGER.name(), Role.MANAGER.name(), Role.DRIVER.name())
+                .antMatchers(HttpMethod.GET, "/api/profile/confirm-change-email/*").hasAnyAuthority(Role.COMPANY_OWNER.name(), Role.MANAGER.name(), Role.MANAGER.name(), Role.DRIVER.name())
 
                 .antMatchers(HttpMethod.POST, "/api/template").hasAuthority(Role.ADMIN.name())
 
@@ -118,6 +118,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/finance").hasAuthority(Role.SYS_ADMIN.name())
                 .antMatchers(HttpMethod.GET, "/api/latestFinance").hasAuthority(Role.SYS_ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/api/driverChat").hasAuthority(Role.DRIVER.name())
+                .antMatchers(HttpMethod.GET, "/api/driverChat/*").hasAuthority(Role.DRIVER.name())
+                .antMatchers(HttpMethod.GET, "/api/driverChat").hasAuthority(Role.DRIVER.name())
                 .antMatchers(HttpMethod.PATCH, "/api/driverChat").hasAuthority(Role.DRIVER.name())
                 .antMatchers(HttpMethod.DELETE, "/api/driverChat").hasAuthority(Role.DRIVER.name())
 

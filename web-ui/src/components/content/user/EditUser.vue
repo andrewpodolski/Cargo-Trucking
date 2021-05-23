@@ -121,7 +121,6 @@
               :disabled="sending"
               multiple
             >
-              <md-option value="DISPATCHER">Dispatcher</md-option>
               <md-option value="MANAGER">Manager</md-option>
               <md-option value="DRIVER">Driver</md-option>
               <md-option value="COMPANY_OWNER">Company Owner</md-option>

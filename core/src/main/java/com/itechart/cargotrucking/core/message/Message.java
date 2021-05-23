@@ -36,4 +36,7 @@ public class Message {
 
     @Column(name = "is_edited", nullable = false)
     private Boolean isEdited;
+
+    @Column(name = "client_id", nullable = false)
+    private Long clientId;
 }

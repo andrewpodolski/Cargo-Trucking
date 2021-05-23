@@ -25,4 +25,7 @@
     <changeSet id="6" author="andrew.podolski">
         <sqlFile path="v1.0.5/2020-11-16-add-is-edited-column.sql" relativeToChangelogFile="true" />
     </changeSet>
+    <changeSet id="7" author="andrew.podolski">
+        <sqlFile path="v1.0.5/2021-05-23-add-client-id-column-in-chat-table.sql" relativeToChangelogFile="true" />
+    </changeSet>
 </databaseChangeLog>

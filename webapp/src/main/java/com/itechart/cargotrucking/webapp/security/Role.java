@@ -5,7 +5,6 @@ import org.springframework.security.core.GrantedAuthority;
 public enum Role implements GrantedAuthority {
     SYS_ADMIN,
     ADMIN,
-    DISPATCHER,
     MANAGER,
     DRIVER,
     COMPANY_OWNER;

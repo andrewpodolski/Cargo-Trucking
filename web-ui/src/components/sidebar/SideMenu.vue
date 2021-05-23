@@ -55,7 +55,7 @@
     </md-list-item>
 
     <md-list-item
-      v-if="userRoles.includes('DISPATCHER') ||
+      v-if="userRoles.includes('MANAGER') ||
       userRoles.includes('MANAGER') ||
       userRoles.includes('COMPANY_OWNER')"
     >

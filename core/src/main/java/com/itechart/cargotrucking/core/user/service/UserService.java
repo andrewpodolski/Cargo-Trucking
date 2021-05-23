@@ -50,6 +50,4 @@ public interface UserService {
     boolean existsByIdAndDriverRole(long id);
 
     boolean existsByIdAndManagerRole(long id);
-
-    boolean existsByIdAndDispatcherRole(long id);
 }

@@ -1,5 +1,6 @@
 package com.itechart.cargotrucking.core.message.service;
 
+import com.itechart.cargotrucking.core.message.Message;
 import com.itechart.cargotrucking.core.message.dto.MessageAddDto;
 import com.itechart.cargotrucking.core.message.dto.MessageFilterDto;
 import com.itechart.cargotrucking.core.message.dto.MessageInfoDto;
@@ -8,13 +9,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 
 public interface MessageService {
     @Transactional
     long add(MessageAddDto message);
 
-    Page<MessageInfoDto> find(MessageFilterDto message, Pageable pageable);
+    List<Message> find(String message);
 
     @Transactional
     void update(long id, MessageUpdateDto message);

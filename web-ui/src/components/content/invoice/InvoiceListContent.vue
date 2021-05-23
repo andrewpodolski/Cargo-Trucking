@@ -15,7 +15,7 @@
       <md-table-toolbar>
         <h1 class="md-title">Invoice List</h1>
         <md-button
-          v-if="userRoles.includes('DISPATCHER')"
+          v-if="userRoles.includes('MANAGER')"
           class="md-icon-button
           md-raised
           md-primary"
@@ -88,14 +88,14 @@
             class="md-icon-button
             md-dense
             md-primary"
-            v-if="(userRoles.includes('DISPATCHER') && item.status === 'Made out') ||
+            v-if="(userRoles.includes('MANAGER') && item.status === 'Made out') ||
             (userRoles.includes('MANAGER') && item.status === 'Delivered') ||
             (userRoles.includes('MANAGER') && item.status === 'Made out') ||
             (userRoles.includes('COMPANY_OWNER'))"
             @click="getInvoice(item.id)"
           >
             <md-icon
-              v-if="(userRoles.includes('DISPATCHER') && item.status === 'Made out') ||
+              v-if="(userRoles.includes('MANAGER') && item.status === 'Made out') ||
               (userRoles.includes('MANAGER') && item.status === 'Delivered')"
               title="edit invoice"
             >
@@ -115,8 +115,7 @@
             </md-icon>
           </md-button>
           <md-button
-            v-if="(userRoles.includes('DISPATCHER') && item.status === 'Made out') ||
-            (userRoles.includes('MANAGER') && item.status === 'Delivered')"
+            v-if="(userRoles.includes('MANAGER') && item.status === 'Made out') || (userRoles.includes('MANAGER') && item.status === 'Delivered')"
             class="md-icon-button
             md-dense md-primary"
             @click="showDeleteConfirmDialog(item.id)"
@@ -248,9 +247,7 @@
 
     mounted: function() {
       this.userRoles = JSON.parse(localStorage.getItem('roles'))
-      if (!this.userRoles || !this.userRoles.includes('DISPATCHER')
-          && !this.userRoles.includes('COMPANY_OWNER')
-          && !this.userRoles.includes('MANAGER')
+      if (!this.userRoles || !this.userRoles.includes('MANAGER') && !this.userRoles.includes('COMPANY_OWNER') && !this.userRoles.includes('MANAGER')
       ) {
         this.$router.replace('/')
       }

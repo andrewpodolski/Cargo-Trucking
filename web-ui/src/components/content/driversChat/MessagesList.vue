@@ -91,8 +91,8 @@
             this.sending = false
             this.errorMessage = res.body.errors[0]
           }).then(() => {
-            this.$http.get(`${Url.DRIVERS_CHAT}`, {headers}).then(res => {
-              this.messages = res.body.content.reverse()
+            this.$http.get(`${Url.DRIVERS_CHAT}?username=${this.$store.state.sidebar.username}`, {headers}).then(res => {
+              this.messages = res.body.reverse()
             })
           })
       },
@@ -101,7 +101,9 @@
 
         if (this.isInEdit) {
           this.messageInEdit.message = this.text
-          this.$http.patch(Url.DRIVERS_CHAT, JSON.stringify(this.messageInEdit), {headers})
+          delete this.messageInEdit.clientId
+          delete this.messageInEdit.date
+          this.$http.patch(`${Url.DRIVERS_CHAT}?username=${this.$store.state.sidebar.username}`, JSON.stringify(this.messageInEdit), {headers})
             .then(() => {
               this.messageSaved = true
               this.sending = false
@@ -115,8 +117,8 @@
               this.errorMessage = res.body.errors[0]
             })
             .then(() => {
-              this.$http.get(`${Url.DRIVERS_CHAT}?page=0&size=1000`, {headers}).then(res => {
-                this.messages = res.body.content.reverse()
+              this.$http.get(`${Url.DRIVERS_CHAT}?username=${this.$store.state.sidebar.username}`, {headers}).then(res => {
+                this.messages = res.body.reverse()
               })
             })
         } else {
@@ -125,7 +127,7 @@
             author: this.$store.state.sidebar.username
           }
 
-          this.$http.post(Url.DRIVERS_CHAT, JSON.stringify(message), {headers}).then(() => {
+          this.$http.post(`${Url.DRIVERS_CHAT}?username=${this.$store.state.sidebar.username}`, JSON.stringify(message), {headers}).then(() => {
             this.messageSaved = true
             this.sending = false
             this.text = null
@@ -135,8 +137,8 @@
             this.sending = false
             this.errorMessage = res.body.errors[0]
           }).then(() => {
-            this.$http.get(`${Url.DRIVERS_CHAT}?page=0&size=1000`, {headers}).then(res => {
-              this.messages = res.body.content.reverse()
+            this.$http.get(`${Url.DRIVERS_CHAT}?username=${this.$store.state.sidebar.username}`, {headers}).then(res => {
+              this.messages = res.body.reverse()
             })
           })
         }
@@ -159,8 +161,8 @@
         this.$router.replace('/')
       }
 
-      this.$http.get(`${Url.DRIVERS_CHAT}?page=0&size=1000`, {headers}).then(res => {
-        this.messages = res.body.content.reverse()
+      this.$http.get(`${Url.DRIVERS_CHAT}?username=${this.$store.state.sidebar.username}`, {headers}).then(res => {
+        this.messages = res.body.reverse()
       })
     }
   }
